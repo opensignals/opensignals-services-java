@@ -376,11 +376,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Object}.
+   * Creates a {@link Variable} of type {@code Object}.
    *
    * @param name     the name of the configuration item
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Object}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Object}.
    */
 
   public static Variable< Object > variable (
@@ -398,13 +398,13 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code T}.
+   * Creates a {@link Variable} of type {@code T}.
    *
    * @param name     the name of the configuration item
    * @param type     the class type of the value returned
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @param <T>      the class type of the option
-   * @return An {@code Option} of type {@code T}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @param <T>      the class type of the variable
+   * @return A {@code Variable} of type {@code T}.
    */
 
   public static < T > Variable< T > variable (
@@ -424,16 +424,16 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code T}.
+   * Creates a {@link Variable} of type {@code T}.
    *
    * @param name     the name to be matched
    * @param type     the type of the value returned
    * @param alt      an alternative class type to be used as the base for a mapping
    * @param mapper   the function used to transform the alternative type to the return type or <tt>null</tt>
-   * @param defValue the value to be used if the option is not present in an environment passed
+   * @param defValue the value to be used if the variable is not present in an environment passed
    * @param <T>      the class of the return value type
    * @param <A>      the class of the alternative value type
-   * @return An {@code Option} of type {@code T}.
+   * @return A {@code Variable} of type {@code T}.
    * @see Environment#getType(Name, Class, Class, Function)
    */
 
@@ -458,13 +458,13 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Enum}.
+   * Creates a {@link Variable} of type {@code Enum}.
    *
    * @param name     the name to be matched
    * @param type     the class type of the returned
-   * @param defValue the value to be used if the option is not present in an environment passed
+   * @param defValue the value to be used if the variable is not present in an environment passed
    * @param <T>      the class of the return value type
-   * @return An {@code Option} of type {@code T}.
+   * @return A {@code Variable} of type {@code T}.
    * @see Environment#getEnum(Name, Class, Enum)
    */
 
@@ -486,11 +486,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Boolean}.
+   * Creates a {@link Variable} of type {@code Boolean}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Boolean}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Boolean}.
    * @see Environment#getBoolean(Name, boolean)
    */
 
@@ -509,11 +509,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Integer}.
+   * Creates a {@link Variable} of type {@code Integer}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Integer}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Integer}.
    * @see Environment#getInteger(Name, int)
    */
 
@@ -532,11 +532,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Integer}.
+   * Creates a {@link Variable} of type {@code Integer}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Integer}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Integer}.
    * @see Environment#getLong(Name, long)
    */
 
@@ -555,11 +555,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Double}.
+   * Creates a {@link Variable} of type {@code Double}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Double}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Double}.
    * @see Environment#getDouble(Name, double)
    */
 
@@ -578,11 +578,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Float}.
+   * Creates a {@link Variable} of type {@code Float}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Float}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Float}.
    * @see Environment#getFloat(Name, float)
    */
 
@@ -601,11 +601,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code String}.
+   * Creates a {@link Variable} of type {@code String}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code String}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code String}.
    * @see Environment#getString(Name, String)
    */
 
@@ -624,11 +624,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code String}.
+   * Creates a {@link Variable} of type {@code String}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code CharSequence}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code CharSequence}.
    * @see Environment#getCharSequence(Name, CharSequence)
    */
 
@@ -647,11 +647,11 @@ public final class Services {
 
 
   /**
-   * Creates an option of type {@code Name}.
+   * Creates a {@link Variable} of type {@code Name}.
    *
    * @param name     the name to be matched
-   * @param defValue the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code String}.
+   * @param defValue the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code String}.
    * @see Environment#getName(Name, Name)
    */
 
@@ -3188,7 +3188,7 @@ public final class Services {
      * Returns a value from the environment.
      *
      * @param environment the environment used for sourcing a value
-     * @return A value sourced from the environment, or the option's default value.
+     * @return A value sourced from the environment, or the variable's default value.
      */
 
     T of (

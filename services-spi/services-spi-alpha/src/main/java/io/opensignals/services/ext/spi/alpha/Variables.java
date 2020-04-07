@@ -33,11 +33,11 @@ final class Variables {
   private Variables () {}
 
   /**
-   * Creates an option of type {@code Object}.
+   * Creates a {@link Variable} of type {@code Object}.
    *
    * @param name   the name of the configuration item
-   * @param defVal the value to be used if the option is not present in an environment passed
-   * @return An {@code Option} of type {@code Object}
+   * @param defVal the value to be used if the variable is not present in an environment passed
+   * @return A {@code Variable} of type {@code Object}
    */
 
   static Variable< Object > of (
@@ -56,7 +56,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code T}.
+   * Creates a {@link Variable} of type {@code T}.
    *
    * @see Environment#getType(Name, Class, Object)
    */
@@ -94,7 +94,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code T}.
+   * Creates a {@link Variable} of type {@code T}.
    *
    * @see Environment#getType(Name, Class, Class, Function)
    */
@@ -145,7 +145,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Enum}.
+   * Creates a {@link Variable} of type {@code Enum}.
    *
    * @see Environment#getEnum(Name, Class, Enum)
    */
@@ -193,7 +193,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Boolean}.
+   * Creates a {@link Variable} of type {@code Boolean}.
    *
    * @see Environment#getBoolean(Name, boolean)
    */
@@ -238,7 +238,7 @@ final class Variables {
   }
 
   /**
-   * Creates an option of type {@code Integer}.
+   * Creates a {@link Variable} of type {@code Integer}.
    *
    * @see Environment#getInteger(Name, int)
    */
@@ -290,7 +290,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Long}.
+   * Creates a {@link Variable} of type {@code Long}.
    *
    * @see Environment#getLong(Name, long)
    */
@@ -342,7 +342,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Double}.
+   * Creates a {@link Variable} of type {@code Double}.
    *
    * @see Environment#getDouble(Name, double)
    */
@@ -394,7 +394,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code String}.
+   * Creates a {@link Variable} of type {@code String}.
    *
    * @see Environment#getString(Name, String)
    */
@@ -426,7 +426,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Float}.
+   * Creates a {@link Variable} of type {@code Float}.
    *
    * @see Environment#getFloat(Name, float)
    */
@@ -478,7 +478,7 @@ final class Variables {
 
 
   /**
-   * Creates an option of type {@code Name}.
+   * Creates a {@link Variable} of type {@code Name}.
    *
    * @see Environment#getName(Name, Name)
    */
@@ -498,7 +498,7 @@ final class Variables {
   }
 
   /**
-   * Creates an option of type {@code CharSequence}.
+   * Creates a {@link Variable} of type {@code CharSequence}.
    *
    * @see Environment#getCharSequence(Name, CharSequence)
    */

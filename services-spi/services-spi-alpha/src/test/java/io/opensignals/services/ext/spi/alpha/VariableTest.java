@@ -51,7 +51,7 @@ class VariableTest {
       new HashMap<> ();
 
     //noinspection rawtypes
-    final Variable< Map > option =
+    final Variable< Map > variable =
       Variables.of (
         PATH,
         Map.class,
@@ -60,7 +60,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -70,14 +70,14 @@ class VariableTest {
 
     assertEquals (
       defValue,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defValue,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -97,7 +97,7 @@ class VariableTest {
     final Object actual =
       new Object ();
 
-    final Variable< Object > option =
+    final Variable< Object > variable =
       Variables.of (
         PATH,
         defValue
@@ -105,7 +105,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -115,7 +115,7 @@ class VariableTest {
 
     assertEquals (
       defValue,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
@@ -129,7 +129,7 @@ class VariableTest {
     final Integer defVal = 1;
     final Integer actual = 2;
 
-    final Variable< Integer > option =
+    final Variable< Integer > variable =
       Variables.of (
         PATH,
         defVal
@@ -137,7 +137,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -147,7 +147,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -157,14 +157,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -180,7 +180,7 @@ class VariableTest {
     final Long defVal = 1L;
     final Long actual = 2L;
 
-    final Variable< Long > option =
+    final Variable< Long > variable =
       Variables.of (
         PATH,
         defVal
@@ -188,7 +188,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -198,7 +198,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -208,14 +208,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -231,7 +231,7 @@ class VariableTest {
     final Double defVal = 1.0D;
     final Double actual = 2.0D;
 
-    final Variable< Double > option =
+    final Variable< Double > variable =
       Variables.of (
         PATH,
         defVal
@@ -239,7 +239,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -249,7 +249,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -259,14 +259,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -282,7 +282,7 @@ class VariableTest {
     final Float defVal = 1.0F;
     final Float actual = 2.0F;
 
-    final Variable< Float > option =
+    final Variable< Float > variable =
       Variables.of (
         PATH,
         defVal
@@ -290,7 +290,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -300,7 +300,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -310,14 +310,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -333,7 +333,7 @@ class VariableTest {
     final String defVal = "1";
     final String actual = "2";
 
-    final Variable< String > option =
+    final Variable< String > variable =
       Variables.of (
         PATH,
         defVal
@@ -341,7 +341,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -351,7 +351,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -361,14 +361,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -385,7 +385,7 @@ class VariableTest {
     final Boolean defVal = true;
     final Boolean actual = false;
 
-    final Variable< Boolean > option =
+    final Variable< Boolean > variable =
       Variables.of (
         PATH,
         defVal
@@ -393,7 +393,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -403,7 +403,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -413,14 +413,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -439,7 +439,7 @@ class VariableTest {
     final Name actual =
       PROVIDER.name ( "2" );
 
-    final Variable< Name > option =
+    final Variable< Name > variable =
       Variables.of (
         PATH,
         defVal
@@ -447,7 +447,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -457,7 +457,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -467,14 +467,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -489,7 +489,7 @@ class VariableTest {
     final Status defVal = OK;
     final Status actual = DOWN;
 
-    final Variable< Status > option =
+    final Variable< Status > variable =
       Variables.of (
         PATH,
         Status.class,
@@ -498,7 +498,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -508,7 +508,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.toString ()
@@ -518,14 +518,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
@@ -540,7 +540,7 @@ class VariableTest {
     final Long defVal = 1L;
     final Long actual = 2L;
 
-    final Variable< Long > option =
+    final Variable< Long > variable =
       Variables.of (
         PATH,
         Long.class,
@@ -551,7 +551,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual
@@ -561,7 +561,7 @@ class VariableTest {
 
     assertEquals (
       actual,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           actual.intValue ()
@@ -571,14 +571,14 @@ class VariableTest {
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         EMPTY
       )
     );
 
     assertEquals (
       defVal,
-      option.of (
+      variable.of (
         PROVIDER.environment (
           PATH,
           new Object ()
