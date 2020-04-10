@@ -22,7 +22,7 @@
 
   <parent>
     <groupId>io.opensignals.services</groupId>
-    <artifactId>opensignals-services-plugin</artifactId>
+    <artifactId>opensignals-services-plugin-parent</artifactId>
     <version>1.0-alpha1-SNAPSHOT</version>
   </parent>
 

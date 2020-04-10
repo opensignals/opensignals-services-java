@@ -878,7 +878,7 @@ public final class Services {
      * @see Service#start()
      */
 
-    START,
+      START,
 
     /**
      * Signal the end processing of a service execution.

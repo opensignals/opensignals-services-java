@@ -26,7 +26,7 @@
     <version>1.0-alpha1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>opensignals-services-plugin</artifactId>
+  <artifactId>opensignals-services-plugin-parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0-alpha1-SNAPSHOT</version>
 
