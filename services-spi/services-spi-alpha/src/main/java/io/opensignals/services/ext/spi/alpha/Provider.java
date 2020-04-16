@@ -45,7 +45,6 @@ final class Provider
     root ( Strings.OPENSIGNALS )
       .node ( Strings.SERVICES )
       .node ( Strings.CONTEXT )
-      .node ( Strings.SERVICE )
       .node ( Strings.ID );
 
   private static final Environment DEFAULTS =

@@ -105,7 +105,7 @@ final class Contexts {
     final Environment env =
       Services.environment (
         Services.name (
-          "opensignals.services.context.service.id"
+          "opensignals.services.context.id"
         ),
         "service.1"
       );
