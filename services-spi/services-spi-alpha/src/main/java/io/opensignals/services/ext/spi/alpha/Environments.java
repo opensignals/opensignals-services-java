@@ -275,7 +275,8 @@ final class Environments {
         cache.computeIfAbsent (
           name,
           key ->
-            delegate.getObject ( key )
+            delegate
+              .getObject ( key )
               .orElse ( NONE )
         );
 

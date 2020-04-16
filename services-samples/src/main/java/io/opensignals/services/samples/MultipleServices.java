@@ -16,7 +16,6 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
 import io.opensignals.services.Services.Context;
 import io.opensignals.services.Services.Name;
 import io.opensignals.services.Services.Service;
@@ -24,7 +23,7 @@ import io.opensignals.services.Services.Service;
 import static io.opensignals.services.Services.context;
 import static io.opensignals.services.Services.name;
 
-public final class SampleTwo {
+final class MultipleServices {
 
   private static final Name S1 =
     name ( "com.acme.service.one" );
@@ -38,15 +37,6 @@ public final class SampleTwo {
 
     final Context context =
       context ();
-
-    context.subscribe (
-      ( name, registrar ) ->
-        registrar.accept (
-          ( orientation, value ) ->
-            System.out.println ( name + "=" + value )
-        ),
-      Services.Signal.class
-    );
 
     final Service s1 =
       context.service (
@@ -62,13 +52,13 @@ public final class SampleTwo {
         )
       );
 
-    s1.start ();              // EMIT -> START
+    s1.start ();
     {
-      s2.call ();             // EMIT -> CALL
-      s2.succeeded ();        // RECEIPT -> SUCCEED
+      s2.call ();
+      s2.succeeded ();
     }
-    s1.succeed ()             // EMIT -> SUCCEED
-      .stop ();               // EMIT -> STOP
+    s1.succeed ()
+      .stop ();
 
   }
 

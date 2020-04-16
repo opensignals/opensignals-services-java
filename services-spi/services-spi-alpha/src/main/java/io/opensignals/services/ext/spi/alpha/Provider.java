@@ -20,6 +20,7 @@ import io.opensignals.services.Services;
 import io.opensignals.services.spi.ServicesProvider;
 
 import java.lang.reflect.Member;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -40,37 +41,33 @@ final class Provider
 
   static final Provider INSTANCE = new Provider ();
 
-  private static final Environment DEFAULTS =
-    Environments.cache (
-      Environments.map (
-        path ->
-          System.getProperty (
-            path.toString ()
-          )
-      )
-    );
-
-  private static final Names.Name CONTEXT_NAME =
+  private static final Names.Name CONTEXT_ID =
     root ( Strings.OPENSIGNALS )
       .node ( Strings.SERVICES )
       .node ( Strings.CONTEXT )
       .node ( Strings.SERVICE )
-      .node ( Strings.NAME );
+      .node ( Strings.ID );
 
-  private static final Names.Name DEFAULT_NAME =
-    root ( Strings.OPENSIGNALS )
-      .node ( Strings.SERVICES )
-      .node ( Strings.DEFAULTS )
-      .node ( Strings.SERVICE )
-      .node ( Strings.NAME );
+  private static final Environment DEFAULTS =
+    Environments.cache (
+      Environments.chain (
+        Environments.single (
+          CONTEXT_ID,
+          UUID.randomUUID ().toString ()
+        ),
+        Environments.map (
+          path ->
+            System.getProperty (
+              path.toString ()
+            )
+        )
+      )
+    );
 
   private static final Variable< String > ID =
     Variables.of (
-      CONTEXT_NAME,
-      DEFAULTS.getString (
-        DEFAULT_NAME,
-        null
-      )
+      CONTEXT_ID,
+      (String) null
     );
 
   // this can be expanded later to include

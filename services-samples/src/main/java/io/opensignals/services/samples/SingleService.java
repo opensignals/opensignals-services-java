@@ -22,12 +22,8 @@ import io.opensignals.services.Services.Name;
 import io.opensignals.services.Services.Service;
 
 import static io.opensignals.services.Services.Signal.*;
-import static io.opensignals.services.Services.context;
 
-public final class SampleOne {
-
-  // names exist outside of a context and can be
-  // created and treated as constant string paths
+final class SingleService {
 
   private static final Name S1 =
     Services
@@ -40,29 +36,22 @@ public final class SampleOne {
     final String[] args
   ) {
 
-    // use the default context for this process
-    // assuming a defined the root service name
-
     final Context context =
-      context ();
+      Services.context ();
 
     final Service s1 =
       context.service (
         S1
       );
 
-    // signal s1 is starting the execution of work
-    // then indicate it was successful and has stopped
-    // the ordering is not so important as in tracing
-    // because we use a buffer for signals to determine
-    // the actual state of the service in operation
+    // version #1
 
     s1.start ();
     // do some work
     s1.succeed ()
       .stop ();
 
-    // alternatively
+    // version #2
 
     s1.emit (
       START
@@ -71,6 +60,15 @@ public final class SampleOne {
     s1.emit (
       SUCCEED,
       STOP
+    );
+
+    // version #3
+
+    Services.execute (
+      s1,
+      () -> {
+        // do some work
+      }
     );
 
   }

@@ -19,6 +19,7 @@ package io.opensignals.services;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import static io.opensignals.services.Services.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -112,8 +113,8 @@ final class EnvironmentTest {
   void services_context_anonymous () {
 
     assertNotSame (
-      context (),
-      context ()
+      context ( Services.environment ( n -> Optional.empty () ) ),
+      context ( n -> Optional.empty () )
     );
 
   }

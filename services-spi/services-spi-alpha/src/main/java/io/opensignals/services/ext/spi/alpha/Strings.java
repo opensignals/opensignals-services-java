@@ -37,5 +37,6 @@ final class Strings {
   static final String DOWN        = "down";
   static final String OK          = "ok";
   static final String ENVIRONMENT = "environment";
+  static final String ID          = "id";
 
 }
