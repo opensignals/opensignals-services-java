@@ -214,6 +214,15 @@ final class Provider
 
 
   @Override
+  public Environment environment () {
+
+    return
+      Environments.empty ();
+
+  }
+
+
+  @Override
   public < T > Environment environment (
     final Function< ? super Name, T > mapper
   ) {

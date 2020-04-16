@@ -346,6 +346,20 @@ public interface ServicesProvider {
     Callback< ? super Signal > callback
   );
 
+  /**
+   * @see Services#environment()
+   */
+
+  default Environment environment () {
+
+    return
+      environment (
+        n ->
+          empty ()
+      );
+
+  }
+
 
   /**
    * @see Services#environment(Function)

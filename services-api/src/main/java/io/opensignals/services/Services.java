@@ -101,6 +101,21 @@ public final class Services {
 
 
   /**
+   * Creates a provider defined default {@link Environment}.
+   *
+   * @return An {@link Environment} that sources its property values from a function
+   * @see ServicesProvider#environment(Function)
+   */
+
+  public static Services.Environment environment () {
+
+    return
+      PROVIDER.environment ();
+
+  }
+
+
+  /**
    * Creates a {@link Environment} that sources values using a provided mapping function.
    * <p>
    * Implementation Notes:

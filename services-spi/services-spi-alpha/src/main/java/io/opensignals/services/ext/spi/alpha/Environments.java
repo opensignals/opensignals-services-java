@@ -26,7 +26,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -40,6 +39,14 @@ import static java.util.Optional.ofNullable;
 final class Environments {
 
   private Environments () {}
+
+  @SuppressWarnings ( "SameReturnValue" )
+  static Environment empty () {
+
+    return
+      Empty.INSTANCE;
+
+  }
 
   @SuppressWarnings ( "WeakerAccess" )
   static Object callWithDefault (
@@ -227,7 +234,7 @@ final class Environments {
       return
         result != NONE ?
         Optional.of ( result ) :
-        empty ();
+        Optional.empty ();
 
     }
 
@@ -313,7 +320,7 @@ final class Environments {
       return
         this.name == name ?
         Optional.of ( value ) :
-        empty ();
+        Optional.empty ();
 
     }
 
@@ -444,7 +451,7 @@ final class Environments {
       return
         predicate.test ( name )
         ? ofNullable ( function.apply ( name ) )
-        : empty ();
+        : Optional.empty ();
 
     }
 
@@ -523,5 +530,32 @@ final class Environments {
 
   }
 
+  private static final class Empty
+    extends Abstract {
+
+    static final Environment INSTANCE = new Empty ();
+
+    @Override
+    public Optional< Object > getObject (
+      final Name name
+    ) {
+
+      return
+        Optional.empty ();
+
+    }
+
+    @Override
+    public Object getObject (
+      final Name name,
+      final Object defValue
+    ) {
+
+      return
+        defValue;
+
+    }
+
+  }
 
 }

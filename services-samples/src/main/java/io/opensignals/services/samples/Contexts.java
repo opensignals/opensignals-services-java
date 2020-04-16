@@ -22,8 +22,6 @@ import io.opensignals.services.Services.Environment;
 import io.opensignals.services.Services.Name;
 import io.opensignals.services.Services.Service;
 
-import java.util.Optional;
-
 final class Contexts {
 
   public static void main (
@@ -70,21 +68,15 @@ final class Contexts {
         "service.one"
       );
 
-    final Environment env =
-      Services.environment (
-        n ->
-          Optional.empty ()
-      );
-
     final Context context =
       Services.context (
-        env
+        Services.environment ()
       );
 
     assert
       context !=
         Services.context (
-          env
+          Services.environment ()
         );
 
     final Service service =
