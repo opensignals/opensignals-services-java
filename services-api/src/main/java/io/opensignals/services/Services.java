@@ -1712,7 +1712,7 @@ public final class Services {
 
 
     /**
-     * Emit a {@link Signal#DISCONNECT} signal.
+     * Receipt of a {@link Signal#DISCONNECT} signal.
      *
      * @see #call()
      * @see Orientation#EMIT
@@ -1839,7 +1839,7 @@ public final class Services {
     }
 
     /**
-     * Receipt a {@link Signal#START} signal.
+     * Receipt of a {@link Signal#START} signal.
      *
      * @see #stopped()
      * @see #failed()
@@ -1904,7 +1904,7 @@ public final class Services {
 
 
     /**
-     * Emit a @link {Signal#STOP} signal.
+     * Receipt of a @link {Signal#STOP} signal.
      *
      * @see #started()
      * @see #failed()
