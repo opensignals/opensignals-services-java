@@ -104,7 +104,7 @@ public final class Services {
    * Creates a provider defined default {@link Environment}.
    *
    * @return An {@link Environment} that sources its property values from a function
-   * @see ServicesProvider#environment(Function)
+   * @see ServicesProvider#environment()
    */
 
   public static Services.Environment environment () {
@@ -1970,7 +1970,7 @@ public final class Services {
 
 
     /**
-     * Emit a {@link Signal#RECOURSE} signal.
+     * Receipt of a {@link Signal#RECOURSE} signal.
      *
      * @see #call()
      * @see #recourse()
