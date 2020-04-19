@@ -90,6 +90,14 @@ final class Contexts {
           name
         );
 
+    assert
+      service !=
+        Services.context (
+          Services.environment ()
+        ).service (
+          name
+        );
+
   }
 
   private static void identified () {

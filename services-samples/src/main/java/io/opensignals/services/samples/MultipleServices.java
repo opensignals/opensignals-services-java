@@ -26,10 +26,14 @@ import static io.opensignals.services.Services.name;
 final class MultipleServices {
 
   private static final Name S1 =
-    name ( "com.acme.service.one" );
+    name (
+      "com.acme.service.one"
+    );
 
   private static final Name S2 =
-    name ( "com.acme.service.two" );
+    name (
+      "com.acme.service.two"
+    );
 
   public static void main (
     final String[] args
@@ -39,24 +43,24 @@ final class MultipleServices {
       context ();
 
     final Service s1 =
-      context.service (
-        S1.name (
-          "post"
-        )
-      );
+      context
+        .service (
+          S1.name (
+            "post"
+          )
+        );
 
     final Service s2 =
-      context.service (
-        S2.name (
-          "get"
-        )
-      );
+      context
+        .service (
+          S2.name (
+            "get"
+          )
+        );
 
     s1.start ();
-    {
-      s2.call ();
-      s2.succeeded ();
-    }
+    s2.call ();
+    s2.succeeded ();
     s1.succeed ()
       .stop ();
 

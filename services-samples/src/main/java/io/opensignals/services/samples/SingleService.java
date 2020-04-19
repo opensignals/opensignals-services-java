@@ -16,18 +16,16 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
-import io.opensignals.services.Services.Context;
-import io.opensignals.services.Services.Name;
-import io.opensignals.services.Services.Service;
+import io.opensignals.services.Services.*;
 
+import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.Services.*;
 
 final class SingleService {
 
   private static final Name S1 =
-    Services
-      .name ( "com" )
+    name ( "com" )
       .name ( "acme" )
       .name ( "service" )
       .name ( "one" );
@@ -37,37 +35,39 @@ final class SingleService {
   ) {
 
     final Context context =
-      Services.context ();
+      context ();
 
     final Service s1 =
-      context.service (
-        S1
-      );
-
-    // version #1
+      context
+        .service (
+          S1
+        );
 
     s1.start ();
-    // do some work
+    // ...
     s1.succeed ()
       .stop ();
 
-    // version #2
+    s1.start (
+      EMIT
+    );
+    // ...
+    s1.succeed ( EMIT )
+      .stop ( EMIT );
 
     s1.emit (
       START
     );
-    // do some work
+    // ...
     s1.emit (
       SUCCEED,
       STOP
     );
 
-    // version #3
-
-    Services.execute (
+    execute (
       s1,
       () -> {
-        // do some work
+        // ...
       }
     );
 

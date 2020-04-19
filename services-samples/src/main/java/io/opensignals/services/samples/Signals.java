@@ -41,58 +41,53 @@ final class Signals {
       Services.context ();
 
     final Service local =
-      context.service (
-        Services.name (
-          "service"
-        ).name (
-          "one"
-        )
-      );
+      context
+        .service (
+          Services.name (
+            "service"
+          ).name (
+            "one"
+          )
+        );
 
-    {
-
-      Services.execute (
+    Services
+      .execute (
         local,
         () -> {
         }
       );
 
-    }
+    local
+      .start ()
+      .succeed ()
+      .stop ();
 
-    {
+    local
+      .start ( EMIT )
+      .succeed ( EMIT )
+      .stop ( EMIT );
 
-      local
-        .start ()
-        .succeed ()
-        .stop ();
-
-    }
-
-    {
-
-      local.emit (
+    local
+      .emit (
         START
       );
-      local.emit (
+    local
+      .emit (
         SUCCEED,
         STOP
       );
 
-    }
-
-    {
-
-      local.signal (
+    local
+      .signal (
         EMIT,
         START
       );
-      local.signal (
+    local
+      .signal (
         EMIT,
         SUCCEED,
         STOP
       );
-
-    }
 
   }
 
@@ -102,56 +97,51 @@ final class Signals {
       Services.context ();
 
     final Service remote =
-      context.service (
-        Services.name (
-          "service"
-        ).name (
-          "one"
-        )
-      );
+      context
+        .service (
+          Services.name (
+            "service"
+          ).name (
+            "one"
+          )
+        );
 
-    {
-
-      Services.call (
+    Services
+      .call (
         remote,
         () -> {
         }
       );
 
-    }
+    remote
+      .call ()
+      .succeeded ();
 
-    {
+    remote
+      .call ( EMIT )
+      .succeed ( RECEIPT );
 
-      remote
-        .call ()
-        .succeeded ();
-
-    }
-
-    {
-
-      remote.emit (
+    remote
+      .emit (
         CALL
       );
-      remote.receipt (
+    remote
+      .receipt (
         SUCCEED
       );
 
-    }
-
-    {
-
-      remote.signal (
+    remote
+      .signal (
         EMIT,
         CALL
       );
-      remote.signal (
+    remote
+      .signal (
         RECEIPT,
         SUCCEED
       );
 
-    }
-
   }
 
 }
+

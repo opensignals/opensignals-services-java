@@ -30,6 +30,7 @@ final class Names {
     concatenation ();
     equality ();
     iteration ();
+    path ();
 
   }
 
@@ -154,6 +155,20 @@ final class Names {
                   n.getValue ()
                 )
             ).toString ()
+        );
+
+  }
+
+  private static void path () {
+
+    assert
+      "io.opensignals.one"
+        .equals (
+          Services.name (
+            "io.opensignals"
+          ).name (
+            "one"
+          ).toString ()
         );
 
   }

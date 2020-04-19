@@ -27,7 +27,7 @@ import static java.lang.String.format;
 
 final class Subscribers {
 
-  protected static final int CLEAR = 0;
+  private static final int CLEAR = 0;
 
   public static void main (
     final String[] args
@@ -37,7 +37,7 @@ final class Subscribers {
 
   }
 
-  static void subscribing () {
+  private static void subscribing () {
 
     final StringBuilder out =
       new StringBuilder ();

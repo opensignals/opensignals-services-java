@@ -27,7 +27,7 @@ import static java.lang.String.format;
 
 final class Callbacks {
 
-  protected static final int CLEAR = 0;
+  private static final int CLEAR = 0;
 
   public static void main (
     final String[] args
@@ -37,7 +37,7 @@ final class Callbacks {
 
   }
 
-  static void wrapping () {
+  private static void wrapping () {
 
     final StringBuilder out =
       new StringBuilder ();
@@ -53,16 +53,17 @@ final class Callbacks {
         );
 
     final Service service =
-      Services.service (
-        Services
-          .context ()
-          .service (
-            Services.name (
-              "service.one"
-            )
-          ),
-        callback
-      );
+      Services
+        .service (
+          Services
+            .context ()
+            .service (
+              Services.name (
+                "service.one"
+              )
+            ),
+          callback
+        );
 
     service.call ();
 
@@ -78,11 +79,12 @@ final class Callbacks {
       CLEAR
     );
 
-    Services.execute (
-      service,
-      () -> {
-      }
-    );
+    Services
+      .execute (
+        service,
+        () -> {
+        }
+      );
 
     assert
       format (

@@ -30,37 +30,45 @@ final class Variables {
 
   }
 
-  static void of () {
+  private static void of () {
 
     final Variable< String > string =
-      Services.variable (
-        Services.name (
-          "opensignals.services.context.id"
-        ),
-        (String) null
-      );
+      Services
+        .variable (
+          Services
+            .name (
+              "opensignals.services.context.id"
+            ),
+          (String) null
+        );
 
-    final Variable< Integer> chromosomes =
-      Services.variable (
-        Services.name (
-          "chromosomes"
-        ),
-        42
-      );
+    final Variable< Integer > chromosomes =
+      Services
+        .variable (
+          Services
+            .name (
+              "chromosomes"
+            ),
+          42
+        );
 
 
-    final Environment env =
+    final Environment environment =
       Services
         .context ()
         .getEnvironment ();
 
     assert
       null !=
-        string.of ( env );
+        string.of (
+          environment
+        );
 
     assert
       42 ==
-        chromosomes.of ( env );
+        chromosomes.of (
+          environment
+        );
 
   }
 
