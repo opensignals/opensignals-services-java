@@ -16,7 +16,6 @@
 
 package io.opensignals.services.perfkit;
 
-import io.opensignals.services.Services.*;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
@@ -24,10 +23,10 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.function.Consumer;
 
+import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.START;
 import static io.opensignals.services.Services.Signal.SUCCEED;
-import static io.opensignals.services.Services.*;
 import static java.lang.System.getProperty;
 
 /**

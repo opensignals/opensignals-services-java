@@ -16,11 +16,9 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services.*;
-
+import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
-import static io.opensignals.services.Services.*;
 
 final class SingleService {
 
