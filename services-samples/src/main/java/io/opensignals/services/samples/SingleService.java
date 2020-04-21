@@ -43,31 +43,23 @@ final class SingleService {
           S1
         );
 
-    s1.start ();
-    // ...
-    s1.succeed ()
-      .stop ();
-
-    s1.start (
-      EMIT
-    );
-    // ...
-    s1.succeed ( EMIT )
-      .stop ( EMIT );
-
-    s1.emit (
-      START
-    );
-    // ...
+    s1.emit ( START );
     s1.emit (
       SUCCEED,
       STOP
     );
 
+    s1.start ( EMIT );
+    s1.succeed ( EMIT )
+      .stop ( EMIT );
+
+    s1.start ();
+    s1.succeed ()
+      .stop ();
+
     execute (
       s1,
       () -> {
-        // ...
       }
     );
 
