@@ -24,6 +24,11 @@
   <packaging>pom</packaging>
   <version>1.0-alpha1-SNAPSHOT</version>
 
+  <organization>
+    <name>OpenSignals</name>
+    <url>https://opensignals.io</url>
+  </organization>
+
   <properties>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,6 +43,8 @@
 
     <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
     <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
+
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
 
     <junit-jupiter.version>${junit.version}</junit-jupiter.version>
 
@@ -74,6 +81,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>${maven-failsafe-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
         </plugin>
 
       </plugins>

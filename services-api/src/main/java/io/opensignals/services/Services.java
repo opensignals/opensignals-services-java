@@ -685,7 +685,7 @@ public final class Services {
 
 
   /**
-   * A utility method that decorates a {@link Service} with a {@link Callback<Signal>}.
+   * A utility method that decorates a {@link Service} with a {@link Callback}.
    *
    * @param service  the service to be decorated
    * @param callback the callback to be called on signalling

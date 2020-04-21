@@ -479,7 +479,7 @@ public interface ServicesProvider {
 
 
   /**
-   * @see Services#variable(Name, Class, T)
+   * @see Services#variable(Name, Class, Object) 
    */
 
   default < T > Variable< T > variable (

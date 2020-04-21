@@ -16,6 +16,7 @@
 
 package io.opensignals.services.perfkit;
 
+import io.opensignals.services.Services.*;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
@@ -23,10 +24,10 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.function.Consumer;
 
-import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.START;
 import static io.opensignals.services.Services.Signal.SUCCEED;
+import static io.opensignals.services.Services.*;
 import static java.lang.System.getProperty;
 
 /**
@@ -41,8 +42,8 @@ import static java.lang.System.getProperty;
     "unused",
     "MethodMayBeStatic",
     "PublicMethodNotExposedInInterface",
-    "squid:S00100"
-    , "ResultOfMethodCallIgnored"
+    "squid:S00100",
+    "UnusedReturnValue"
   }
 )
 @State ( Scope.Benchmark )
@@ -149,11 +150,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_parse () {
+  public Name name_parse () {
 
-    name (
-      FIRST_SECOND_THIRD
-    );
+    return
+      name (
+        FIRST_SECOND_THIRD
+      );
 
   }
 
@@ -162,11 +164,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_root () {
+  public Name name_root () {
 
-    name (
-      FIRST
-    );
+    return
+      name (
+        FIRST
+      );
 
   }
 
@@ -176,11 +179,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_name () {
+  public Name name_name () {
 
-    name.name (
-      FIRST
-    );
+    return
+      name.name (
+        FIRST
+      );
 
   }
 
@@ -190,9 +194,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_to_string () {
+  public String name_to_string () {
 
-    name.toString ();
+    return
+      name.toString ();
 
   }
 
@@ -202,30 +207,16 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_chain () {
+  public Name name_chain () {
 
-    name (
-      FIRST
-    ).name (
-      SECOND
-    ).name (
-      THIRD
-    );
-
-  }
-
-  /**
-   * Create a composite name using varargs.
-   */
-
-  @Benchmark
-  public void name_string_string_string () {
-
-    name (
-      FIRST,
-      SECOND,
-      THIRD
-    );
+    return
+      name (
+        FIRST
+      ).name (
+        SECOND
+      ).name (
+        THIRD
+      );
 
   }
 
@@ -234,14 +225,31 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_name_string_string () {
+  public Name name_string_string_string () {
 
-    name (
-      FIRST
-    ).name (
-      SECOND,
-      THIRD
-    );
+    return
+      name (
+        FIRST,
+        SECOND,
+        THIRD
+      );
+
+  }
+
+  /**
+   * Create a composite name using varargs.
+   */
+
+  @Benchmark
+  public Name name_name_string_string () {
+
+    return
+      name (
+        FIRST
+      ).name (
+        SECOND,
+        THIRD
+      );
 
   }
 
@@ -250,11 +258,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_class () {
+  public Name name_class () {
 
-    name (
-      getClass ()
-    );
+    return
+      name (
+        getClass ()
+      );
 
   }
 
@@ -263,12 +272,13 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_class_string () {
+  public Name name_class_string () {
 
-    name (
-      getClass (),
-      "member"
-    );
+    return
+      name (
+        getClass (),
+        "member"
+      );
 
   }
 
@@ -278,11 +288,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void name_method () {
+  public Name name_method () {
 
-    name (
-      method
-    );
+    return
+      name (
+        method
+      );
 
   }
 
@@ -292,11 +303,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_lookup () {
+  public Service service_lookup () {
 
-    context.service (
-      name
-    );
+    return
+      context.service (
+        name
+      );
 
   }
 
@@ -320,9 +332,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_get_status () {
+  public Status service_get_status () {
 
-    service.getStatus ();
+    return
+      service.getStatus ();
 
   }
 
@@ -347,9 +360,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeed () {
+  public Service service_succeed () {
 
-    service.succeed ();
+    return
+      service.succeed ();
 
   }
 
@@ -358,11 +372,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeed_emit () {
+  public Service service_succeed_emit () {
 
-    service.succeed (
-      EMIT
-    );
+    return
+      service.succeed (
+        EMIT
+      );
 
   }
 
@@ -401,9 +416,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_start () {
+  public Service service_start () {
 
-    service.start ();
+    return
+      service.start ();
 
   }
 
@@ -412,11 +428,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_start_emit () {
+  public Service service_start_emit () {
 
-    service.start (
-      EMIT
-    );
+    return
+      service.start (
+        EMIT
+      );
 
   }
 
@@ -440,9 +457,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeeded () {
+  public Service service_succeeded () {
 
-    service.succeeded ();
+    return
+      service.succeeded ();
 
   }
 
@@ -466,9 +484,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeed_with_callback () {
+  public Service service_succeed_with_callback () {
 
-    serviceWithCallback.succeed ();
+    return
+      serviceWithCallback.succeed ();
 
   }
 
@@ -477,11 +496,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeed_emit_with_callback () {
+  public Service service_succeed_emit_with_callback () {
 
-    serviceWithCallback.succeed (
-      EMIT
-    );
+    return
+      serviceWithCallback.succeed (
+        EMIT
+      );
 
   }
 
@@ -505,9 +525,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void service_succeeded_with_callback () {
+  public Service service_succeeded_with_callback () {
 
-    serviceWithCallback.succeeded ();
+    return
+      serviceWithCallback.succeeded ();
 
   }
 
@@ -517,12 +538,13 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void environment_string_value_create () {
+  public Environment environment_string_value_create () {
 
-    environment (
-      name ( FIRST ),
-      FIRST
-    );
+    return
+      environment (
+        name ( FIRST ),
+        FIRST
+      );
 
   }
 
@@ -537,9 +559,9 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void environment_string_value_get_string () {
+  public boolean environment_string_value_get_string () {
 
-    assert
+    return
       environment_string_value.getString (
         FIRST_NAME
       ).isPresent ();
@@ -566,9 +588,10 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void services_context_default () {
+  public Context services_context_default () {
 
-    context ();
+    return
+      context ();
 
   }
 
@@ -577,11 +600,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void services_context_environment () {
+  public Context services_context_environment () {
 
-    context (
-      ENVIRONMENT
-    );
+    return
+      context (
+        ENVIRONMENT
+      );
 
   }
 
