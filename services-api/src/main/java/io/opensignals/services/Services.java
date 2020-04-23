@@ -547,11 +547,11 @@ public final class Services {
 
 
   /**
-   * Creates a {@link Variable} of type {@code Integer}.
+   * Creates a {@link Variable} of type {@code Long}.
    *
    * @param name     the name to be matched
    * @param defValue the value to be used if the variable is not present in an environment passed
-   * @return A {@code Variable} of type {@code Integer}.
+   * @return A {@code Variable} of type {@code Long}.
    * @see Environment#getLong(Name, long)
    */
 

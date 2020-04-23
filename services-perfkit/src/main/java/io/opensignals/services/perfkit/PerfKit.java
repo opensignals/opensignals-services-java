@@ -25,8 +25,7 @@ import java.util.function.Consumer;
 
 import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
-import static io.opensignals.services.Services.Signal.START;
-import static io.opensignals.services.Services.Signal.SUCCEED;
+import static io.opensignals.services.Services.Signal.*;
 import static java.lang.System.getProperty;
 
 /**
@@ -604,6 +603,142 @@ public class PerfKit {
     return
       context (
         ENVIRONMENT
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, long)}.
+   */
+
+  @Benchmark
+  public Variable< Long > services_variable_long () {
+
+    return
+      variable (
+        FIRST_NAME,
+        1L
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, long)}.
+   */
+
+  @Benchmark
+  public Variable< Integer > services_variable_integer () {
+
+    return
+      variable (
+        FIRST_NAME,
+        1
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, string)}.
+   */
+
+  @Benchmark
+  public Variable< String > services_variable_string () {
+
+    return
+      variable (
+        FIRST_NAME,
+        FIRST
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, double)}.
+   */
+
+  @Benchmark
+  public Variable< Double > services_variable_double () {
+
+    return
+      variable (
+        FIRST_NAME,
+        1d
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, double)}.
+   */
+
+  @Benchmark
+  public Variable< Float > services_variable_float () {
+
+    return
+      variable (
+        FIRST_NAME,
+        1f
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, boolean)}.
+   */
+
+  @Benchmark
+  public Variable< Boolean > services_variable_boolean () {
+
+    return
+      variable (
+        FIRST_NAME,
+        true
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, enum)}.
+   */
+
+  @Benchmark
+  public Variable< Signal > services_variable_enum () {
+
+    return
+      variable (
+        FIRST_NAME,
+        Signal.class,
+        CALL
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, char_sequence)}.
+   */
+
+  @Benchmark
+  public Variable< CharSequence > services_variable_char_sequence () {
+
+    return
+      variable (
+        FIRST_NAME,
+        (CharSequence) FIRST
+      );
+
+  }
+
+  /**
+   * Call {@code Services.variable(name, object)}.
+   */
+
+  @Benchmark
+  public Variable< Object > services_variable_object () {
+
+    return
+      variable (
+        FIRST_NAME,
+        (Object) FIRST
       );
 
   }
