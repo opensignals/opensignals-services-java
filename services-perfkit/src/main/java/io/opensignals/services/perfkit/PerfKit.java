@@ -67,6 +67,23 @@ public class PerfKit {
   private static final String EXTENSION          = ".properties";
   private static final String ALPHA              = "alpha";
 
+  private static final Name FIRST_NAME =
+    name (
+      FIRST
+    );
+
+
+  private static final Float        FLOAT_VALUE    = 1f;
+  private static final Integer      INTEGER_VALUE  = 1;
+  private static final Long         LONG_VALUE     = 1L;
+  private static final Double       DOUBLE_VALUE   = 1D;
+  private static final Boolean      BOOLEAN_VALUE  = true;
+  private static final CharSequence CHAR_SEQ_VALUE = FIRST;
+  private static final String       STRING_VALUE   = FIRST;
+  private static final Name         NAME_VALUE     = FIRST_NAME;
+  private static final Object       OBJECT_VALUE   = new Object ();
+  private static final Signal       SIGNAL_VALUE   = CALL;
+
   private Method method;
 
   private Name    name;
@@ -78,11 +95,6 @@ public class PerfKit {
     environment (
       name ( "opensignals.services.context.service.name" ),
       "default"
-    );
-
-  private static final Name FIRST_NAME =
-    name (
-      FIRST
     );
 
 
@@ -536,7 +548,7 @@ public class PerfKit {
    */
 
   @Benchmark
-  public Environment environment_string_value_create () {
+  public Environment services_environment_string_value_create () {
 
     return
       environment (
@@ -546,7 +558,21 @@ public class PerfKit {
 
   }
 
-  private static final Environment environment_string_value =
+
+  /**
+   * Calls {@code Services.environment()}
+   */
+
+  @Benchmark
+  public Environment services_environment () {
+
+    return
+      environment ();
+
+  }
+
+
+  private static final Environment ENV_STRING_VALUE =
     environment (
       name ( FIRST ),
       FIRST
@@ -557,12 +583,61 @@ public class PerfKit {
    */
 
   @Benchmark
-  public boolean environment_string_value_get_string () {
+  public String environment_string_value_get_string () {
 
     return
-      environment_string_value.getString (
-        FIRST_NAME
-      ).isPresent ();
+      ENV_STRING_VALUE.getString (
+        FIRST_NAME,
+        null
+      );
+
+  }
+
+
+  private static final Environment ENV_EMPTY = environment ();
+
+  /**
+   * Calls {@code Environment.environment(environment)}.
+   */
+
+  @Benchmark
+  public Environment environment_environment_environment () {
+
+    return
+      ENV_STRING_VALUE.environment (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.environment(name,value)}.
+   */
+
+  @Benchmark
+  public Environment environment_environment_name_value () {
+
+    return
+      ENV_STRING_VALUE.environment (
+        NAME_VALUE,
+        STRING_VALUE
+      );
+
+  }
+
+
+  /**
+   * Calls {@code Environment.environment(name,supplier)}.
+   */
+
+  @Benchmark
+  public Environment environment_environment_name_supplier () {
+
+    return
+      ENV_STRING_VALUE.environment (
+        NAME_VALUE,
+        () -> STRING_VALUE
+      );
 
   }
 
@@ -617,7 +692,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        1L
+        LONG_VALUE
       );
 
   }
@@ -632,7 +707,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        1
+        INTEGER_VALUE
       );
 
   }
@@ -647,7 +722,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        FIRST
+        STRING_VALUE
       );
 
   }
@@ -662,7 +737,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        1d
+        DOUBLE_VALUE
       );
 
   }
@@ -677,7 +752,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        1f
+        FLOAT_VALUE
       );
 
   }
@@ -692,7 +767,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        true
+        BOOLEAN_VALUE
       );
 
   }
@@ -708,7 +783,7 @@ public class PerfKit {
       variable (
         FIRST_NAME,
         Signal.class,
-        CALL
+        SIGNAL_VALUE
       );
 
   }
@@ -718,12 +793,12 @@ public class PerfKit {
    */
 
   @Benchmark
-  public Variable< CharSequence > services_variable_char_sequence () {
+  public Variable< CharSequence > services_variable_char_seq () {
 
     return
       variable (
         FIRST_NAME,
-        (CharSequence) FIRST
+        CHAR_SEQ_VALUE
       );
 
   }
@@ -738,7 +813,7 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        (Object) FIRST
+        OBJECT_VALUE
       );
 
   }
