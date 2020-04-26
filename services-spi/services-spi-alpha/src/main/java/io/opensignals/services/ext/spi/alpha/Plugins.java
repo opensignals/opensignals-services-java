@@ -18,7 +18,6 @@ package io.opensignals.services.ext.spi.alpha;
 
 import io.opensignals.services.Services.Context;
 import io.opensignals.services.Services.Environment;
-import io.opensignals.services.Services.Variable;
 import io.opensignals.services.plugin.ServicesPlugin;
 import io.opensignals.services.plugin.ServicesPluginFactory;
 
@@ -65,7 +64,7 @@ final class Plugins {
       Strings.PLUGIN
     );
 
-  private static final Variable< String > PLUGINS =
+  private static final Variables.Variable< String > PLUGINS =
     Variables.of (
       PLUGINS_PATH,
       (String) null

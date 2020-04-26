@@ -63,7 +63,7 @@ final class Provider
       )
     );
 
-  private static final Variable< String > ID =
+  private static final Variables.Variable< String > ID =
     Variables.of (
       CONTEXT_ID,
       (String) null

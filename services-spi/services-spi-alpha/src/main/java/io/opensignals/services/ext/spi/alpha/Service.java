@@ -48,7 +48,7 @@ final class Service
   private static final int UNLOCKED = 0;
   private static final int ATTEMPTS = 5;
 
-  private static final Variable< Integer > OK_SCORE =
+  private static final Variables.Variable< Integer > OK_SCORE =
     Variables.of (
       root ( Strings.OPENSIGNALS )
         .name ( Strings.SERVICES )
@@ -59,7 +59,7 @@ final class Service
       1
     );
 
-  private static final Variable< Integer > DEGRADED_SCORE =
+  private static final Variables.Variable< Integer > DEGRADED_SCORE =
     Variables.of (
       root ( Strings.OPENSIGNALS )
         .name ( Strings.SERVICES )
@@ -70,7 +70,7 @@ final class Service
       4
     );
 
-  private static final Variable< Integer > DEFECTIVE_SCORE =
+  private static final Variables.Variable< Integer > DEFECTIVE_SCORE =
     Variables.of (
       root ( Strings.OPENSIGNALS )
         .name ( Strings.SERVICES )
@@ -81,7 +81,7 @@ final class Service
       16
     );
 
-  private static final Variable< Integer > DOWN_SCORE =
+  private static final Variables.Variable< Integer > DOWN_SCORE =
     Variables.of (
       root ( Strings.OPENSIGNALS )
         .name ( Strings.SERVICES )

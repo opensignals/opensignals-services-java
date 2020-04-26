@@ -34,7 +34,7 @@ final class Variables {
 
   private static < T > T decode (
     final String string,
-    final Decoder< T > decoder,
+    final Decoder< ? extends T > decoder,
     final T defValue
   ) {
 
@@ -354,7 +354,7 @@ final class Variables {
    * @return A {@code Variable} of type {@code Object}
    */
 
-  static Services.Variable< Object > of (
+  static Variable< Object > of (
     final Name name,
     final Object defVal
   ) {
@@ -374,7 +374,7 @@ final class Variables {
    * @see Environment#getType(Name, Class, Object)
    */
 
-  static < T > Services.Variable< T > of (
+  static < T > Variable< T > of (
     final Name name,
     final Class< ? extends T > type,
     final T defVal
@@ -398,7 +398,7 @@ final class Variables {
    * @see Environment#getType(Name, Class, Class, Function)
    */
 
-  static < T, A > Services.Variable< T > of (
+  static < T, A > Variable< T > of (
     final Name name,
     final Class< ? extends T > type,
     final Class< ? extends A > alt,
@@ -428,7 +428,7 @@ final class Variables {
    * @see Environment#getEnum(Name, Class, Enum)
    */
 
-  static < T extends Enum< T > > Services.Variable< T > of (
+  static < T extends Enum< T > > Variable< T > of (
     final Name name,
     final Class< T > type,
     final T defVal
@@ -454,7 +454,7 @@ final class Variables {
    * @see Environment#getBoolean(Name, boolean)
    */
 
-  static Services.Variable< Boolean > of (
+  static Variable< Boolean > of (
     final Name name,
     final Boolean defVal
   ) {
@@ -474,7 +474,7 @@ final class Variables {
    * @see Environment#getInteger(Name, int)
    */
 
-  static Services.Variable< Integer > of (
+  static Variable< Integer > of (
     final Name name,
     final Integer defVal
   ) {
@@ -494,7 +494,7 @@ final class Variables {
    * @see Environment#getLong(Name, long)
    */
 
-  static Services.Variable< Long > of (
+  static Variable< Long > of (
     final Name name,
     final Long defVal
   ) {
@@ -514,7 +514,7 @@ final class Variables {
    * @see Environment#getDouble(Name, double)
    */
 
-  static Services.Variable< Double > of (
+  static Variable< Double > of (
     final Name name,
     final Double defVal
   ) {
@@ -534,7 +534,7 @@ final class Variables {
    * @see Environment#getString(Name, String)
    */
 
-  static Services.Variable< String > of (
+  static Variable< String > of (
     final Name name,
     final String defVal
   ) {
@@ -555,7 +555,7 @@ final class Variables {
    * @see Environment#getFloat(Name, float)
    */
 
-  static Services.Variable< Float > of (
+  static Variable< Float > of (
     final Name name,
     final Float defVal
   ) {
@@ -575,7 +575,7 @@ final class Variables {
    * @see Environment#getName(Name, Name)
    */
 
-  static Services.Variable< Name > of (
+  static Variable< Name > of (
     final Name name,
     final Name defVal
   ) {
@@ -595,7 +595,7 @@ final class Variables {
    * @see Environment#getCharSequence(Name, CharSequence)
    */
 
-  static Services.Variable< CharSequence > of (
+  static Variable< CharSequence > of (
     final Name name,
     final CharSequence defVal
   ) {
@@ -609,7 +609,7 @@ final class Variables {
 
   }
 
-  private static final class Variable< T >
+  static final class Variable< T >
     implements Services.Variable< T > {
 
     private final Name                                         name;
@@ -645,7 +645,6 @@ final class Variables {
           name,
           fallback
         );
-
 
       return
         value == fallback
