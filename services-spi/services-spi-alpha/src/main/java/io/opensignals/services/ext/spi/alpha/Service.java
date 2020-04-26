@@ -1112,7 +1112,6 @@ final class Service
 
   }
 
-
   private void score (
     final IntFunction< Status > fn,
     final int value
@@ -1120,6 +1119,8 @@ final class Service
 
     final AtomicInteger atomic =
       lock;
+
+    final Status update;
 
     try {
 
@@ -1133,16 +1134,33 @@ final class Service
         //noinspection CallToThreadYield
         Thread.yield ();
 
-      update (
+      final Status result =
         fn.apply (
           value
-        )
-      );
+        );
+
+      update =
+        status != result
+        ? ( status = result )
+        : null;
 
     } finally {
 
       atomic.set (
         UNLOCKED
+      );
+
+    }
+
+    // no event ordering guarantee
+    // @todo introduce ticketing
+
+    if ( update != null ) {
+
+      context.dispatch (
+        name,
+        EMIT,
+        update
       );
 
     }
@@ -1187,24 +1205,5 @@ final class Service
 
   }
 
-
-  private void update (
-    final Status value
-  ) {
-
-    if ( status != value ) {
-
-      status =
-        value;
-
-      context.dispatch (
-        name,
-        EMIT,
-        value
-      );
-
-    }
-
-  }
 
 }
