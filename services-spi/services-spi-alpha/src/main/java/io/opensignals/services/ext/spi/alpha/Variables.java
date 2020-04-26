@@ -306,6 +306,18 @@ final class Variables {
 
   }
 
+  private static CharSequence toCharSequence (
+    final Object value,
+    final CharSequence defVal
+  ) {
+
+    return
+      value instanceof CharSequence
+      ? (CharSequence) value
+      : defVal;
+
+  }
+
   private static Name toName (
     final Object value,
     final Name defVal
@@ -589,11 +601,11 @@ final class Variables {
   ) {
 
     return
-      environment ->
-        environment.getCharSequence (
-          name,
-          defVal
-        );
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toCharSequence
+      );
 
   }
 
@@ -604,7 +616,7 @@ final class Variables {
     private final T                                            defVal;
     private final BiFunction< Object, ? super T, ? extends T > mapper;
 
-    protected Variable (
+    Variable (
       final Name name,
       final T defVal,
       final BiFunction< Object, ? super T, ? extends T > mapper
