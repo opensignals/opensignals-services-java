@@ -16,90 +16,377 @@
 
 package io.opensignals.services.ext.spi.alpha;
 
+import io.opensignals.services.Services;
 import io.opensignals.services.Services.Environment;
 import io.opensignals.services.Services.Name;
-import io.opensignals.services.Services.Variable;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Double.parseDouble;
-import static java.lang.Float.parseFloat;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
-
 final class Variables {
+
+  @FunctionalInterface
+  private interface Decoder< T > {
+
+    T decode ( String string );
+
+  }
+
+  private static < T > T decode (
+    final String string,
+    final Decoder< T > decoder,
+    final T defValue
+  ) {
+
+    try {
+
+      return
+        decoder.decode (
+          string
+        );
+
+    } catch (
+      final Exception e
+    ) {
+
+      return defValue;
+
+    }
+
+
+  }
+
+
+  private static < T, A > T toAltType (
+    final Class< ? extends T > type,
+    final Class< ? extends A > alt,
+    final Function< ? super A, ? extends T > mapper,
+    final Object value,
+    final T defVal
+  ) {
+
+    if ( type.isInstance ( value ) ) {
+
+      return
+        type.cast ( value );
+
+    } else if ( alt.isInstance ( value ) ) {
+
+      return
+        mapper.apply (
+          alt.cast (
+            value
+          )
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static < T extends Enum< T > > T toEnum (
+    final Class< T > type,
+    final Object value,
+    final T defVal
+  ) {
+
+    if ( type.isInstance ( value ) ) {
+
+      return
+        type.cast (
+          value
+        );
+
+    } else if ( value instanceof String ) {
+
+      return
+        Enum.valueOf (
+          type,
+          (String) value
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Boolean toBoolean (
+    final Object value,
+    final Boolean defVal
+  ) {
+
+    if ( value instanceof Boolean ) {
+
+      return
+        (Boolean) value;
+
+    } else if ( value instanceof String ) {
+
+      return
+        decode (
+          (String) value,
+          Boolean::parseBoolean,
+          defVal
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Integer toInteger (
+    final Object value,
+    final Integer defVal
+  ) {
+
+    if ( value instanceof Integer ) {
+
+      return
+        (Integer) value;
+
+    } else if ( value instanceof Number ) {
+
+      return
+        ( (Number) value )
+          .intValue ();
+
+    } else if ( value instanceof String ) {
+
+      return
+        decode (
+          (String) value,
+          Integer::parseInt,
+          defVal
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Long toLong (
+    final Object value,
+    final Long defVal
+  ) {
+
+    if ( value instanceof Long ) {
+
+      return
+        (Long) value;
+
+    } else if ( value instanceof Number ) {
+
+      return
+        ( (Number) value )
+          .longValue ();
+
+    } else if ( value instanceof String ) {
+
+      return
+        decode (
+          (String) value,
+          Long::parseLong,
+          defVal
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Double toDouble (
+    final Object value,
+    final Double defVal
+  ) {
+
+    if ( value instanceof Double ) {
+
+      return
+        (Double) value;
+
+    } else if ( value instanceof Number ) {
+
+      return
+        ( (Number) value )
+          .doubleValue ();
+
+    } else if ( value instanceof String ) {
+
+      return
+        decode (
+          (String) value,
+          Double::parseDouble,
+          defVal
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Float toFloat (
+    final Object value,
+    final Float defVal
+  ) {
+
+    if ( value instanceof Float ) {
+
+      return
+        (Float) value;
+
+    } else if ( value instanceof Number ) {
+
+      return
+        ( (Number) value )
+          .floatValue ();
+
+    } else if ( value instanceof String ) {
+
+      return
+        decode (
+          (String) value,
+          Float::parseFloat,
+          defVal
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
+
+  private static Object toObject (
+    final Object value,
+    final Object defVal
+  ) {
+
+    return
+      value != null
+      ? value
+      : defVal;
+
+  }
+
+  private static String toString (
+    final Object value,
+    final String defVal
+  ) {
+
+    return
+      value instanceof String
+      ? (String) value
+      : defVal;
+
+  }
+
+  private static Name toName (
+    final Object value,
+    final Name defVal
+  ) {
+
+    if ( value instanceof Name ) {
+
+      return
+        (Name) value;
+
+    } else if ( value instanceof String ) {
+
+      return
+        Names.of (
+          (String) value
+        );
+
+    } else {
+
+      return
+        defVal;
+
+    }
+
+  }
 
   private Variables () {}
 
   /**
-   * Creates a {@link Variable} of type {@code Object}.
+   * Creates a {@link Services.Variable} of type {@code Object}.
    *
    * @param name   the name of the configuration item
    * @param defVal the value to be used if the variable is not present in an environment passed
    * @return A {@code Variable} of type {@code Object}
    */
 
-  static Variable< Object > of (
+  static Services.Variable< Object > of (
     final Name name,
     final Object defVal
   ) {
 
     return
-      environment ->
-        environment.getObject (
-          name,
-          defVal
-        );
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toObject
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code T}.
+   * Creates a {@link Services.Variable} of type {@code T}.
    *
    * @see Environment#getType(Name, Class, Object)
    */
 
-  static < T > Variable< T > of (
+  static < T > Services.Variable< T > of (
     final Name name,
     final Class< ? extends T > type,
     final T defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if (
-          obj != defVal &&
-            type.isInstance ( obj )
-        ) {
-
-          return
-            type.cast ( obj );
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        ( val, def ) ->
+          type.isInstance ( val )
+          ? type.cast ( val )
+          : def
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code T}.
+   * Creates a {@link Services.Variable} of type {@code T}.
    *
    * @see Environment#getType(Name, Class, Class, Function)
    */
 
-  static < T, A > Variable< T > of (
+  static < T, A > Services.Variable< T > of (
     final Name name,
     final Class< ? extends T > type,
     final Class< ? extends A > alt,
@@ -108,402 +395,195 @@ final class Variables {
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( type.isInstance ( obj ) ) {
-
-            return
-              type.cast ( obj );
-
-          } else if ( alt.isInstance ( obj ) ) {
-
-            return
-              mapper.apply (
-                alt.cast (
-                  obj
-                )
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
-
+      new Variable<> (
+        name,
+        defVal,
+        ( val, def ) ->
+          toAltType (
+            type,
+            alt,
+            mapper,
+            val,
+            def
+          )
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Enum}.
+   * Creates a {@link Services.Variable} of type {@code Enum}.
    *
    * @see Environment#getEnum(Name, Class, Enum)
    */
 
-  static < T extends Enum< T > > Variable< T > of (
+  static < T extends Enum< T > > Services.Variable< T > of (
     final Name name,
     final Class< T > type,
     final T defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( type.isInstance ( obj ) ) {
-
-            return
-              type.cast ( obj );
-
-          } else if ( obj instanceof String ) {
-
-            return
-              Enum.valueOf (
-                type,
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
-
+      new Variable<> (
+        name,
+        defVal,
+        ( val, def ) ->
+          toEnum (
+            type,
+            val,
+            def
+          )
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Boolean}.
+   * Creates a {@link Services.Variable} of type {@code Boolean}.
    *
    * @see Environment#getBoolean(Name, boolean)
    */
 
-  @SuppressWarnings ( "ChainOfInstanceofChecks" )
-  static Variable< Boolean > of (
+  static Services.Variable< Boolean > of (
     final Name name,
     final Boolean defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( obj instanceof Boolean ) {
-
-            return
-              (Boolean) obj;
-
-          } else if ( obj instanceof String ) {
-
-            return
-              parseBoolean (
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toBoolean
+      );
 
   }
 
   /**
-   * Creates a {@link Variable} of type {@code Integer}.
+   * Creates a {@link Services.Variable} of type {@code Integer}.
    *
    * @see Environment#getInteger(Name, int)
    */
 
-  @SuppressWarnings ( "ChainOfInstanceofChecks" )
-  static Variable< Integer > of (
+  static Services.Variable< Integer > of (
     final Name name,
     final Integer defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( obj instanceof Integer ) {
-
-            return
-              (Integer) obj;
-
-          } else if ( obj instanceof Number ) {
-
-            return
-              ( (Number) obj )
-                .intValue ();
-
-          } else if ( obj instanceof String ) {
-
-            return
-              parseInt (
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toInteger
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Long}.
+   * Creates a {@link Services.Variable} of type {@code Long}.
    *
    * @see Environment#getLong(Name, long)
    */
 
-  @SuppressWarnings ( "ChainOfInstanceofChecks" )
-  static Variable< Long > of (
+  static Services.Variable< Long > of (
     final Name name,
     final Long defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( obj instanceof Long ) {
-
-            return
-              (Long) obj;
-
-          } else if ( obj instanceof Number ) {
-
-            return
-              ( (Number) obj )
-                .longValue ();
-
-          } else if ( obj instanceof String ) {
-
-            return
-              parseLong (
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toLong
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Double}.
+   * Creates a {@link Services.Variable} of type {@code Double}.
    *
    * @see Environment#getDouble(Name, double)
    */
 
-  @SuppressWarnings ( "ChainOfInstanceofChecks" )
-  static Variable< Double > of (
+  static Services.Variable< Double > of (
     final Name name,
     final Double defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( obj instanceof Double ) {
-
-            return
-              (Double) obj;
-
-          } else if ( obj instanceof Number ) {
-
-            return
-              ( (Number) obj )
-                .doubleValue ();
-
-          } else if ( obj instanceof String ) {
-
-            return
-              parseDouble (
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toDouble
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code String}.
+   * Creates a {@link Services.Variable} of type {@code String}.
    *
    * @see Environment#getString(Name, String)
    */
 
-  static Variable< String > of (
+  static Services.Variable< String > of (
     final Name name,
     final String defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        return
-          obj != defVal &&
-            obj instanceof String
-          ? (String) obj
-          : defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toString
+      );
 
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Float}.
+   * Creates a {@link Services.Variable} of type {@code Float}.
    *
    * @see Environment#getFloat(Name, float)
    */
 
-  @SuppressWarnings ( "ChainOfInstanceofChecks" )
-  static Variable< Float > of (
+  static Services.Variable< Float > of (
     final Name name,
     final Float defVal
   ) {
 
     return
-      environment -> {
-
-        final Object obj =
-          environment.getObject (
-            name,
-            defVal
-          );
-
-        if ( obj != defVal ) {
-
-          if ( obj instanceof Float ) {
-
-            return
-              (Float) obj;
-
-          } else if ( obj instanceof Number ) {
-
-            return
-              ( (Number) obj )
-                .floatValue ();
-
-          } else if ( obj instanceof String ) {
-
-            return
-              parseFloat (
-                (String) obj
-              );
-
-          }
-
-        }
-
-        return defVal;
-
-      };
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toFloat
+      );
 
   }
 
-
   /**
-   * Creates a {@link Variable} of type {@code Name}.
+   * Creates a {@link Services.Variable} of type {@code Name}.
    *
    * @see Environment#getName(Name, Name)
    */
 
-  static Variable< Name > of (
+  static Services.Variable< Name > of (
     final Name name,
     final Name defVal
   ) {
 
     return
-      environment ->
-        environment.getName (
-          name,
-          defVal
-        );
+      new Variable<> (
+        name,
+        defVal,
+        Variables::toName
+      );
 
   }
 
   /**
-   * Creates a {@link Variable} of type {@code CharSequence}.
+   * Creates a {@link Services.Variable} of type {@code CharSequence}.
    *
    * @see Environment#getCharSequence(Name, CharSequence)
    */
 
-  static Variable< CharSequence > of (
+  static Services.Variable< CharSequence > of (
     final Name name,
     final CharSequence defVal
   ) {
@@ -514,6 +594,53 @@ final class Variables {
           name,
           defVal
         );
+
+  }
+
+  private static final class Variable< T >
+    implements Services.Variable< T > {
+
+    private final Name                                         name;
+    private final T                                            defVal;
+    private final BiFunction< Object, ? super T, ? extends T > mapper;
+
+    protected Variable (
+      final Name name,
+      final T defVal,
+      final BiFunction< Object, ? super T, ? extends T > mapper
+    ) {
+
+      this.name =
+        name;
+
+      this.defVal =
+        defVal;
+
+      this.mapper =
+        mapper;
+
+    }
+
+    public T of (
+      final Environment environment
+    ) {
+
+      final T fallback =
+        defVal;
+
+      final Object value =
+        environment.getObject (
+          name,
+          fallback
+        );
+
+
+      return
+        value == fallback
+        ? fallback
+        : mapper.apply ( value, fallback );
+
+    }
 
   }
 
