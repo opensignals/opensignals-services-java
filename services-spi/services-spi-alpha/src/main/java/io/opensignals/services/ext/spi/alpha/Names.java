@@ -39,6 +39,7 @@ final class Names {
   private Names () {}
 
   private static final char    DOT     = '.';
+  private static final int     INDEX   = DOT;
   private static final Pattern PATTERN = compile ( "\\" + DOT );
 
   private static final ConcurrentHashMap< String, Name > MAP =
@@ -188,7 +189,7 @@ final class Names {
 
     return
       path.indexOf (
-        DOT
+        INDEX
       ) != -1;
 
   }
@@ -299,7 +300,7 @@ final class Names {
   static final class Name
     implements Services.Name {
 
-    @SuppressWarnings ( "rawtypes" )
+    @SuppressWarnings ( {"rawtypes", "java:S3740"} )
     private static final AtomicReferenceFieldUpdater< Name, ConcurrentHashMap > UPDATER =
       AtomicReferenceFieldUpdater.newUpdater (
         Name.class,
@@ -542,7 +543,7 @@ final class Names {
     }
 
     @Override
-    public final String getValue () {
+    public String getValue () {
 
       return
         value;
@@ -560,7 +561,7 @@ final class Names {
     }
 
     @Override
-    public final Name name (
+    public Name name (
       final String path
     ) {
 
@@ -641,7 +642,7 @@ final class Names {
     }
 
     @Override
-    public final java.util.Iterator< Services.Name > iterator () {
+    public java.util.Iterator< Services.Name > iterator () {
 
       return
         new Iterator (
