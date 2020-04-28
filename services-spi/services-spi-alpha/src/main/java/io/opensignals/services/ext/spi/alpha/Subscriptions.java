@@ -107,18 +107,10 @@ final class Subscriptions {
     @Override
     public void cancel () {
 
-      final Dispatcher< T > target =
-        dispatcher;
-
-      if ( target != null ) {
+      if ( dispatcher != null ) {
 
         dispatcher =
           null;
-
-        next =
-          scan (
-            next
-          );
 
       } else {
 

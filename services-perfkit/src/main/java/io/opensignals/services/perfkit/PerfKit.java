@@ -16,6 +16,7 @@
 
 package io.opensignals.services.perfkit;
 
+import io.opensignals.services.Services;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
@@ -50,12 +51,13 @@ public class PerfKit {
   @SuppressWarnings ( {"EmptyMethod", "WeakerAccess"} )
   static void callback (
     final Orientation orientation,
-    final Signal signal
+    final Phenomenon value
   ) {
     // no overhead method
   }
 
-  private static final Subscriber< Signal > SUBSCRIBER = new SignalsSubscriber ();
+  private static final Subscriber< Phenomenon > ALL_SUBSCRIBER    = new Subscriber<> ();
+  private static final Subscriber< Signal >     SIGNAL_SUBSCRIBER = new Subscriber<> ();
 
   private static final String FIRST              = "first";
   private static final String SECOND             = "second";
@@ -127,7 +129,7 @@ public class PerfKit {
       );
 
     context.subscribe (
-      SUBSCRIBER,
+      SIGNAL_SUBSCRIBER,
       Signal.class
     );
 
@@ -313,7 +315,7 @@ public class PerfKit {
    */
 
   @Benchmark
-  public Service service_lookup () {
+  public Service context_service () {
 
     return
       context.service (
@@ -641,16 +643,28 @@ public class PerfKit {
 
   }
 
-
   /**
-   * Call {@code Context.subscribe()}.
+   * Call {@code Context.subscribe(subscriber,signal)}.
    */
 
   @Benchmark
-  public void add_remove_subscriber () {
+  public void context_subscribe_cancel () {
 
     context.subscribe (
-      SUBSCRIBER,
+      ALL_SUBSCRIBER
+    ).cancel ();
+
+  }
+
+  /**
+   * Call {@code Context.subscribe(subscriber,signal)}.
+   */
+
+  @Benchmark
+  public void context_subscribe_signal_cancel () {
+
+    context.subscribe (
+      SIGNAL_SUBSCRIBER,
       Signal.class
     ).cancel ();
 
@@ -819,15 +833,15 @@ public class PerfKit {
   }
 
 
-  private static final class SignalsSubscriber
-    implements Subscriber< Signal > {
+  private static final class Subscriber< T extends Phenomenon >
+    implements Services.Subscriber< T > {
 
-    SignalsSubscriber () {}
+    Subscriber () {}
 
     @Override
     public void accept (
       final Name name,
-      final Consumer< Callback< ? super Signal > > registrar
+      final Consumer< Callback< ? super T > > registrar
     ) {
 
       registrar.accept (
@@ -836,5 +850,6 @@ public class PerfKit {
 
     }
   }
+
 
 }
