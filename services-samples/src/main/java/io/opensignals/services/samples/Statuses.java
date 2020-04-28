@@ -27,6 +27,8 @@ import static io.opensignals.services.Services.Status.*;
 
 final class Statuses {
 
+  private Statuses () {}
+
   public static void main (
     final String[] args
   ) {

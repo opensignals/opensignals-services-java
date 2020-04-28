@@ -22,6 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 final class Channels {
 
+  private Channels () {}
+
   static < T extends Phenomenon > Channel< T > memory () {
 
     return

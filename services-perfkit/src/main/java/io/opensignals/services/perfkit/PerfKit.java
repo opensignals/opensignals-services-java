@@ -56,8 +56,8 @@ public class PerfKit {
     // no overhead method
   }
 
-  private static final Subscriber< Phenomenon > ALL_SUBSCRIBER    = new Subscriber<> ();
-  private static final Subscriber< Signal >     SIGNAL_SUBSCRIBER = new Subscriber<> ();
+  private static final Services.Subscriber< Phenomenon> ALL_SUBSCRIBER    = new Subscriber<> ();
+  private static final Services.Subscriber< Signal>     SIGNAL_SUBSCRIBER = new Subscriber<> ();
 
   private static final String FIRST              = "first";
   private static final String SECOND             = "second";
@@ -75,10 +75,10 @@ public class PerfKit {
     );
 
 
-  private static final Float        FLOAT_VALUE    = 1f;
+  private static final Float        FLOAT_VALUE    = 1.0f;
   private static final Integer      INTEGER_VALUE  = 1;
   private static final Long         LONG_VALUE     = 1L;
-  private static final Double       DOUBLE_VALUE   = 1D;
+  private static final Double       DOUBLE_VALUE   = 1.0D;
   private static final Boolean      BOOLEAN_VALUE  = true;
   private static final CharSequence CHAR_SEQ_VALUE = FIRST;
   private static final String       STRING_VALUE   = FIRST;

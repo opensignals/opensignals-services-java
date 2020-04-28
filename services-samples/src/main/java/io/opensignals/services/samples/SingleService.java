@@ -28,6 +28,8 @@ final class SingleService {
       .name ( "service" )
       .name ( "one" );
 
+  private SingleService () {}
+
   public static void main (
     final String[] args
   ) {

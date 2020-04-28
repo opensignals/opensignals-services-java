@@ -26,6 +26,8 @@ import static io.opensignals.services.Services.Signal.*;
 
 final class Signals {
 
+  private Signals () {}
+
   public static void main (
     final String[] args
   ) {

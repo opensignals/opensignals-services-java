@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 final class Names {
 
+  private Names () {}
+
   public static void main (
     final String[] args
   ) {

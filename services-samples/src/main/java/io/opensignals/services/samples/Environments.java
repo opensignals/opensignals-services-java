@@ -26,6 +26,8 @@ import java.util.Properties;
 
 final class Environments {
 
+  private Environments () {}
+
   public static void main (
     final String[] args
   ) {

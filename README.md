@@ -2,7 +2,7 @@
 
 https://opensignals.io
 
-OpenSignals is a new innovative approach to the Observability and Controllability of scalable distributed service computing.
+OpenSignals is an innovative approach to the Observability and Controllability of scalable distributed service computing.
 
 Inspired from concepts and techniques in signaling theory, stigmergy, systems thinking, and social cognition, OpenSignals offers a humane and scalable way to infer and reason about the local and global state of services, resources, and systems at various scales and scopes compared to other forms of instrumentation and measurement including tracing, metrics, events, and logging.
 

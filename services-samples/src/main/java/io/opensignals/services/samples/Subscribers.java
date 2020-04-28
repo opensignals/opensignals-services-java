@@ -29,6 +29,8 @@ final class Subscribers {
 
   private static final int CLEAR = 0;
 
+  private Subscribers () {}
+
   public static void main (
     final String[] args
   ) {

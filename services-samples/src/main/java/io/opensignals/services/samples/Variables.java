@@ -22,6 +22,8 @@ import io.opensignals.services.Services.Variable;
 
 final class Variables {
 
+  private Variables () {}
+
   public static void main (
     final String[] args
   ) {

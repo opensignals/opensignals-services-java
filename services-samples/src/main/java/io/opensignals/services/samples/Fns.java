@@ -22,6 +22,8 @@ import io.opensignals.services.Services.Service;
 
 final class Fns {
 
+  private Fns () {}
+
   public static void main (
     final String[] args
   ) throws Throwable {

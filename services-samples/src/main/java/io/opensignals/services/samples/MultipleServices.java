@@ -35,6 +35,8 @@ final class MultipleServices {
       "com.acme.service.two"
     );
 
+  private MultipleServices () {}
+
   public static void main (
     final String[] args
   ) {

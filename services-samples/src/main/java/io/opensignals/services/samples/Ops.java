@@ -23,6 +23,8 @@ import io.opensignals.services.Services.Service;
 
 final class Ops {
 
+  private Ops () {}
+
   public static void main (
     final String[] args
   ) throws Throwable {

@@ -29,6 +29,8 @@ final class Callbacks {
 
   private static final int CLEAR = 0;
 
+  private Callbacks () {}
+
   public static void main (
     final String[] args
   ) {

@@ -24,6 +24,8 @@ import io.opensignals.services.Services.Service;
 
 final class Contexts {
 
+  private Contexts () {}
+
   public static void main (
     final String[] args
   ) {

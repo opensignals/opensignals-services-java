@@ -113,7 +113,7 @@ final class EnvironmentTest {
   void services_context_anonymous () {
 
     assertNotSame (
-      context ( Services.environment ( n -> Optional.empty () ) ),
+      context ( environment ( n -> Optional.empty () ) ),
       context ( n -> Optional.empty () )
     );
 
