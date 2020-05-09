@@ -43,7 +43,7 @@ import static org.openjdk.jmh.runner.options.TimeValue.seconds;
 
 final class PerfKitLauncher {
 
-  private static final char      NEWLINE         = '\n';
+  private static final String    NEWLINE         = System.getProperty("line.separator");
   private static final char      SEMICOLON       = ':';
   private static final char      SPACE           = ' ';
   private static final int       ITERATIONS      = 2;
@@ -127,8 +127,8 @@ final class PerfKitLauncher {
         .forks ( FORK_COUNT )
         .jvmArgsAppend (
           "-server",
-          "-D" + "io.opensignals.services.spi.factory=" + spi,
-          "-D" + "profile=" + profile
+          "-Dio.opensignals.services.spi.factory=" + spi,
+          "-Dprofile=" + profile
         ).build ();
 
   }
@@ -141,7 +141,7 @@ final class PerfKitLauncher {
     final Consumer< ? super String > consumer
   ) {
 
-    //noinspection rawtypes
+    //noinspection rawtypes, ImplicitNumericConversion
     final List< Result > list =
       results
         .stream ()

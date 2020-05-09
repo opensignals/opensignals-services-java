@@ -42,7 +42,8 @@ import static java.lang.System.getProperty;
     "MethodMayBeStatic",
     "PublicMethodNotExposedInInterface",
     "squid:S00100",
-    "UnusedReturnValue"
+    "UnusedReturnValue",
+    "HardcodedFileSeparator"
   }
 )
 @State ( Scope.Benchmark )
@@ -56,8 +57,8 @@ public class PerfKit {
     // no overhead method
   }
 
-  private static final Services.Subscriber< Phenomenon> ALL_SUBSCRIBER    = new Subscriber<> ();
-  private static final Services.Subscriber< Signal>     SIGNAL_SUBSCRIBER = new Subscriber<> ();
+  private static final Services.Subscriber< Phenomenon > ALL_SUBSCRIBER    = new Subscriber<> ();
+  private static final Services.Subscriber< Signal >     SIGNAL_SUBSCRIBER = new Subscriber<> ();
 
   private static final String FIRST              = "first";
   private static final String SECOND             = "second";

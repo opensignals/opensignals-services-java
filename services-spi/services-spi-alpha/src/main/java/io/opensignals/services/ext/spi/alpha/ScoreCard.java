@@ -147,6 +147,7 @@ final class ScoreCard {
     final int value
   ) {
 
+    //noinspection ImplicitNumericConversion
     return
       update (
         inc ->
@@ -157,10 +158,12 @@ final class ScoreCard {
 
   }
 
+
   Status degraded (
     final int value
   ) {
 
+    //noinspection ImplicitNumericConversion
     return
       update (
         inc ->
@@ -176,6 +179,7 @@ final class ScoreCard {
     final int value
   ) {
 
+    //noinspection ImplicitNumericConversion
     return
       update (
         inc ->
@@ -190,6 +194,7 @@ final class ScoreCard {
     final int value
   ) {
 
+    //noinspection ImplicitNumericConversion
     return
       update (
         inc ->

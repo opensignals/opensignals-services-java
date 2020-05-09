@@ -34,6 +34,12 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
 
+@SuppressWarnings (
+  {
+    "ImplicitNumericConversion",
+    "HardcodedFileSeparator"
+  }
+)
 final class Names {
 
   private Names () {}

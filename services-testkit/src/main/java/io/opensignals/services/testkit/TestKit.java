@@ -453,7 +453,7 @@ public final class TestKit {
     }
 
     @Override
-    public final Capture< P > to (
+    public Capture< P > to (
       final P value
     ) {
 
@@ -468,7 +468,7 @@ public final class TestKit {
     }
 
     @Override
-    public final Capture< P > to (
+    public Capture< P > to (
       final Orientation orientation,
       final P value
     ) {
@@ -605,6 +605,7 @@ public final class TestKit {
     @Override
     public Spliterator< Capture< P > > spliterator () {
 
+      //noinspection ImplicitNumericConversion
       return
         Spliterators.spliterator (
           iterator (),

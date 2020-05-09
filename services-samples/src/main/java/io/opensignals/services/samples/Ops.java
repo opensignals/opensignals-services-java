@@ -57,6 +57,7 @@ final class Ops {
               Ops::doWork
           );
 
+    //noinspection ResultOfMethodCallIgnored
     Services
       .execute (
         service,

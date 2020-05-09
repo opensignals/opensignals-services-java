@@ -3200,6 +3200,24 @@ public final class Services {
   public interface Variable< T > {
 
     /**
+     * Returns a value from the environment of the {@link Context}.
+     *
+     * @param context the context used for sourcing a value
+     * @return A value sourced from the context's environment, or the variable's default value.
+     */
+
+    default T of (
+      final Context context
+    ) {
+
+      return
+        of (
+          context.getEnvironment ()
+        );
+
+    }
+
+    /**
      * Returns a value from the environment.
      *
      * @param environment the environment used for sourcing a value
