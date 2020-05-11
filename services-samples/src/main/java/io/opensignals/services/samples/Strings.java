@@ -19,12 +19,12 @@ package io.opensignals.services.samples;
 final class Strings {
 
   private static final String DOT                             = ".";
-  private static final String SERVICE                         = "service";
   private static final String LOCAL                           = "local";
   private static final String REMOTE                          = "remote";
   private static final String SERVICES                        = "services";
   private static final String CONTEXT                         = "context";
   private static final String ID                              = "id";
+  static final         String SERVICE                         = "service";
   static final         String IO                              = "io";
   static final         String OPENSIGNALS                     = "opensignals";
   static final         String ONE                             = "one";
@@ -34,6 +34,7 @@ final class Strings {
   static final         String CHILD                           = "child";
   static final         String NAME                            = "name";
   static final         String TWO                             = "two";
+  static final         String CHROMOSOMES                     = "chromosomes";
   static final         String SERVICE_LOCAL                   = SERVICE + DOT + LOCAL;
   static final         String SERVICE_REMOTE                  = SERVICE + DOT + REMOTE;
   static final         String SERVICE_ONE                     = SERVICE + DOT + ONE;

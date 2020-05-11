@@ -16,7 +16,6 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
 import io.opensignals.services.Services.Environment;
 import io.opensignals.services.Services.Name;
 
@@ -24,6 +23,8 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Properties;
 
+import static io.opensignals.services.Services.environment;
+import static io.opensignals.services.Services.name;
 import static io.opensignals.services.samples.Strings.*;
 
 final class Environments {
@@ -34,12 +35,12 @@ final class Environments {
       new HashMap<> ();
 
     final Name string =
-      Services.name (
+      name (
         STRING
       );
 
     final Name integer =
-      Services.name (
+      name (
         INTEGER
       );
 
@@ -54,7 +55,7 @@ final class Environments {
     );
 
     final Environment env =
-      Services.environment (
+      environment (
         map::get
       );
 
@@ -91,12 +92,12 @@ final class Environments {
   private static void chaining () {
 
     final Name name =
-      Services.name (
+      name (
         NAME
       );
 
     final Environment env =
-      Services.environment (
+      environment (
         name,
         PARENT
       );
@@ -135,13 +136,13 @@ final class Environments {
   private static void constructing () {
 
     final Environment env =
-      Services.environment (
-        Services.name (
+      environment (
+        name (
           ONE
         ),
         1
       ).environment (
-        Services.name (
+        name (
           TWO
         ),
         2
@@ -150,7 +151,7 @@ final class Environments {
     assert
       1 ==
         env.getInteger (
-          Services.name (
+          name (
             ONE
           ),
           0
@@ -159,7 +160,7 @@ final class Environments {
     assert
       2 ==
         env.getInteger (
-          Services.name (
+          name (
             TWO
           ),
           0
@@ -178,7 +179,7 @@ final class Environments {
     );
 
     final Environment env =
-      Services.environment (
+      environment (
         n ->
           props.getProperty (
             n.toString ()
@@ -188,7 +189,7 @@ final class Environments {
     assert
       1 ==
         env.getInteger (
-          Services.name (
+          name (
             NAME
           ).name (
             ONE

@@ -16,41 +16,33 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
-import io.opensignals.services.Services.Environment;
-import io.opensignals.services.Services.Variable;
+import static io.opensignals.services.Services.*;
+import static io.opensignals.services.samples.Strings.CHROMOSOMES;
+import static io.opensignals.services.samples.Strings.OPENSIGNALS_SERVICES_CONTEXT_ID;
 
 final class Variables {
-
-  private static final String CHROMOSOMES                     = "chromosomes";
-  private static final String OPENSIGNALS_SERVICES_CONTEXT_ID = "opensignals.services.context.id";
 
   private static void of () {
 
     final Variable< String > string =
-      Services
-        .variable (
-          Services
-            .name (
-              OPENSIGNALS_SERVICES_CONTEXT_ID
-            ),
-          (String) null
-        );
+      variable (
+        name (
+          OPENSIGNALS_SERVICES_CONTEXT_ID
+        ),
+        (String) null
+      );
 
     final Variable< Integer > chromosomes =
-      Services
-        .variable (
-          Services
-            .name (
-              CHROMOSOMES
-            ),
-          42
-        );
+      variable (
+        name (
+          CHROMOSOMES
+        ),
+        42
+      );
 
 
     final Environment environment =
-      Services
-        .context ()
+      context ()
         .getEnvironment ();
 
     assert

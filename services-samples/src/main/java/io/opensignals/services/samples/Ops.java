@@ -16,11 +16,7 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
-import io.opensignals.services.Services.Fn;
-import io.opensignals.services.Services.Op;
-import io.opensignals.services.Services.Service;
-
+import static io.opensignals.services.Services.*;
 import static io.opensignals.services.samples.Strings.SERVICE_ONE;
 
 final class Ops {
@@ -51,10 +47,9 @@ final class Ops {
   ) throws Throwable {
 
     final Service service =
-      Services
-        .context ()
+      context ()
         .service (
-          Services.name (
+          name (
             SERVICE_ONE
           )
         );
@@ -62,38 +57,34 @@ final class Ops {
     //noinspection Convert2MethodRef
     assert
       1 ==
-        Services
-          .execute (
-            service,
-            () ->
-              doWork ()
-          );
+        execute (
+          service,
+          () ->
+            doWork ()
+        );
 
     assert
       1 ==
-        Services
-          .execute (
-            service,
-            (Fn< Integer, ? >)
-              Ops::doWork
-          );
+        execute (
+          service,
+          (Fn< Integer, ? >)
+            Ops::doWork
+        );
 
     //noinspection ResultOfMethodCallIgnored
-    Services
-      .execute (
-        service,
-        Op.of (
-          Ops::doWork
-        )
-      );
+    execute (
+      service,
+      Op.of (
+        Ops::doWork
+      )
+    );
 
-    Services
-      .execute (
-        service,
-        Op.from (
-          Ops::doWork
-        )
-      );
+    execute (
+      service,
+      Op.from (
+        Ops::doWork
+      )
+    );
 
   }
 

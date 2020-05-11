@@ -16,25 +16,25 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
 import io.opensignals.services.Services.Name;
 
 import java.util.stream.Collectors;
 
-import static io.opensignals.services.samples.Strings.IO_OPENSIGNALS;
+import static io.opensignals.services.Services.name;
+import static io.opensignals.services.samples.Strings.*;
 
 final class Names {
 
   private static void concatenation () {
 
     final Name prefix =
-      Services.name (
+      name (
         IO_OPENSIGNALS
       );
 
     final Name one =
       prefix.name (
-        Strings.ONE
+        ONE
       );
 
     assert
@@ -46,7 +46,7 @@ final class Names {
       one
         .getPrefix ()
         .map ( Name::getValue )
-        .filter ( Strings.OPENSIGNALS::equals )
+        .filter ( OPENSIGNALS::equals )
         .isPresent ();
 
     assert
@@ -62,45 +62,42 @@ final class Names {
   private static void equality () {
 
     final Name name =
-      Services.name (
-        Strings.IO_OPENSIGNALS_ONE
+      name (
+        IO_OPENSIGNALS_ONE
       );
 
     assert
       name.equals (
-        Services
-          .name ( Strings.IO )
-          .name ( Strings.OPENSIGNALS )
-          .name ( Strings.ONE )
+        name ( IO )
+          .name ( OPENSIGNALS )
+          .name ( ONE )
       );
 
     assert
       name ==
-        Services
-          .name ( Strings.IO )
-          .name ( Strings.OPENSIGNALS )
-          .name ( Strings.ONE );
+        name ( IO )
+          .name ( OPENSIGNALS )
+          .name ( ONE );
 
     assert
       name ==
-        Services
-          .name ( IO_OPENSIGNALS )
-          .name ( Strings.ONE );
+        name ( IO_OPENSIGNALS )
+          .name ( ONE );
 
   }
 
   private static void iteration () {
 
     final Name name =
-      Services.name (
-        Strings.IO_OPENSIGNALS_ONE
+      name (
+        IO_OPENSIGNALS_ONE
       );
 
     assert
       name
         .toString ()
         .equals (
-          Strings.IO_OPENSIGNALS_ONE
+          IO_OPENSIGNALS_ONE
         );
 
     assert
@@ -153,12 +150,12 @@ final class Names {
   private static void path () {
 
     assert
-      Strings.IO_OPENSIGNALS_ONE
+      IO_OPENSIGNALS_ONE
         .equals (
-          Services.name (
+          name (
             IO_OPENSIGNALS
           ).name (
-            Strings.ONE
+            ONE
           ).toString ()
         );
 

@@ -23,18 +23,20 @@ import io.opensignals.services.Services.Service;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Orientation.RECEIPT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.Services.context;
+import static io.opensignals.services.Services.name;
 
 final class Signals {
 
   private static void execute () {
 
     final Context context =
-      Services.context ();
+      context ();
 
     final Service local =
       context
         .service (
-          Services.name (
+          name (
             "service"
           ).name (
             "one"
@@ -85,12 +87,12 @@ final class Signals {
   private static void call () {
 
     final Context context =
-      Services.context ();
+      context ();
 
     final Service remote =
       context
         .service (
-          Services.name (
+          name (
             "service"
           ).name (
             "one"

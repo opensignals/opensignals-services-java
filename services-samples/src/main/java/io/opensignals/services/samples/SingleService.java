@@ -16,11 +16,11 @@
 
 package io.opensignals.services.samples;
 
-import static com.sun.xml.internal.ws.model.RuntimeModeler.SERVICE;
 import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
 import static io.opensignals.services.samples.Strings.ONE;
+import static io.opensignals.services.samples.Strings.SERVICE;
 
 final class SingleService {
 

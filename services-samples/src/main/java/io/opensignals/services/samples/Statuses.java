@@ -16,14 +16,17 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
 import io.opensignals.services.Services.Context;
+import io.opensignals.services.Services.Name;
 import io.opensignals.services.Services.Service;
 import io.opensignals.services.Services.Status;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.opensignals.services.Services.Status.*;
+import static io.opensignals.services.Services.context;
+import static io.opensignals.services.Services.name;
+import static io.opensignals.services.samples.Strings.SERVICE_LOCAL;
 import static io.opensignals.services.samples.Strings.SERVICE_REMOTE;
 
 @SuppressWarnings ( "MethodCallInLoopCondition" )
@@ -32,11 +35,10 @@ final class Statuses {
   private static void ok () {
 
     final Service service =
-      Services
-        .context ()
+      context ()
         .service (
-          Services.name (
-            Strings.SERVICE_LOCAL
+          name (
+            SERVICE_LOCAL
           )
         );
 
@@ -61,10 +63,9 @@ final class Statuses {
   private static void degraded () {
 
     final Service service =
-      Services
-        .context ()
+      context ()
         .service (
-          Services.name (
+          name (
             SERVICE_REMOTE
           )
         );
@@ -91,10 +92,9 @@ final class Statuses {
   private static void defective () {
 
     final Service service =
-      Services
-        .context ()
+      context ()
         .service (
-          Services.name (
+          name (
             SERVICE_REMOTE
           )
         );
@@ -118,13 +118,13 @@ final class Statuses {
 
   private static void down () {
 
-    final Services.Name name =
-      Services.name (
+    final Name name =
+      name (
         SERVICE_REMOTE
       );
 
     final Context context =
-      Services.context ();
+      context ();
 
     final AtomicBoolean guard =
       new AtomicBoolean (

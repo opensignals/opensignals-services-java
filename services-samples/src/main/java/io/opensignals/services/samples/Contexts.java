@@ -16,27 +16,24 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
-import io.opensignals.services.Services.Context;
-import io.opensignals.services.Services.Environment;
-import io.opensignals.services.Services.Name;
-import io.opensignals.services.Services.Service;
+import static io.opensignals.services.Services.*;
+import static io.opensignals.services.samples.Strings.*;
 
 final class Contexts {
 
   private static void global () {
 
     final Name name =
-      Services.name (
-        Strings.SERVICE_ONE
+      name (
+        SERVICE_ONE
       );
 
     final Context context =
-      Services.context ();
+      context ();
 
     assert
       context ==
-        Services.context ();
+        context ();
 
     final Service service =
       context.service (
@@ -54,19 +51,19 @@ final class Contexts {
   private static void anonymous () {
 
     final Name name =
-      Services.name (
-        Strings.SERVICE_ONE
+      name (
+        SERVICE_ONE
       );
 
     final Context context =
-      Services.context (
-        Services.environment ()
+      context (
+        environment ()
       );
 
     assert
       context !=
-        Services.context (
-          Services.environment ()
+        context (
+          environment ()
         );
 
     final Service service =
@@ -82,8 +79,8 @@ final class Contexts {
 
     assert
       service !=
-        Services.context (
-          Services.environment ()
+        context (
+          environment ()
         ).service (
           name
         );
@@ -93,21 +90,21 @@ final class Contexts {
   private static void identified () {
 
     final Environment env =
-      Services.environment (
-        Services.name (
-          Strings.OPENSIGNALS_SERVICES_CONTEXT_ID
+      environment (
+        name (
+          OPENSIGNALS_SERVICES_CONTEXT_ID
         ),
-        Strings.SERVICE_1
+        SERVICE_1
       );
 
     final Context context =
-      Services.context (
+      context (
         env
       );
 
     assert
       context ==
-        Services.context (
+        context (
           env
         );
 

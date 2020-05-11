@@ -16,11 +16,7 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
-import io.opensignals.services.Services.Callback;
-import io.opensignals.services.Services.Service;
-import io.opensignals.services.Services.Signal;
-
+import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
 import static io.opensignals.services.samples.Strings.SERVICE_ONE;
@@ -48,17 +44,15 @@ final class Callbacks {
         );
 
     final Service service =
-      Services
-        .service (
-          Services
-            .context ()
-            .service (
-              Services.name (
-                SERVICE_ONE
-              )
-            ),
-          callback
-        );
+      service (
+        context ()
+          .service (
+            name (
+              SERVICE_ONE
+            )
+          ),
+        callback
+      );
 
     service.call ();
 
@@ -74,12 +68,11 @@ final class Callbacks {
       CLEAR
     );
 
-    Services
-      .execute (
-        service,
-        () -> {
-        }
-      );
+    execute (
+      service,
+      () -> {
+      }
+    );
 
     assert
       format (

@@ -16,13 +16,15 @@
 
 package io.opensignals.services.samples;
 
-import io.opensignals.services.Services;
 import io.opensignals.services.Services.Context;
+import io.opensignals.services.Services.Name;
 import io.opensignals.services.Services.Signal;
 import io.opensignals.services.Services.Subscription;
 
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.Services.context;
+import static io.opensignals.services.Services.name;
 import static io.opensignals.services.samples.Strings.times;
 import static java.lang.String.format;
 
@@ -39,15 +41,15 @@ final class Subscribers {
       new StringBuilder ();
 
     final Context context =
-      Services.context ();
+      context ();
 
-    final Services.Name n1 =
-      Services.name (
+    final Name n1 =
+      name (
         SERVICE_ONE
       );
 
-    final Services.Name n2 =
-      Services.name (
+    final Name n2 =
+      name (
         SERVICE_TWO
       );
 
