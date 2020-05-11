@@ -23,21 +23,15 @@ import io.opensignals.services.Services.Subscription;
 
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.samples.Strings.times;
 import static java.lang.String.format;
 
 final class Subscribers {
 
-  private static final int CLEAR = 0;
-
-  private Subscribers () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    subscribing ();
-
-  }
+  private static final int    CLEAR       = 0;
+  private static final String SERVICE_TWO = "service.two";
+  private static final String SERVICE_ONE = "service.one";
+  private static final String PATTERN     = "%s %s %s%n";
 
   private static void subscribing () {
 
@@ -49,12 +43,12 @@ final class Subscribers {
 
     final Services.Name n1 =
       Services.name (
-        "service.one"
+        SERVICE_ONE
       );
 
     final Services.Name n2 =
       Services.name (
-        "service.two"
+        SERVICE_TWO
       );
 
     final Subscription subscription =
@@ -66,7 +60,7 @@ final class Subscribers {
                 ( orientation, signal ) ->
                   out.append (
                     format (
-                      "%s %s %s%n",
+                      PATTERN,
                       name,
                       orientation,
                       signal
@@ -85,9 +79,10 @@ final class Subscribers {
 
     assert
       format (
-        "%s %s %s%n" +
-          "%s %s %s%n" +
-          "%s %s %s%n",
+        times (
+          PATTERN,
+          3
+        ),
         n1, EMIT, START,
         n1, EMIT, SUCCEED,
         n1, EMIT, STOP
@@ -123,5 +118,16 @@ final class Subscribers {
         == CLEAR;
 
   }
+
+  private Subscribers () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    subscribing ();
+
+  }
+
 
 }

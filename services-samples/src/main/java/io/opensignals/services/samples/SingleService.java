@@ -16,17 +16,17 @@
 
 package io.opensignals.services.samples;
 
+import static com.sun.xml.internal.ws.model.RuntimeModeler.SERVICE;
 import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.samples.Strings.ONE;
 
 final class SingleService {
 
   private static final Name S1 =
-    name ( "com" )
-      .name ( "acme" )
-      .name ( "service" )
-      .name ( "one" );
+    name ( SERVICE )
+      .name ( ONE );
 
   private SingleService () {}
 

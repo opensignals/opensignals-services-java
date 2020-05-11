@@ -17,8 +17,8 @@
 package io.opensignals.services.perfkit;
 
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.results.AverageTimeResult;
 import org.openjdk.jmh.results.BenchmarkResult;
-import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -43,7 +43,7 @@ import static org.openjdk.jmh.runner.options.TimeValue.seconds;
 
 final class PerfKitLauncher {
 
-  private static final String    NEWLINE         = System.getProperty("line.separator");
+  private static final String    NEWLINE         = System.getProperty ( "line.separator" );
   private static final char      SEMICOLON       = ':';
   private static final char      SPACE           = ' ';
   private static final int       ITERATIONS      = 2;
@@ -61,7 +61,7 @@ final class PerfKitLauncher {
   static void execute (
     final String spi,
     final String profile,
-    final long threshold,
+    final double threshold,
     final int threads,
     final Consumer< ? super String > consumer
   ) {
@@ -137,18 +137,18 @@ final class PerfKitLauncher {
   private static void inspect (
     final String spi,
     final Collection< ? extends RunResult > results,
-    final long threshold,
+    final double threshold,
     final Consumer< ? super String > consumer
   ) {
 
-    //noinspection rawtypes, ImplicitNumericConversion
-    final List< Result > list =
+    final List< AverageTimeResult > list =
       results
         .stream ()
         .flatMap (
           run ->
             run.getBenchmarkResults ().stream () )
         .map ( BenchmarkResult::getPrimaryResult )
+        .map ( AverageTimeResult.class::cast )
         .filter (
           result ->
             result.getScore () > threshold )

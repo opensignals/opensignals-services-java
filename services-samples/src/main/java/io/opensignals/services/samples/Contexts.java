@@ -24,23 +24,11 @@ import io.opensignals.services.Services.Service;
 
 final class Contexts {
 
-  private Contexts () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    global ();
-    anonymous ();
-    identified ();
-
-  }
-
   private static void global () {
 
     final Name name =
       Services.name (
-        "service.one"
+        Strings.SERVICE_ONE
       );
 
     final Context context =
@@ -67,7 +55,7 @@ final class Contexts {
 
     final Name name =
       Services.name (
-        "service.one"
+        Strings.SERVICE_ONE
       );
 
     final Context context =
@@ -107,9 +95,9 @@ final class Contexts {
     final Environment env =
       Services.environment (
         Services.name (
-          "opensignals.services.context.id"
+          Strings.OPENSIGNALS_SERVICES_CONTEXT_ID
         ),
-        "service.1"
+        Strings.SERVICE_1
       );
 
     final Context context =
@@ -122,6 +110,18 @@ final class Contexts {
         Services.context (
           env
         );
+
+  }
+
+  private Contexts () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    global ();
+    anonymous ();
+    identified ();
 
   }
 

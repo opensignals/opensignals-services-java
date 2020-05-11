@@ -22,17 +22,19 @@ import io.opensignals.services.Services.Service;
 
 import static io.opensignals.services.Services.context;
 import static io.opensignals.services.Services.name;
+import static io.opensignals.services.samples.Strings.SERVICE_ONE;
+import static io.opensignals.services.samples.Strings.SERVICE_TWO;
 
 final class MultipleServices {
 
   private static final Name S1 =
     name (
-      "com.acme.service.one"
+      SERVICE_ONE
     );
 
   private static final Name S2 =
     name (
-      "com.acme.service.two"
+      SERVICE_TWO
     );
 
   private MultipleServices () {}

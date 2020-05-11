@@ -21,9 +21,30 @@ import io.opensignals.services.Services.Fn;
 import io.opensignals.services.Services.Op;
 import io.opensignals.services.Services.Service;
 
+import static io.opensignals.services.samples.Strings.SERVICE_ONE;
+
 final class Ops {
 
+  @SuppressWarnings (
+    "SameReturnValue"
+  )
+  private static int doWork () {
+
+    return 1;
+
+  }
+
   private Ops () {}
+
+  @SuppressWarnings ( "unused" )
+  static int doWork (
+    final int units
+  ) {
+
+    return
+      units;
+
+  }
 
   public static void main (
     final String[] args
@@ -34,7 +55,7 @@ final class Ops {
         .context ()
         .service (
           Services.name (
-            "service.one"
+            SERVICE_ONE
           )
         );
 
@@ -73,24 +94,6 @@ final class Ops {
           Ops::doWork
         )
       );
-
-  }
-
-  @SuppressWarnings (
-    "SameReturnValue"
-  )
-  private static int doWork () {
-
-    return 1;
-
-  }
-
-  static int doWork (
-    final int units
-  ) {
-
-    return
-      units;
 
   }
 

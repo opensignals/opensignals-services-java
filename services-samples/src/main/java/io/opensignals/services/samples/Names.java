@@ -21,31 +21,20 @@ import io.opensignals.services.Services.Name;
 
 import java.util.stream.Collectors;
 
+import static io.opensignals.services.samples.Strings.IO_OPENSIGNALS;
+
 final class Names {
-
-  private Names () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    concatenation ();
-    equality ();
-    iteration ();
-    path ();
-
-  }
 
   private static void concatenation () {
 
     final Name prefix =
       Services.name (
-        "io.opensignals"
+        IO_OPENSIGNALS
       );
 
     final Name one =
       prefix.name (
-        "one"
+        Strings.ONE
       );
 
     assert
@@ -57,7 +46,7 @@ final class Names {
       one
         .getPrefix ()
         .map ( Name::getValue )
-        .filter ( "opensignals"::equals )
+        .filter ( Strings.OPENSIGNALS::equals )
         .isPresent ();
 
     assert
@@ -74,29 +63,29 @@ final class Names {
 
     final Name name =
       Services.name (
-        "io.opensignals.one"
+        Strings.IO_OPENSIGNALS_ONE
       );
 
     assert
       name.equals (
         Services
-          .name ( "io" )
-          .name ( "opensignals" )
-          .name ( "one" )
+          .name ( Strings.IO )
+          .name ( Strings.OPENSIGNALS )
+          .name ( Strings.ONE )
       );
 
     assert
       name ==
         Services
-          .name ( "io" )
-          .name ( "opensignals" )
-          .name ( "one" );
+          .name ( Strings.IO )
+          .name ( Strings.OPENSIGNALS )
+          .name ( Strings.ONE );
 
     assert
       name ==
         Services
-          .name ( "io.opensignals" )
-          .name ( "one" );
+          .name ( IO_OPENSIGNALS )
+          .name ( Strings.ONE );
 
   }
 
@@ -104,14 +93,14 @@ final class Names {
 
     final Name name =
       Services.name (
-        "io.opensignals.one"
+        Strings.IO_OPENSIGNALS_ONE
       );
 
     assert
       name
         .toString ()
         .equals (
-          "io.opensignals.one"
+          Strings.IO_OPENSIGNALS_ONE
         );
 
     assert
@@ -164,14 +153,27 @@ final class Names {
   private static void path () {
 
     assert
-      "io.opensignals.one"
+      Strings.IO_OPENSIGNALS_ONE
         .equals (
           Services.name (
-            "io.opensignals"
+            IO_OPENSIGNALS
           ).name (
-            "one"
+            Strings.ONE
           ).toString ()
         );
+
+  }
+
+  private Names () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    concatenation ();
+    equality ();
+    iteration ();
+    path ();
 
   }
 

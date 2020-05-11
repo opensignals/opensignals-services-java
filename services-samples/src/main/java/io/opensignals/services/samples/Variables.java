@@ -22,15 +22,8 @@ import io.opensignals.services.Services.Variable;
 
 final class Variables {
 
-  private Variables () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    of ();
-
-  }
+  private static final String CHROMOSOMES                     = "chromosomes";
+  private static final String OPENSIGNALS_SERVICES_CONTEXT_ID = "opensignals.services.context.id";
 
   private static void of () {
 
@@ -39,7 +32,7 @@ final class Variables {
         .variable (
           Services
             .name (
-              "opensignals.services.context.id"
+              OPENSIGNALS_SERVICES_CONTEXT_ID
             ),
           (String) null
         );
@@ -49,7 +42,7 @@ final class Variables {
         .variable (
           Services
             .name (
-              "chromosomes"
+              CHROMOSOMES
             ),
           42
         );
@@ -71,6 +64,16 @@ final class Variables {
         chromosomes.of (
           environment
         );
+
+  }
+
+  private Variables () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    of ();
 
   }
 

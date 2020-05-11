@@ -26,17 +26,6 @@ import static io.opensignals.services.Services.Signal.*;
 
 final class Signals {
 
-  private Signals () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    execute ();
-    call ();
-
-  }
-
   private static void execute () {
 
     final Context context =
@@ -142,6 +131,17 @@ final class Signals {
         RECEIPT,
         SUCCEED
       );
+
+  }
+
+  private Signals () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    execute ();
+    call ();
 
   }
 

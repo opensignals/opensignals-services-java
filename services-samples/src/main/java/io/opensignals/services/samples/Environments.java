@@ -24,20 +24,9 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Properties;
 
+import static io.opensignals.services.samples.Strings.*;
+
 final class Environments {
-
-  private Environments () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    mapping ();
-    chaining ();
-    constructing ();
-    transforming ();
-
-  }
 
   private static void mapping () {
 
@@ -46,17 +35,17 @@ final class Environments {
 
     final Name string =
       Services.name (
-        "string"
+        STRING
       );
 
     final Name integer =
       Services.name (
-        "integer"
+        INTEGER
       );
 
     map.put (
       string,
-      "string"
+      STRING
     );
 
     map.put (
@@ -73,7 +62,7 @@ final class Environments {
       env.getObject (
         string
       ).filter (
-        "string"::equals
+        STRING::equals
       ).isPresent ();
 
     assert
@@ -103,17 +92,17 @@ final class Environments {
 
     final Name name =
       Services.name (
-        "name"
+        NAME
       );
 
     final Environment env =
       Services.environment (
         name,
-        "parent"
+        PARENT
       );
 
     assert
-      "parent".equals (
+      PARENT.equals (
         env.getString (
           name,
           null
@@ -121,17 +110,17 @@ final class Environments {
       );
 
     assert
-      "child".equals (
+      CHILD.equals (
         env.environment (
           name,
-          "child"
+          CHILD
         ).getString (
           name, null
         )
       );
 
     assert
-      "parent".equals (
+      PARENT.equals (
         env.environment (
           n ->
             Optional.empty ()
@@ -148,12 +137,12 @@ final class Environments {
     final Environment env =
       Services.environment (
         Services.name (
-          "one"
+          ONE
         ),
         1
       ).environment (
         Services.name (
-          "two"
+          TWO
         ),
         2
       );
@@ -162,7 +151,7 @@ final class Environments {
       1 ==
         env.getInteger (
           Services.name (
-            "one"
+            ONE
           ),
           0
         );
@@ -171,7 +160,7 @@ final class Environments {
       2 ==
         env.getInteger (
           Services.name (
-            "two"
+            TWO
           ),
           0
         );
@@ -200,12 +189,25 @@ final class Environments {
       1 ==
         env.getInteger (
           Services.name (
-            "name"
+            NAME
           ).name (
-            "one"
+            ONE
           ),
           0
         );
+
+  }
+
+  private Environments () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    mapping ();
+    chaining ();
+    constructing ();
+    transforming ();
 
   }
 

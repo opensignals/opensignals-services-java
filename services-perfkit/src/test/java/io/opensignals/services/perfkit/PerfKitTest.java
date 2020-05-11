@@ -39,7 +39,7 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      250L,
+      250.0,
       1,
       Assertions::fail
     );
@@ -53,7 +53,7 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      500L,
+      500.0,
       2,
       Assertions::fail
     );
@@ -67,7 +67,7 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      1000L,
+      1000.0,
       4,
       Assertions::fail
     );

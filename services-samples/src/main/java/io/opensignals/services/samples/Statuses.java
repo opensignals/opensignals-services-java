@@ -24,21 +24,10 @@ import io.opensignals.services.Services.Status;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.opensignals.services.Services.Status.*;
+import static io.opensignals.services.samples.Strings.SERVICE_REMOTE;
 
+@SuppressWarnings ( "MethodCallInLoopCondition" )
 final class Statuses {
-
-  private Statuses () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    ok ();
-    degraded ();
-    defective ();
-    down ();
-
-  }
 
   private static void ok () {
 
@@ -47,7 +36,7 @@ final class Statuses {
         .context ()
         .service (
           Services.name (
-            "service.local"
+            Strings.SERVICE_LOCAL
           )
         );
 
@@ -76,7 +65,7 @@ final class Statuses {
         .context ()
         .service (
           Services.name (
-            "service.remote"
+            SERVICE_REMOTE
           )
         );
 
@@ -106,7 +95,7 @@ final class Statuses {
         .context ()
         .service (
           Services.name (
-            "service.remote"
+            SERVICE_REMOTE
           )
         );
 
@@ -131,7 +120,7 @@ final class Statuses {
 
     final Services.Name name =
       Services.name (
-        "service.remote"
+        SERVICE_REMOTE
       );
 
     final Context context =
@@ -142,6 +131,7 @@ final class Statuses {
         false
       );
 
+    //noinspection OverlyLongLambda
     context
       .subscribe (
         ( n, registrar ) -> {
@@ -179,6 +169,19 @@ final class Statuses {
         .failed ();
 
     }
+
+  }
+
+  private Statuses () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    ok ();
+    degraded ();
+    defective ();
+    down ();
 
   }
 

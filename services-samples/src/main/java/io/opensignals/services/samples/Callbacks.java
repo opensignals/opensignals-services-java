@@ -23,21 +23,14 @@ import io.opensignals.services.Services.Signal;
 
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.samples.Strings.SERVICE_ONE;
+import static io.opensignals.services.samples.Strings.times;
 import static java.lang.String.format;
 
 final class Callbacks {
 
-  private static final int CLEAR = 0;
-
-  private Callbacks () {}
-
-  public static void main (
-    final String[] args
-  ) {
-
-    wrapping ();
-
-  }
+  private static final int    CLEAR   = 0;
+  private static final String PATTERN = "%s %s%n";
 
   private static void wrapping () {
 
@@ -48,7 +41,7 @@ final class Callbacks {
       ( orientation, signal ) ->
         out.append (
           format (
-            "%s %s%n",
+            PATTERN,
             orientation,
             signal
           )
@@ -61,7 +54,7 @@ final class Callbacks {
             .context ()
             .service (
               Services.name (
-                "service.one"
+                SERVICE_ONE
               )
             ),
           callback
@@ -71,7 +64,7 @@ final class Callbacks {
 
     assert
       format (
-        "%s %s%n",
+        PATTERN,
         EMIT, CALL
       ).equals (
         out.toString ()
@@ -90,15 +83,26 @@ final class Callbacks {
 
     assert
       format (
-        "%s %s%n" +
-          "%s %s%n" +
-          "%s %s%n",
+        times (
+          PATTERN,
+          3
+        ),
         EMIT, START,
         EMIT, SUCCEED,
         EMIT, STOP
       ).equals (
         out.toString ()
       );
+
+  }
+
+  private Callbacks () {}
+
+  public static void main (
+    final String[] args
+  ) {
+
+    wrapping ();
 
   }
 
