@@ -48,6 +48,7 @@
         <groupId>io.opensignals.services</groupId>
         <artifactId>opensignals-services-spi-alpha</artifactId>
         <version>${project.version}</version>
+        <scope>runtime</scope>
       </dependency>
 
       <dependency>
