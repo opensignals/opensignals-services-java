@@ -18,7 +18,7 @@ package io.opensignals.services.ext.spi.alpha;
 
 import io.opensignals.services.Services.*;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 final class Channels {
 
@@ -74,8 +74,15 @@ final class Channels {
   static final class Memory< T extends Phenomenon >
     implements Channel< T > {
 
-    private final AtomicReference< Subscriptions.Subscription< T > > store =
-      new AtomicReference<> ();
+    private volatile Subscriptions.Subscription< T > store;
+
+    @SuppressWarnings ( {"rawtypes", "java:S3740"} )
+    private static final AtomicReferenceFieldUpdater< Memory, Subscriptions.Subscription > UPDATER =
+      AtomicReferenceFieldUpdater.newUpdater (
+        Memory.class,
+        Subscriptions.Subscription.class,
+        "store"
+      );
 
     @Override
     public void dispatch (
@@ -86,7 +93,7 @@ final class Channels {
 
       //noinspection LocalVariableOfConcreteClass
       final Subscriptions.Subscription< T > head =
-        store.get ();
+        store;
 
       if ( head != null ) {
 
@@ -124,24 +131,14 @@ final class Channels {
 
         if ( next != current ) {
 
-          if ( prev != null ) {
+          remove (
+            prev,
+            next,
+            head
+          );
 
-            prev.next =
-              next;
-
-          } else {
-
-            store.compareAndSet (
-              head,
-              next
-            );
-
-          }
-
-          if ( next == null ) {
-            //noinspection BreakStatement
+          if ( next == null )
             break;
-          }
 
           current =
             next;
@@ -163,14 +160,39 @@ final class Channels {
 
     }
 
+    private void remove (
+      final Subscriptions.Subscription< T > prev,
+      final Subscriptions.Subscription< T > next,
+      final Subscriptions.Subscription< T > head
+    ) {
+
+      if ( prev != null ) {
+
+        prev.next =
+          next;
+
+      } else {
+
+        UPDATER.compareAndSet (
+          this,
+          head,
+          next
+        );
+
+      }
+
+    }
+
 
     @Override
     public Subscription subscribe (
       final Subscriber< ? super T > subscriber
     ) {
 
+      //noinspection rawtypes,unchecked
       return
-        store.updateAndGet (
+        UPDATER.updateAndGet (
+          this,
           next ->
             new Subscriptions.Subscription<> (
               subscriber,

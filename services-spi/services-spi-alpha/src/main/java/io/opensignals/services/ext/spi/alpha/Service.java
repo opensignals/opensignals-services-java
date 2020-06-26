@@ -1140,9 +1140,9 @@ final class Service
         );
 
       update =
-        status != result
-        ? ( status = result )
-        : null;
+        status == result
+        ? null
+        : ( status = result );
 
     } finally {
 

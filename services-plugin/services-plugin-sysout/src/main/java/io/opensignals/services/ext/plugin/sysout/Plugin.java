@@ -22,7 +22,6 @@ import io.opensignals.services.Services.Orientation;
 import io.opensignals.services.Services.Phenomenon;
 import io.opensignals.services.plugin.ServicesPlugin;
 
-import static java.lang.String.format;
 import static java.lang.System.out;
 
 /**
@@ -73,13 +72,11 @@ final class Plugin
   ) {
 
     //noinspection UseOfSystemOutOrSystemErr
-    out.println (
-      format (
-        pattern,
-        name,
-        orientation,
-        phenomenon
-      )
+    out.printf (
+      pattern + "%n",
+      name,
+      orientation,
+      phenomenon
     );
 
   }

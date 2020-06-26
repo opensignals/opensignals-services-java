@@ -25,6 +25,9 @@ import java.io.PrintStream;
 import java.util.Properties;
 
 import static io.opensignals.services.Services.*;
+import static io.opensignals.services.Services.Orientation.EMIT;
+import static io.opensignals.services.Services.Signal.SUCCEED;
+import static io.opensignals.services.Services.Status.OK;
 import static java.lang.System.setOut;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -83,18 +86,27 @@ final class PluginTest {
   @Test
   void install () {
 
+    final Name name =
+      name ( "test" );
+
     context.service (
-      name ( "test" )
+      name
     ).succeed ();
 
     verify ( OUT )
-      .println (
-        "test [EMIT] SUCCEED"
+      .printf (
+        "%s [%s] %s%n",
+        name,
+        EMIT,
+        SUCCEED
       );
 
     verify ( OUT )
-      .println (
-        "test [EMIT] OK"
+      .printf (
+        "%s [%s] %s%n",
+        name,
+        EMIT,
+        OK
       );
 
   }

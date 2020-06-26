@@ -44,7 +44,8 @@ final class Subscriptions {
 
     }
 
-    return next;
+    return
+      next;
 
   }
 
