@@ -72,43 +72,6 @@ final class Plugins {
 
   private static final Pattern PATTERN = compile ( "," );
 
-  private Plugins () {}
-
-  static Context apply (
-    final Context context
-  ) {
-
-    final String plugins =
-      PLUGINS.of (
-        context.getEnvironment ()
-      );
-
-    if ( plugins != null ) {
-
-      // scope the environment to
-      // the plugin configuration
-
-      final Environment environment =
-        context.getEnvironment ();
-
-      PATTERN.splitAsStream (
-        plugins
-      ).forEach (
-        name ->
-          install (
-            context,
-            environment,
-            name
-          )
-      );
-
-    }
-
-    return
-      context;
-
-  }
-
   private static void install (
     final Context context,
     final Environment environment,
@@ -126,7 +89,6 @@ final class Plugins {
     );
 
   }
-
 
   private static Optional< ServicesPlugin > pluginOf (
     final String name,
@@ -154,7 +116,6 @@ final class Plugins {
 
   }
 
-
   private static Entry entryOf (
     final String factoryName
   ) {
@@ -170,7 +131,6 @@ final class Plugins {
       : ENTRIES.computeIfAbsent ( factoryName, Plugins::newEntry );
 
   }
-
 
   private static Optional< ServicesPlugin > newPlugin (
     final String name,
@@ -206,7 +166,6 @@ final class Plugins {
 
   }
 
-
   private static Entry newEntry (
     final String factoryName
   ) {
@@ -228,6 +187,44 @@ final class Plugins {
       return Entry.FAILED;
 
     }
+
+  }
+
+
+  private Plugins () {}
+
+  static Context apply (
+    final Context context
+  ) {
+
+    final String plugins =
+      PLUGINS.of (
+        context.getEnvironment ()
+      );
+
+    if ( plugins != null ) {
+
+      // scope the environment to
+      // the plugin configuration
+
+      final Environment environment =
+        context.getEnvironment ();
+
+      PATTERN.splitAsStream (
+        plugins
+      ).forEach (
+        name ->
+          install (
+            context,
+            environment,
+            name
+          )
+      );
+
+    }
+
+    return
+      context;
 
   }
 

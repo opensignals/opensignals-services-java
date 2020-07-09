@@ -818,10 +818,10 @@ public final class Services {
     implements Phenomenon {
 
     /**
-     * Indicate that the service's operational status is unknown.
+     * Indicate that the service's operational status is yet to be determined.
      */
 
-    UNKNOWN,
+    NONE,
 
     /**
      * Indicate that the service's operational status is satisfactory.
@@ -2510,24 +2510,6 @@ public final class Services {
 
     }
 
-
-    /**
-     * Compares this {@code Name} instance with another.
-     */
-
-    @Override
-    default int compareTo (
-      final Name name
-    ) {
-
-      return
-        this == name
-        ? 0
-        : toString ().compareTo ( name.toString () );
-
-    }
-
-
     /**
      * Creates a {@link Spliterator} over the name parts for this name.
      *
@@ -2549,6 +2531,21 @@ public final class Services {
 
     }
 
+    /**
+     * Compares this {@code Name} instance with another.
+     */
+
+    @Override
+    default int compareTo (
+      final Name name
+    ) {
+
+      return
+        this == name
+        ? 0
+        : toString ().compareTo ( name.toString () );
+
+    }
 
     /**
      * Returns a {@link Stream} containing each name part starting with this name.
@@ -3286,6 +3283,36 @@ public final class Services {
       final Orientation orientation,
       final T value
     );
+
+    /**
+     * Returns a new callback that first calls this callback and then afterwards calls on the other specified callback.
+     *
+     * @param after the callback to be called following processing by this callback
+     * @return A new callback that first calls this callback and then afterwards calls on the other specified callback.
+     */
+
+    default Callback< T > andThen (
+      final Callback< ? super T > after
+    ) {
+
+      requireNonNull ( after );
+
+      return
+        ( orientation, value ) -> {
+
+          accept (
+            orientation,
+            value
+          );
+
+          after.accept (
+            orientation,
+            value
+          );
+
+        };
+
+    }
 
   }
 

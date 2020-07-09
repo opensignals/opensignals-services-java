@@ -32,16 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 final class MemoryChannelTest {
 
-  private static final class Closure {
-
-    Name        name;
-    Orientation orientation;
-    Signal      signal;
-
-    Closure () {}
-  }
-
-
   @Test
   void subscribe_dispatch_cancel () {
 
@@ -68,12 +58,12 @@ final class MemoryChannelTest {
           )
       );
 
-    final Name name =
-      Provider.INSTANCE.name (
+    final Names.Name name =
+      Names.of (
         getClass ()
       );
 
-    channel.dispatch (
+    channel.accept (
       name,
       EMIT,
       START
@@ -94,7 +84,7 @@ final class MemoryChannelTest {
       closure.signal
     );
 
-    channel.dispatch (
+    channel.accept (
       name,
       RECEIPT,
       STOP
@@ -126,7 +116,7 @@ final class MemoryChannelTest {
     closure.signal =
       null;
 
-    channel.dispatch (
+    channel.accept (
       name,
       RECEIPT,
       STOP
@@ -144,6 +134,15 @@ final class MemoryChannelTest {
       closure.orientation
     );
 
+  }
+
+  private static final class Closure {
+
+    Name        name;
+    Orientation orientation;
+    Signal      signal;
+
+    Closure () {}
   }
 
 

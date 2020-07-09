@@ -24,6 +24,11 @@ final class Strings {
   private static final String SERVICES                        = "services";
   private static final String CONTEXT                         = "context";
   private static final String ID                              = "id";
+  public static final  String DISCONNECT                      = "disconnect";
+  public static final  String SCORE                           = "score";
+  public static final  String DELAY                           = "delay";
+  public static final  String SIGNAL                          = "signal";
+  public static final  String DECAY                           = "decay";
   static final         String SERVICE                         = "service";
   static final         String IO                              = "io";
   static final         String OPENSIGNALS                     = "opensignals";

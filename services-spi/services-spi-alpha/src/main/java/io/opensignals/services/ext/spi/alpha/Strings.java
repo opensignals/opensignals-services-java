@@ -16,9 +16,12 @@
 
 package io.opensignals.services.ext.spi.alpha;
 
-final class Strings {
+/**
+ * @author wlouth
+ * @since 1.0
+ */
 
-  private Strings () {}
+final class Strings {
 
   static final String PLUGINS     = "plugins";
   static final String PLUGIN      = "plugin";
@@ -32,11 +35,11 @@ final class Strings {
   static final String DEFAULTS    = "defaults";
   static final String SCORE       = "score";
   static final String STATUS      = "status";
-  static final String DEGRADED    = "degraded";
-  static final String DEFECTIVE   = "defective";
-  static final String DOWN        = "down";
-  static final String OK          = "ok";
   static final String ENVIRONMENT = "environment";
   static final String ID          = "id";
+  static final String DECAY       = "decay";
+  static final String SIGNAL      = "signal";
+
+  private Strings () {}
 
 }

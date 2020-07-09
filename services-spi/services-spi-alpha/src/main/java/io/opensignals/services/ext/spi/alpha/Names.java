@@ -34,6 +34,11 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
 
+/**
+ * @author wlouth
+ * @since 1.0
+ */
+
 @SuppressWarnings (
   {
     "ImplicitNumericConversion",
@@ -42,14 +47,120 @@ import static java.util.regex.Pattern.compile;
 )
 final class Names {
 
+  private static final char                              DOT     = '.';
+  private static final int                               INDEX   = DOT;
+  private static final Pattern                           PATTERN = compile ( "\\" + DOT );
+  private static final ConcurrentHashMap< String, Name > MAP     =
+    new ConcurrentHashMap<> ( 1009 );
+
+  private static IllegalArgumentException illegalArgument (
+    final String path
+  ) {
+
+    return
+      new IllegalArgumentException (
+        "Invalid Path Specification: " + path
+      );
+
+  }
+
+  private static boolean isNotEmpty (
+    final CharSequence path
+  ) {
+
+    return path.length () > 0;
+
+  }
+
+  private static boolean isEmpty (
+    final CharSequence path
+  ) {
+
+    return path.length () == 0;
+
+  }
+
+  private static Name lookup (
+    final String path
+  ) {
+
+    final Name name =
+      MAP.get (
+        path
+      );
+
+    return
+      name != null ?
+      name :
+      parse (
+        path
+      );
+
+  }
+
+  private static Name parse (
+    final String path
+  ) {
+
+    final Name name =
+      checkName (
+        parseOrNull (
+          path
+        ),
+        path
+      );
+
+    MAP.put (
+      path,
+      name
+    );
+
+    return
+      name;
+
+  }
+
+  private static Name parseOrNull (
+    final CharSequence path
+  ) {
+
+    final Closure closure =
+      new Closure ();
+
+    splitAsStream (
+      path
+    ).forEachOrdered (
+
+      part ->
+        addNameTo (
+          part,
+          closure
+        )
+
+    );
+
+    return
+      closure.value;
+
+  }
+
+  private static void addNameTo (
+    final String part,
+    final Closure closure
+  ) {
+
+    final Name prefix =
+      closure.value;
+
+    closure.value =
+      prefix == null ?
+      root ( part ) :
+      prefix.node ( part );
+
+  }
+
+
   private Names () {}
-
-  private static final char    DOT     = '.';
-  private static final int     INDEX   = DOT;
-  private static final Pattern PATTERN = compile ( "\\" + DOT );
-
-  private static final ConcurrentHashMap< String, Name > MAP =
-    new ConcurrentHashMap<> ();
 
   static Name of (
     final Class< ? > cls
@@ -143,7 +254,6 @@ final class Names {
 
   }
 
-
   @SuppressWarnings ( "WeakerAccess" )
   static void checkPath (
     final String path
@@ -160,34 +270,6 @@ final class Names {
 
   }
 
-  private static IllegalArgumentException illegalArgument (
-    final String path
-  ) {
-
-    return
-      new IllegalArgumentException (
-        "Invalid Path Specification: " + path
-      );
-
-  }
-
-  private static boolean isNotEmpty (
-    final CharSequence path
-  ) {
-
-    return path.length () > 0;
-
-  }
-
-  private static boolean isEmpty (
-    final CharSequence path
-  ) {
-
-    return path.length () == 0;
-
-  }
-
-
   @SuppressWarnings ( "WeakerAccess" )
   static boolean isCompositePath (
     final String path
@@ -199,85 +281,6 @@ final class Names {
       ) != -1;
 
   }
-
-  private static Name lookup (
-    final String path
-  ) {
-
-    final Name name =
-      MAP.get (
-        path
-      );
-
-    return
-      name != null ?
-      name :
-      parse (
-        path
-      );
-
-  }
-
-  private static Name parse (
-    final String path
-  ) {
-
-    final Name name =
-      checkName (
-        parseOrNull (
-          path
-        ),
-        path
-      );
-
-    MAP.put (
-      path,
-      name
-    );
-
-    return name;
-
-  }
-
-  private static Name parseOrNull (
-    final CharSequence path
-  ) {
-
-    final Closure closure =
-      new Closure ();
-
-    splitAsStream (
-      path
-    ).forEachOrdered (
-
-      part ->
-        addNameTo (
-          part,
-          closure
-        )
-
-    );
-
-    return
-      closure.value;
-
-  }
-
-  private static void addNameTo (
-    final String part,
-    final Closure closure
-  ) {
-
-    final Name prefix =
-      closure.value;
-
-    closure.value =
-      prefix == null ?
-      root ( part ) :
-      prefix.node ( part );
-
-  }
-
 
   @SuppressWarnings ( "WeakerAccess" )
   static < T extends Services.Name > T checkName (
@@ -319,38 +322,11 @@ final class Names {
     volatile      ConcurrentHashMap< String, Name > cache;
     private       String                            path;
 
-    Name (
-      final String value
-    ) {
-
-      prefix =
-        null;
-
-      this.value =
-        value;
-
-    }
-
-
-    private Name (
-      final Name prefix,
-      final String value
-    ) {
-
-      this.prefix =
-        prefix;
-
-      this.value =
-        value;
-
-    }
-
     private static ConcurrentHashMap< String, Name > createCache () {
 
       return new ConcurrentHashMap<> ();
 
     }
-
 
     private static < T > T foldTo (
       final Name name,
@@ -390,6 +366,32 @@ final class Names {
           value
         )
         : value;
+
+    }
+
+
+    Name (
+      final String value
+    ) {
+
+      prefix =
+        null;
+
+      this.value =
+        value;
+
+    }
+
+    private Name (
+      final Name prefix,
+      final String value
+    ) {
+
+      this.prefix =
+        prefix;
+
+      this.value =
+        value;
 
     }
 
@@ -445,6 +447,17 @@ final class Names {
               this,
               part
             )
+        );
+
+    }
+
+    Name node (
+      final Enum< ? > value
+    ) {
+
+      return
+        node (
+          value.name ()
         );
 
     }
@@ -538,13 +551,14 @@ final class Names {
     private ConcurrentHashMap< String, Name > updateAndGetCache () {
 
       return
-        UPDATER.updateAndGet (
-          this,
-          prev ->
-            prev == null
-            ? createCache ()
-            : prev
-        );
+        UPDATER
+          .updateAndGet (
+            this,
+            prev ->
+              prev == null
+              ? createCache ()
+              : prev
+          );
 
     }
 
@@ -587,23 +601,14 @@ final class Names {
     }
 
     @Override
-    public Services.Name name (
+    public Name name (
       final Services.Name path
     ) {
 
       //noinspection CastToConcreteClass
-      final Name impl =
-        (Name) path;
-
       return
-        impl.foldTo (
-          node (
-            impl.value
-          ),
-          ( t, p ) ->
-            t.node (
-              p.value
-            )
+        name (
+          (Name) path
         );
 
     }
@@ -657,6 +662,24 @@ final class Names {
 
     }
 
+    Names.Name name (
+      final Names.Name path
+    ) {
+
+      return
+        path
+          .foldTo (
+            node (
+              path.value
+            ),
+            ( t, p ) ->
+              t.node (
+                p.value
+              )
+          );
+
+    }
+
     private < T > T foldFrom (
       final BiFunction< T, ? super Name, T > accumulator,
       final T seed
@@ -680,15 +703,16 @@ final class Names {
     ) {
 
       return
-        prefix != null ?
-        accumulator.apply (
-          prefix.foldTo (
-            initial,
-            accumulator
-          ),
-          this
-        ) :
-        initial;
+        prefix != null
+        ? accumulator
+          .apply (
+            prefix.foldTo (
+              initial,
+              accumulator
+            ),
+            this
+          )
+        : initial;
 
     }
 

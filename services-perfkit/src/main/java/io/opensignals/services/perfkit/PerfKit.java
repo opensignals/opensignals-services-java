@@ -49,17 +49,8 @@ import static java.lang.System.getProperty;
 @State ( Scope.Benchmark )
 public class PerfKit {
 
-  @SuppressWarnings ( {"EmptyMethod", "WeakerAccess"} )
-  static void callback (
-    final Orientation orientation,
-    final Phenomenon value
-  ) {
-    // no overhead method
-  }
-
   private static final Services.Subscriber< Phenomenon > ALL_SUBSCRIBER    = new Subscriber<> ();
   private static final Services.Subscriber< Signal >     SIGNAL_SUBSCRIBER = new Subscriber<> ();
-
   private static final String FIRST              = "first";
   private static final String SECOND             = "second";
   private static final String THIRD              = "third";
@@ -69,13 +60,10 @@ public class PerfKit {
   private static final String PROFILE            = "profile";
   private static final String EXTENSION          = ".properties";
   private static final String ALPHA              = "alpha";
-
   private static final Name FIRST_NAME =
     name (
       FIRST
     );
-
-
   private static final Float        FLOAT_VALUE    = 1.0f;
   private static final Integer      INTEGER_VALUE  = 1;
   private static final Long         LONG_VALUE     = 1L;
@@ -86,20 +74,30 @@ public class PerfKit {
   private static final Name         NAME_VALUE     = FIRST_NAME;
   private static final Object       OBJECT_VALUE   = new Object ();
   private static final Signal       SIGNAL_VALUE   = CALL;
-
-  private Method method;
-
-  private Name    name;
-  private Context context;
-  private Service service;
-  private Service serviceWithCallback;
-
   private static final Environment ENVIRONMENT =
     environment (
       name ( "opensignals.services.context.service.name" ),
       "default"
     );
+  private static final Environment ENV_STRING_VALUE =
+    environment (
+      name ( FIRST ),
+      FIRST
+    );
+  private static final Environment ENV_EMPTY = environment ();
+  private Method method;
+  private Name    name;
+  private Context context;
+  private Service service;
+  private Service serviceWithCallback;
 
+  @SuppressWarnings ( {"EmptyMethod", "WeakerAccess"} )
+  static void callback (
+    final Orientation orientation,
+    final Phenomenon value
+  ) {
+    // no overhead method
+  }
 
   @Setup ( Level.Trial )
   public final void setup ()
@@ -157,7 +155,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Parse a composite path.
    */
@@ -186,7 +183,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Extend an existing name.
    */
@@ -201,7 +197,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Call {@code Name.toString}
    */
@@ -213,7 +208,6 @@ public class PerfKit {
       name.toString ();
 
   }
-
 
   /**
    * Create a composite name using fluid calls.
@@ -295,7 +289,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Create a composite name from a method.
    */
@@ -309,7 +302,6 @@ public class PerfKit {
       );
 
   }
-
 
   /**
    * Lookup of a service by name.
@@ -325,7 +317,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Emit a {@code SUCCEED} signal.
    */
@@ -339,7 +330,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Call {@code Service.getStatus}
    */
@@ -351,7 +341,6 @@ public class PerfKit {
       service.getStatus ();
 
   }
-
 
   /**
    * Call {@code Service.signal()} on a service.
@@ -366,7 +355,6 @@ public class PerfKit {
     );
 
   }
-
 
   /**
    * Call {@code Service.succeed()} on a service.
@@ -394,7 +382,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Emit a {@code START} signal.
    */
@@ -409,7 +396,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Emit a {@code START} signal.
    */
@@ -422,7 +408,6 @@ public class PerfKit {
     );
 
   }
-
 
   /**
    * Call {@code Service.start()} on a service.
@@ -450,7 +435,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Receipt of a {@code SUCCEED} signal.
    */
@@ -464,7 +448,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Call {@code Service.succeeded()} on a service.
    */
@@ -476,7 +459,6 @@ public class PerfKit {
       service.succeeded ();
 
   }
-
 
   /**
    * Emit a {@code SUCCEED} signal with a callback
@@ -490,7 +472,6 @@ public class PerfKit {
     );
 
   }
-
 
   /**
    * Call {@code Service.succeed()} with a callback
@@ -518,7 +499,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Emit a {@code SUCCEED} signal with a callback
    */
@@ -532,7 +512,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Call {@code Service.succeeded()} with a callback
    */
@@ -544,7 +523,6 @@ public class PerfKit {
       serviceWithCallback.succeeded ();
 
   }
-
 
   /**
    * Calls {@code Services.environment(string,value)}
@@ -561,7 +539,6 @@ public class PerfKit {
 
   }
 
-
   /**
    * Calls {@code Services.environment()}
    */
@@ -573,13 +550,6 @@ public class PerfKit {
       environment ();
 
   }
-
-
-  private static final Environment ENV_STRING_VALUE =
-    environment (
-      name ( FIRST ),
-      FIRST
-    );
 
   /**
    * Calls {@code Environment.getString(string,value)}.
@@ -595,9 +565,6 @@ public class PerfKit {
       );
 
   }
-
-
-  private static final Environment ENV_EMPTY = environment ();
 
   /**
    * Calls {@code Environment.environment(environment)}.

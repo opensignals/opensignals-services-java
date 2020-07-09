@@ -23,14 +23,12 @@ import io.opensignals.services.Services.Name;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * @author wlouth
+ * @since 1.0
+ */
+
 final class Variables {
-
-  @FunctionalInterface
-  private interface Decoder< T > {
-
-    T decode ( String string );
-
-  }
 
   private static < T > T decode (
     final String string,
@@ -55,7 +53,6 @@ final class Variables {
 
 
   }
-
 
   private static < T, A > T toAltType (
     final Class< ? extends T > type,
@@ -606,6 +603,13 @@ final class Variables {
         defVal,
         Variables::toCharSequence
       );
+
+  }
+
+  @FunctionalInterface
+  private interface Decoder< T > {
+
+    T decode ( String string );
 
   }
 

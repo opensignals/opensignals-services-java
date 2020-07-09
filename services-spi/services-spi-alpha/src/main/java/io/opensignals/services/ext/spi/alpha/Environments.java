@@ -279,13 +279,14 @@ final class Environments {
     ) {
 
       return
-        cache.computeIfAbsent (
-          name,
-          key ->
-            delegate
-              .getObject ( key )
-              .orElse ( NONE )
-        );
+        cache
+          .computeIfAbsent (
+            name,
+            key ->
+              delegate
+                .getObject ( key )
+                .orElse ( NONE )
+          );
 
     }
 
@@ -362,9 +363,10 @@ final class Environments {
 
       return
         ofNullable (
-          function.apply (
-            name
-          )
+          function
+            .apply (
+              name
+            )
         );
 
     }
@@ -414,11 +416,12 @@ final class Environments {
     ) {
 
       return
-        delegate.getObject (
-          function.apply (
-            name
-          )
-        );
+        delegate
+          .getObject (
+            function.apply (
+              name
+            )
+          );
 
     }
 
@@ -497,9 +500,10 @@ final class Environments {
     ) {
 
       final Optional< Object > result =
-        primary.getObject (
-          name
-        );
+        primary
+          .getObject (
+            name
+          );
 
       return
         result.isPresent ()

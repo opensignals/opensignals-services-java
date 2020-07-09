@@ -27,17 +27,15 @@ import java.util.Properties;
 import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.SUCCEED;
-import static io.opensignals.services.Services.Status.OK;
 import static java.lang.System.setOut;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 final class PluginTest {
 
-  private static Context context;
-
   private static final PrintStream OUT =
     mock ( PrintStream.class );
+  private static Context context;
 
   static {
 
@@ -100,14 +98,14 @@ final class PluginTest {
         EMIT,
         SUCCEED
       );
-
+/*
     verify ( OUT )
       .printf (
         "%s [%s] %s%n",
         name,
         EMIT,
         OK
-      );
+      );*/
 
   }
 

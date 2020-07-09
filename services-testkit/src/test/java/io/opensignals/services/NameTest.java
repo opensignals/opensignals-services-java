@@ -38,10 +38,12 @@ final class NameTest {
   private static final String ROOT_VALUE = "root";
   private static final String ROOT_PATH  = ROOT_VALUE;
   private static final Name   ROOT_NAME  = name ( ROOT_PATH );
-
+  private static final String DOT        = ".";
+  private static final String NODE_VALUE = "node";
+  private static final String NODE_PATH  = ROOT_PATH + DOT + NODE_VALUE;
+  private static final Name   NODE_NAME  = name ( NODE_PATH );
   private final Function< Name, Integer > LENGTH =
     ( n ) -> n.getValue ().length ();
-
   private final ToIntFunction< Name > SUM =
     LENGTH::apply;
 
@@ -94,11 +96,6 @@ final class NameTest {
     );
 
   }
-
-  private static final String DOT        = ".";
-  private static final String NODE_VALUE = "node";
-  private static final String NODE_PATH  = ROOT_PATH + DOT + NODE_VALUE;
-  private static final Name   NODE_NAME  = name ( NODE_PATH );
 
   @Test
   void node () {

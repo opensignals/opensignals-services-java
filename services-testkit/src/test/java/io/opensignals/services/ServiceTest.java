@@ -142,7 +142,7 @@ final class ServiceTest
     );
 
     assertEquals (
-      UNKNOWN,
+      NONE,
       s1.getStatus ()
     );
 
@@ -159,7 +159,7 @@ final class ServiceTest
     );
 
     assertEquals (
-      UNKNOWN,
+      NONE,
       s2.getStatus ()
     );
 
@@ -471,7 +471,7 @@ final class ServiceTest
     s1.start ();
 
     assertEquals (
-      UNKNOWN,
+      NONE,
       s1.getStatus ()
     );
 

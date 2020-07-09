@@ -39,15 +39,12 @@ import static java.util.Objects.requireNonNull;
 final class Provider
   implements ServicesProvider {
 
-  static final Provider INSTANCE = new Provider ();
-
-  private static final Names.Name CONTEXT_ID =
+  private static final Names.Name                   CONTEXT_ID =
     root ( Strings.OPENSIGNALS )
       .node ( Strings.SERVICES )
       .node ( Strings.CONTEXT )
       .node ( Strings.ID );
-
-  private static final Environment DEFAULTS =
+  private static final Environment                  DEFAULTS   =
     Environments.cache (
       Environments.chain (
         Environments.single (
@@ -62,18 +59,30 @@ final class Provider
         )
       )
     );
-
-  private static final Variables.Variable< String > ID =
+  private static final Variables.Variable< String > ID         =
     Variables.of (
       CONTEXT_ID,
       (String) null
     );
+  static final         Provider                     INSTANCE   = new Provider ();
 
   // this can be expanded later to include
   // multiple property options not just id
-
   private final ConcurrentHashMap< String, Context > contexts =
     new ConcurrentHashMap<> ();
+
+  private static Context newContext (
+    final Environment environment
+  ) {
+
+    return
+      Plugins.apply (
+        new Contexts.Context (
+          environment
+        )
+      );
+
+  }
 
   private Provider () { }
 
@@ -86,7 +95,6 @@ final class Provider
 
   }
 
-
   @Override
   public Context context () {
 
@@ -96,7 +104,6 @@ final class Provider
       );
 
   }
-
 
   @Override
   public Context context (
@@ -138,20 +145,6 @@ final class Provider
     }
 
   }
-
-  private static Context newContext (
-    final Environment environment
-  ) {
-
-    return
-      Plugins.apply (
-        new Contexts.Context (
-          environment
-        )
-      );
-
-  }
-
 
   @Override
   public Name name (
@@ -417,9 +410,9 @@ final class Provider
   }
 
   @Override
-  public Variable< Name > variable (
+  public Variable< CharSequence > variable (
     final Name name,
-    final Name defValue
+    final CharSequence defValue
   ) {
 
     return
@@ -431,9 +424,9 @@ final class Provider
   }
 
   @Override
-  public Variable< CharSequence > variable (
+  public Variable< Name > variable (
     final Name name,
-    final CharSequence defValue
+    final Name defValue
   ) {
 
     return

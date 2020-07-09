@@ -54,46 +54,6 @@ final class PerfKitLauncher {
   private static final int       FORK_COUNT      = 2;
   private static final boolean   FAIL_ON_ERROR   = true;
 
-  private PerfKitLauncher () {
-  }
-
-
-  static void execute (
-    final String spi,
-    final String profile,
-    final double threshold,
-    final int threads,
-    final Consumer< ? super String > consumer
-  ) {
-
-    try {
-
-      inspect (
-        spi,
-        run (
-          options (
-            spi,
-            profile,
-            threads
-          )
-        ),
-        threshold,
-        consumer
-      );
-
-    } catch (
-      final Throwable error
-    ) {
-
-      consumer.accept (
-        error.toString ()
-      );
-
-    }
-
-  }
-
-
   private static Collection< RunResult > run (
     final Options opt
   ) throws RunnerException {
@@ -104,7 +64,6 @@ final class PerfKitLauncher {
       ).run ();
 
   }
-
 
   private static Options options (
     final String spi,
@@ -132,7 +91,6 @@ final class PerfKitLauncher {
         ).build ();
 
   }
-
 
   private static void inspect (
     final String spi,
@@ -190,6 +148,45 @@ final class PerfKitLauncher {
 
       consumer.accept (
         message.toString ()
+      );
+
+    }
+
+  }
+
+
+  private PerfKitLauncher () {
+  }
+
+  static void execute (
+    final String spi,
+    final String profile,
+    final double threshold,
+    final int threads,
+    final Consumer< ? super String > consumer
+  ) {
+
+    try {
+
+      inspect (
+        spi,
+        run (
+          options (
+            spi,
+            profile,
+            threads
+          )
+        ),
+        threshold,
+        consumer
+      );
+
+    } catch (
+      final Throwable error
+    ) {
+
+      consumer.accept (
+        error.toString ()
       );
 
     }

@@ -44,7 +44,7 @@ final class Statuses {
 
     assert
       service.getStatus ()
-        == UNKNOWN;
+        == NONE;
 
     while (
       service.getStatus ()

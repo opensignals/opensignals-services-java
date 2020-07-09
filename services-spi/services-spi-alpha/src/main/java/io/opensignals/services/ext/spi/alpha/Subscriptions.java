@@ -17,15 +17,31 @@
 package io.opensignals.services.ext.spi.alpha;
 
 import io.opensignals.services.Services;
-import io.opensignals.services.Services.*;
+import io.opensignals.services.Services.Orientation;
+import io.opensignals.services.Services.Phenomenon;
+import io.opensignals.services.ext.spi.alpha.Sinks.Sink;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-import static java.util.Objects.requireNonNull;
+/**
+ * @author wlouth
+ * @since 1.0
+ */
 
 final class Subscriptions {
 
   private Subscriptions () {}
+
+  static < T extends Phenomenon > Subscription< T > create (
+    final Sink< ? super T > sink,
+    final Subscription< T > next
+  ) {
+
+    return
+      new Subscription<> (
+        sink,
+        next
+      );
+
+  }
 
   static < T extends Phenomenon > Subscription< T > scan (
     final Subscription< T > initial
@@ -36,7 +52,7 @@ final class Subscriptions {
 
     while (
       next != null &&
-        next.dispatcher == null
+        next.sink == null
     ) {
 
       next =
@@ -50,21 +66,19 @@ final class Subscriptions {
   }
 
   static final class Subscription< T extends Phenomenon >
-    implements Services.Subscription {
+    implements Sink< T >, Services.Subscription {
 
-    volatile Dispatcher< T > dispatcher;
+    volatile Sink< ? super T > sink;
 
     Subscription< T > next;
 
     Subscription (
-      final Subscriber< ? super T > subscriber,
+      final Sink< ? super T > sink,
       final Subscription< T > next
     ) {
 
-      dispatcher =
-        new Dispatcher<> (
-          subscriber
-        );
+      this.sink =
+        sink;
 
       this.next =
         next;
@@ -72,20 +86,20 @@ final class Subscriptions {
     }
 
 
-    void dispatch (
-      final Name name,
+    public void accept (
+      final Names.Name name,
       final Orientation orientation,
       final T value
     ) {
 
-      final Dispatcher< T > target =
-        dispatcher;
+      final Sink< ? super T > sink =
+        this.sink;
 
-      if ( target != null ) {
+      if ( sink != null ) {
 
         try {
 
-          target.dispatch (
+          sink.accept (
             name,
             orientation,
             value
@@ -95,7 +109,7 @@ final class Subscriptions {
           final Throwable error
         ) {
 
-          dispatcher =
+          this.sink =
             null;
 
         }
@@ -108,132 +122,20 @@ final class Subscriptions {
     @Override
     public void cancel () {
 
-      if ( dispatcher != null ) {
+      if ( sink != null ) {
 
-        dispatcher =
+        sink =
           null;
 
       } else {
 
-        throw new IllegalStateException ();
-
-      }
-
-    }
-
-
-    private static final class Dispatcher< T extends Phenomenon > {
-
-      private static final Callback< ? > IGNORE =
-        ( orientation, value ) -> { /* do nothing with the update */ };
-
-      private final ConcurrentHashMap< Name, Callback< ? super T > > callbacks =
-        new ConcurrentHashMap<> ();
-
-      private final Subscriber< ? super T > subscriber;
-
-      Dispatcher (
-        final Subscriber< ? super T > subscriber
-      ) {
-
-        this.subscriber =
-          subscriber;
-
-      }
-
-      void dispatch (
-        final Name name,
-        final Orientation orientation,
-        final T value
-      ) {
-
-        final Callback< ? super T > callback =
-          callbackOf (
-            name
-          );
-
-        if ( callback != IGNORE ) {
-
-          callback.accept (
-            orientation,
-            value
-          );
-
-        }
-
-      }
-
-
-      @SuppressWarnings ( "unchecked" )
-      private Callback< ? super T > newCallback (
-        final Name name
-      ) {
-
-        final Closure< T > closure =
-          new Closure<> (
-            (Callback< T >) IGNORE
-          );
-
-        subscriber.accept (
-          name,
-          callback ->
-            closure.callback =
-              requireNonNull (
-                callback
-              )
-        );
-
-        return
-          closure.callback;
-
-      }
-
-
-      private Callback< ? super T > callbackOf (
-        final Name name
-      ) {
-
-        final Callback< ? super T > callback =
-          callbacks.get (
-            name
-          );
-
-        return
-          callback != null ?
-          callback :
-          createIfAbsent ( name );
-
-      }
-
-      private Callback< ? super T > createIfAbsent (
-        final Name name
-      ) {
-
-        return
-          callbacks.computeIfAbsent (
-            name,
-            this::newCallback
-          );
-
-      }
-
-
-    }
-
-    private static final class Closure< T extends Phenomenon > {
-
-      Callback< ? super T > callback;
-
-      Closure (
-        final Callback< T > initial
-      ) {
-
-        callback =
-          initial;
+        throw
+          new IllegalStateException ();
 
       }
 
     }
 
   }
+
 }

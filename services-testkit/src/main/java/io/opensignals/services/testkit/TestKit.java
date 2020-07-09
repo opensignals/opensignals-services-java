@@ -40,6 +40,79 @@ public final class TestKit {
   private TestKit () {}
 
   /**
+   * Returns a new recorder instance.
+   *
+   * @return A new recorder instance
+   */
+
+  public static < T extends Phenomenon > Recorder< T > recorder (
+    final Context context,
+    final Class< ? extends T > type
+  ) {
+
+    return
+      new CaptureRecorder<> ( context, type );
+
+  }
+
+  /**
+   * Returns a new "initial" captured change event with the specified fields set.
+   *
+   * @param name        the name of the service for the event
+   * @param orientation the orientation of the change event
+   * @param value       the value that was emitted or received
+   * @return A new capture with the previous property set to <tt>null</tt>
+   */
+
+  public static < T extends Phenomenon > Capture< T > capture (
+    final Name name,
+    final Orientation orientation,
+    final T value
+  ) {
+
+    return
+      new CaptureRecord<> (
+        name,
+        orientation,
+        value,
+        null
+      );
+
+  }
+
+  /**
+   * Returns a new "initial" captured change event with the specified fields set.
+   *
+   * @param name        the name of the service for the event
+   * @param orientation the orientation of the change event
+   * @param value       the value that was emitted or received
+   * @param previous    the capture prior to this or null
+   * @return A new capture with the previous property set to previous parameter value
+   */
+
+  public static < T extends Phenomenon > Capture< T > capture (
+    final Name name,
+    final Orientation orientation,
+    final T value,
+    final Capture< T > previous
+  ) {
+
+    return
+      previous == null ?
+      capture (
+        name,
+        orientation,
+        value
+      ) :
+      previous.to (
+        name,
+        orientation,
+        value
+      );
+
+  }
+
+  /**
    * An extension of the {@link Services.Subscriber} interface that records captured change events.
    *
    * @param <T> The phenomenon type
@@ -60,22 +133,6 @@ public final class TestKit {
      */
 
     Optional< Capture< T > > stop ();
-
-  }
-
-  /**
-   * Returns a new recorder instance.
-   *
-   * @return A new recorder instance
-   */
-
-  public static < T extends Phenomenon > Recorder< T > recorder (
-    final Context context,
-    final Class< ? extends T > type
-  ) {
-
-    return
-      new CaptureRecorder<> ( context, type );
 
   }
 
@@ -191,72 +248,13 @@ public final class TestKit {
 
   }
 
-
-  /**
-   * Returns a new "initial" captured change event with the specified fields set.
-   *
-   * @param name        the name of the service for the event
-   * @param orientation the orientation of the change event
-   * @param value       the value that was emitted or received
-   * @return A new capture with the previous property set to <tt>null</tt>
-   */
-
-  public static < T extends Phenomenon > Capture< T > capture (
-    final Name name,
-    final Orientation orientation,
-    final T value
-  ) {
-
-    return
-      new CaptureRecord<> (
-        name,
-        orientation,
-        value,
-        null
-      );
-
-  }
-
-  /**
-   * Returns a new "initial" captured change event with the specified fields set.
-   *
-   * @param name        the name of the service for the event
-   * @param orientation the orientation of the change event
-   * @param value       the value that was emitted or received
-   * @param previous    the capture prior to this or null
-   * @return A new capture with the previous property set to previous parameter value
-   */
-
-  public static < T extends Phenomenon > Capture< T > capture (
-    final Name name,
-    final Orientation orientation,
-    final T value,
-    final Capture< T > previous
-  ) {
-
-    return
-      previous == null ?
-      capture (
-        name,
-        orientation,
-        value
-      ) :
-      previous.to (
-        name,
-        orientation,
-        value
-      );
-
-  }
-
-
   private static final class CaptureRecorder< T extends Phenomenon >
     implements Recorder< T > {
 
     private final Services.Context     context;
     private final Class< ? extends T > type;
-    private       State< T >           state;
     private final Object               lock = new Object ();
+    private       State< T >           state;
 
     CaptureRecorder (
       final Context context,
@@ -358,159 +356,12 @@ public final class TestKit {
 
   private static final class CaptureRecord< P extends Phenomenon > implements Capture< P > {
 
+    final         CaptureRecord< P > previous;
     private final Name               name;
     private final Orientation        orientation;
     private final P                  value;
-    final         CaptureRecord< P > previous;
-
     private final int hashCode;
     private final int index;
-
-    CaptureRecord (
-      final Name name,
-      final Orientation orientation,
-      final P value,
-      final CaptureRecord< P > previous
-    ) {
-
-      this.name =
-        name;
-
-      this.orientation =
-        orientation;
-
-      this.value =
-        value;
-
-      this.previous =
-        previous;
-
-      hashCode =
-        Objects.hash (
-          name,
-          orientation,
-          value,
-          previous
-        );
-
-      index =
-        nonNull ( previous )
-        ? previous.index + 1
-        : 0;
-
-    }
-
-
-    @Override
-    public Name getName () {
-
-      return name;
-
-    }
-
-
-    @Override
-    public Orientation getOrientation () {
-
-      return orientation;
-
-    }
-
-
-    @Override
-    public P getValue () {
-
-      return value;
-
-    }
-
-    @Override
-    public Optional< Capture< P > > getPrevious () {
-
-      return
-        ofNullable (
-          previous
-        );
-
-    }
-
-
-    @Override
-    public Capture< P > to (
-      final Name name,
-      final Orientation orientation,
-      final P value
-    ) {
-
-      return
-        new CaptureRecord<> (
-          name,
-          orientation,
-          value,
-          this
-        );
-
-    }
-
-    @Override
-    public Capture< P > to (
-      final P value
-    ) {
-
-      return
-        new CaptureRecord<> (
-          name,
-          orientation,
-          value,
-          this
-        );
-
-    }
-
-    @Override
-    public Capture< P > to (
-      final Orientation orientation,
-      final P value
-    ) {
-
-      return
-        new CaptureRecord<> (
-          name,
-          orientation,
-          value,
-          this
-        );
-
-    }
-
-    @Override
-    public boolean equals (
-      final Object o
-    ) {
-
-      if ( this == o ) {
-        return true;
-      }
-
-      if (
-        o == null ||
-          getClass () != o.getClass ()
-      ) {
-        return false;
-      }
-
-      final CaptureRecord< ? > capture =
-        (CaptureRecord< ? >) o;
-
-      return
-        index == capture.index &&
-          compare (
-            this,
-            capture,
-            index
-          );
-
-    }
 
     @SuppressWarnings ( "AssignmentToMethodParameter" )
     private static boolean compare (
@@ -549,6 +400,131 @@ public final class TestKit {
 
     }
 
+
+    CaptureRecord (
+      final Name name,
+      final Orientation orientation,
+      final P value,
+      final CaptureRecord< P > previous
+    ) {
+
+      this.name =
+        name;
+
+      this.orientation =
+        orientation;
+
+      this.value =
+        value;
+
+      this.previous =
+        previous;
+
+      hashCode =
+        Objects.hash (
+          name,
+          orientation,
+          value,
+          previous
+        );
+
+      index =
+        nonNull ( previous )
+        ? previous.index + 1
+        : 0;
+
+    }
+
+    @Override
+    public Name getName () {
+
+      return name;
+
+    }
+
+    @Override
+    public Orientation getOrientation () {
+
+      return orientation;
+
+    }
+
+    @Override
+    public P getValue () {
+
+      return value;
+
+    }
+
+    @Override
+    public Optional< Capture< P > > getPrevious () {
+
+      return
+        ofNullable (
+          previous
+        );
+
+    }
+
+    @Override
+    public Capture< P > to (
+      final Name name,
+      final Orientation orientation,
+      final P value
+    ) {
+
+      return
+        new CaptureRecord<> (
+          name,
+          orientation,
+          value,
+          this
+        );
+
+    }
+
+    @Override
+    public Capture< P > to (
+      final P value
+    ) {
+
+      return
+        new CaptureRecord<> (
+          name,
+          orientation,
+          value,
+          this
+        );
+
+    }
+
+    @Override
+    public Capture< P > to (
+      final Orientation orientation,
+      final P value
+    ) {
+
+      return
+        new CaptureRecord<> (
+          name,
+          orientation,
+          value,
+          this
+        );
+
+    }
+
+    @Override
+    public Stream< Capture< P > > stream () {
+
+      return
+        StreamSupport.stream (
+          spliterator (),
+          false
+        );
+
+    }
+
     @Override
     public int size () {
 
@@ -560,6 +536,35 @@ public final class TestKit {
     public int hashCode () {
 
       return hashCode;
+
+    }
+
+    @Override
+    public boolean equals (
+      final Object o
+    ) {
+
+      if ( this == o ) {
+        return true;
+      }
+
+      if (
+        o == null ||
+          getClass () != o.getClass ()
+      ) {
+        return false;
+      }
+
+      final CaptureRecord< ? > capture =
+        (CaptureRecord< ? >) o;
+
+      return
+        index == capture.index &&
+          compare (
+            this,
+            capture,
+            index
+          );
 
     }
 
@@ -599,33 +604,6 @@ public final class TestKit {
 
       return
         result.toString ();
-
-    }
-
-    @Override
-    public Spliterator< Capture< P > > spliterator () {
-
-      //noinspection ImplicitNumericConversion
-      return
-        Spliterators.spliterator (
-          iterator (),
-          size (),
-          DISTINCT |
-            NONNULL |
-            IMMUTABLE
-        );
-
-    }
-
-
-    @Override
-    public Stream< Capture< P > > stream () {
-
-      return
-        StreamSupport.stream (
-          spliterator (),
-          false
-        );
 
     }
 
@@ -670,6 +648,21 @@ public final class TestKit {
           }
 
         };
+
+    }
+
+    @Override
+    public Spliterator< Capture< P > > spliterator () {
+
+      //noinspection ImplicitNumericConversion
+      return
+        Spliterators.spliterator (
+          iterator (),
+          size (),
+          DISTINCT |
+            NONNULL |
+            IMMUTABLE
+        );
 
     }
 

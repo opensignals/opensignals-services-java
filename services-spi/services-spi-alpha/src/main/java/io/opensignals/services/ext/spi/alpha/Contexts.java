@@ -19,9 +19,17 @@ package io.opensignals.services.ext.spi.alpha;
 import io.opensignals.services.Services;
 import io.opensignals.services.Services.*;
 import io.opensignals.services.ext.spi.alpha.Channels.Channel;
+import io.opensignals.services.ext.spi.alpha.ScoreCards.Scoring;
+import io.opensignals.services.ext.spi.alpha.Sinks.Sink;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Stream;
+
+/**
+ * @author wlouth
+ * @since 1.0
+ */
 
 final class Contexts {
 
@@ -39,8 +47,8 @@ final class Contexts {
 
     private final Environment environment;
 
-    private final ConcurrentHashMap< Name, Service > services =
-      new ConcurrentHashMap<> ();
+    private final ConcurrentHashMap< Names.Name, Service > services =
+      new ConcurrentHashMap<> ( 1009 );
 
     private final Channel< Phenomenon > allChannel =
       Channels.memory ();
@@ -51,6 +59,17 @@ final class Contexts {
     private final Channel< Status > statusChannel =
       Channels.memory ();
 
+    private final Sink< Signal > signalsSink =
+      signalsChannel.andThen (
+        allChannel
+      );
+
+    private final Sink< Status > statusSink =
+      statusChannel.andThen (
+        allChannel
+      );
+
+    private final Scoring scoring;
 
     Context (
       final Environment environment
@@ -58,6 +77,11 @@ final class Contexts {
 
       this.environment =
         environment;
+
+      scoring =
+        ScoreCards.scoring (
+          environment
+        );
 
     }
 
@@ -68,29 +92,38 @@ final class Contexts {
      */
 
     private Service serviceOf (
-      final Name name
+      final Names.Name name
     ) {
 
       return
-        services.computeIfAbsent (
-          name,
-          this::newService
-        );
+        services
+          .computeIfAbsent (
+            name,
+            this::newService
+          );
 
     }
 
     private Service newService (
-      final Name name
+      final Names.Name name
     ) {
 
       return
         new Service (
-          this,
-          name
+          name,
+          signalsSink.andThen (
+            ScoreCards.sink (
+              scoring,
+              new Synchronizer (
+                services::get
+              ).andThen (
+                statusSink
+              )
+            )
+          )
         );
 
     }
-
 
     @Override
     public Environment getEnvironment () {
@@ -99,12 +132,12 @@ final class Contexts {
 
     }
 
-
     @Override
-    public Services.Service service (
+    public Service service (
       final Name name
     ) {
 
+      //noinspection SuspiciousMethodCalls
       final Service service =
         services.get (
           name
@@ -113,7 +146,7 @@ final class Contexts {
       return
         service != null
         ? service
-        : serviceOf ( name );
+        : serviceOf ( (Names.Name) name );
 
     }
 
@@ -134,9 +167,10 @@ final class Contexts {
     ) {
 
       return
-        allChannel.subscribe (
-          subscriber
-        );
+        allChannel
+          .subscribe (
+            subscriber
+          );
 
     }
 
@@ -150,16 +184,18 @@ final class Contexts {
       if ( type == Signal.class ) {
 
         return
-          signalsChannel.subscribe (
-            (Subscriber< Signal >) subscriber
-          );
+          signalsChannel
+            .subscribe (
+              (Subscriber< Signal >) subscriber
+            );
 
       } else if ( type == Status.class ) {
 
         return
-          statusChannel.subscribe (
-            (Subscriber< Status >) subscriber
-          );
+          statusChannel
+            .subscribe (
+              (Subscriber< Status >) subscriber
+            );
 
       } else {
 
@@ -170,49 +206,44 @@ final class Contexts {
 
     }
 
+    private static final class Synchronizer
+      implements Sink< Status > {
 
-    void dispatch (
-      final Name name,
-      final Orientation orientation,
-      final Signal signal
-    ) {
+      private final Function< ? super Names.Name, Service > lookup;
+      private       Service                                 service;
 
-      allChannel.dispatch (
-        name,
-        orientation,
-        signal
-      );
+      Synchronizer (
+        final Function< ? super Names.Name, Service > lookup
+      ) {
 
-      signalsChannel.dispatch (
-        name,
-        orientation,
-        signal
-      );
+        this.lookup =
+          lookup;
 
-    }
+      }
 
+      @Override
+      public void accept (
+        final Names.Name name,
+        final Orientation orientation,
+        final Status value
+      ) {
 
-    @SuppressWarnings ( "SameParameterValue" )
-    void dispatch (
-      final Name name,
-      final Orientation orientation,
-      final Status status
-    ) {
+        Service service =
+          this.service;
 
-      allChannel.dispatch (
-        name,
-        orientation,
-        status
-      );
+        if ( service == null ) {
+          this.service
+            = service
+            = lookup.apply ( name );
+        }
 
-      statusChannel.dispatch (
-        name,
-        orientation,
-        status
-      );
+        service.status =
+          value;
+
+      }
 
     }
-
 
   }
+
 }

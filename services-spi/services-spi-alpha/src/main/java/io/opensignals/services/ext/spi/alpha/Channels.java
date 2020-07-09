@@ -16,9 +16,18 @@
 
 package io.opensignals.services.ext.spi.alpha;
 
-import io.opensignals.services.Services.*;
+import io.opensignals.services.Services.Orientation;
+import io.opensignals.services.Services.Phenomenon;
+import io.opensignals.services.Services.Subscriber;
+import io.opensignals.services.Services.Subscription;
+import io.opensignals.services.ext.spi.alpha.Sinks.Sink;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+
+/**
+ * @author wlouth
+ * @since 1.0
+ */
 
 final class Channels {
 
@@ -37,21 +46,7 @@ final class Channels {
    * @param <T> the type of phenomenon.
    */
 
-  interface Channel< T extends Phenomenon > {
-
-    /**
-     * Dispatches a change related to a service.
-     *
-     * @param name        the name of the service.
-     * @param orientation the orientation of the change
-     * @param value       the phenomenon value
-     */
-
-    void dispatch (
-      Name name,
-      Orientation orientation,
-      T value
-    );
+  interface Channel< T extends Phenomenon > extends Sink< T > {
 
     /**
      * Adds a {@link Subscriber} to a channel.
@@ -74,8 +69,6 @@ final class Channels {
   static final class Memory< T extends Phenomenon >
     implements Channel< T > {
 
-    private volatile Subscriptions.Subscription< T > store;
-
     @SuppressWarnings ( {"rawtypes", "java:S3740"} )
     private static final AtomicReferenceFieldUpdater< Memory, Subscriptions.Subscription > UPDATER =
       AtomicReferenceFieldUpdater.newUpdater (
@@ -84,9 +77,11 @@ final class Channels {
         "store"
       );
 
+    private volatile Subscriptions.Subscription< T > store;
+
     @Override
-    public void dispatch (
-      final Name name,
+    public void accept (
+      final Names.Name name,
       final Orientation orientation,
       final T value
     ) {
@@ -108,9 +103,33 @@ final class Channels {
 
     }
 
+    @Override
+    public Subscription subscribe (
+      final Subscriber< ? super T > subscriber
+    ) {
+
+      final Sink< ? super T > sink =
+        Subscribers.sink (
+          subscriber
+        );
+
+      //noinspection unchecked
+      return
+        UPDATER.updateAndGet (
+          this,
+          next ->
+            Subscriptions.create (
+              sink,
+              Subscriptions.scan (
+                next
+              )
+            )
+        );
+
+    }
 
     private void dispatch (
-      final Name name,
+      final Names.Name name,
       final Orientation orientation,
       final T value,
       final Subscriptions.Subscription< T > head
@@ -145,11 +164,12 @@ final class Channels {
 
         }
 
-        current.dispatch (
-          name,
-          orientation,
-          value
-        );
+        current
+          .accept (
+            name,
+            orientation,
+            value
+          );
 
         prev =
           current;
@@ -173,34 +193,14 @@ final class Channels {
 
       } else {
 
-        UPDATER.compareAndSet (
-          this,
-          head,
-          next
-        );
+        UPDATER
+          .compareAndSet (
+            this,
+            head,
+            next
+          );
 
       }
-
-    }
-
-
-    @Override
-    public Subscription subscribe (
-      final Subscriber< ? super T > subscriber
-    ) {
-
-      //noinspection rawtypes,unchecked
-      return
-        UPDATER.updateAndGet (
-          this,
-          next ->
-            new Subscriptions.Subscription<> (
-              subscriber,
-              Subscriptions.scan (
-                next
-              )
-            )
-        );
 
     }
 
