@@ -27,6 +27,7 @@ import java.util.function.Consumer;
 import static io.opensignals.services.Services.*;
 import static io.opensignals.services.Services.Orientation.EMIT;
 import static io.opensignals.services.Services.Signal.*;
+import static io.opensignals.services.Services.Status.OK;
 import static java.lang.System.getProperty;
 
 /**
@@ -199,6 +200,21 @@ public class PerfKit {
       );
 
   }
+
+  /**
+   * Extend an existing name.
+   */
+
+  @Benchmark
+  public Name name_enum () {
+
+    return
+      name.name (
+        OK
+      );
+
+  }
+
 
   /**
    * Call {@code Name.toString}
@@ -559,12 +575,27 @@ public class PerfKit {
    */
 
   @Benchmark
-  public String environment_empty_get_string () {
+  public String environment_single_get_string () {
 
     return
       ENV_STRING_VALUE.getString (
         FIRST_NAME,
-        null
+        STRING_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getString(name,value)}.
+   */
+
+  @Benchmark
+  public String environment_empty_get_string () {
+
+    return
+      ENV_EMPTY.getString (
+        FIRST_NAME,
+        STRING_VALUE
       );
 
   }
