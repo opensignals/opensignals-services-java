@@ -41,15 +41,18 @@ final class ScoreCards {
   private static final Integer[] SCORE_DEFAULTS = {0, 2, 4, 8, 16, 64};
   private static final Integer[] DECAY_DEFAULTS = {0, 75, 75, 75, 75, 75};
 
-  static final Status[] STATES   = Status.values ();
-  static final int[]    MAPPINGS = new int[SIGNALS.length];
+  @SuppressWarnings ( "WeakerAccess" )
+  static final Status[] STATES = Status.values ();
+
+  @SuppressWarnings ( "WeakerAccess" )
+  static final int[] MAPPINGS = new int[SIGNALS.length];
 
   @SuppressWarnings ( "unchecked" )
-  static final Variable< Integer >[] SCORE_VARS =
+  private static final Variable< Integer >[] SCORE_VARS =
     (Variable< Integer >[]) ( new Variable[SIGNALS.length] );
 
   @SuppressWarnings ( "unchecked" )
-  static final Variable< Integer >[] DECAY_VARS =
+  private static final Variable< Integer >[] DECAY_VARS =
     (Variable< Integer >[]) ( new Variable[STATES.length] );
 
   static {
@@ -102,6 +105,7 @@ final class ScoreCards {
       final int index =
         signal.ordinal ();
 
+      //noinspection ObjectAllocationInLoop
       SCORE_VARS[index] =
         Variables.of (
           signals.node (
@@ -124,6 +128,7 @@ final class ScoreCards {
       final int index =
         status.ordinal ();
 
+      //noinspection ObjectAllocationInLoop
       DECAY_VARS[index] =
         Variables.of (
           states.node (
@@ -275,8 +280,7 @@ final class ScoreCards {
       new AtomicInteger ();
 
     private final long[]                 totals = new long[STATES.length];
-    private final int[]                  decay;
-    private final int[]                  scores;
+    private final Scoring                scoring;
     private final Sink< ? super Status > sink;
     private       int                    current;
 
@@ -285,11 +289,8 @@ final class ScoreCards {
       final Sink< ? super Status > sink
     ) {
 
-      decay =
-        scoring.decay;
-
-      scores =
-        scoring.scores;
+      this.scoring =
+        scoring;
 
       this.sink =
         sink;
@@ -302,7 +303,7 @@ final class ScoreCards {
     ) {
 
       final int[] decay =
-        this.decay;
+        scoring.decay;
 
       final long[] totals =
         this.totals;
@@ -393,7 +394,7 @@ final class ScoreCards {
         value.ordinal ();
 
       final int score =
-        scores[signal];
+        scoring.scores[signal];
 
       if ( score > 0 ) {
 

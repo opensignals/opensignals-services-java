@@ -41,9 +41,6 @@ import static io.opensignals.services.ext.spi.alpha.Names.Name;
 final class Service
   implements Services.Service {
 
-  // for performance reasons each
-  // mapping has a corresponding field
-
   private final Sink< ? super Signal > sink;
 
   private final Name   name;
