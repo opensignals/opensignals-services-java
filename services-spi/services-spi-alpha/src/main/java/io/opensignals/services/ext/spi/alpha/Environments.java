@@ -319,9 +319,9 @@ final class Environments {
     ) {
 
       return
-        this.name == name ?
-        Optional.of ( value ) :
-        Optional.empty ();
+        this.name == name
+        ? Optional.of ( value )
+        : Optional.empty ();
 
     }
 
@@ -333,9 +333,9 @@ final class Environments {
     ) {
 
       return
-        this.name == name ?
-        value :
-        defValue;
+        this.name == name
+        ? value
+        : defValue;
 
     }
 

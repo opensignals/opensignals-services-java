@@ -2829,6 +2829,27 @@ public final class Services {
 
 
     /**
+     * Returns a {@link Boolean} value mapped to a name.
+     *
+     * @param name     the name to be matched
+     * @param defValue the default value to return if not matched
+     * @return The value matched, or the provided default value.
+     */
+
+    default Boolean getBoolean (
+      final Name name,
+      final Boolean defValue
+    ) {
+
+      return
+        getBoolean ( name )
+          .orElse ( defValue );
+
+    }
+
+
+
+    /**
      * Returns a boolean value mapped to a name.
      *
      * @param name     the name to be matched
@@ -2891,6 +2912,26 @@ public final class Services {
 
 
     /**
+     * Returns a {@link Long} value mapped to a name.
+     *
+     * @param name     the name to be matched
+     * @param defValue the default value to return if not matched
+     * @return The value matched, or the provided default value.
+     */
+
+    default Long getLong (
+      final Name name,
+      final Long defValue
+    ) {
+
+      return
+        getLong ( name )
+          .orElse ( defValue );
+
+    }
+
+
+    /**
      * Returns a {@link Integer} value mapped to a name.
      *
      * @param name the name to be matched
@@ -2933,6 +2974,26 @@ public final class Services {
 
 
     /**
+     * Returns an integer value mapped to a name.
+     *
+     * @param name     the name to be matched
+     * @param defValue the default value to return if not matched
+     * @return The value matched, or the provided default value.
+     */
+
+    default Integer getInteger (
+      final Name name,
+      final Integer defValue
+    ) {
+
+      return
+        getInteger ( name )
+          .orElse ( defValue );
+
+    }
+
+
+    /**
      * Returns a {@link Double} value mapped to a name.
      *
      * @param name the name to be matched
@@ -2950,6 +3011,26 @@ public final class Services {
           String.class,
           Double::parseDouble
         );
+
+    }
+
+
+    /**
+     * Returns a {@link Double} value mapped to a name.
+     *
+     * @param name     the name to be matched
+     * @param defValue the default value to return if not matched
+     * @return The value matched, or the provided default value.
+     */
+
+    default Double getDouble (
+      final Name name,
+      final Double defValue
+    ) {
+
+      return
+        getDouble ( name )
+          .orElse ( defValue );
 
     }
 
@@ -2992,6 +3073,26 @@ public final class Services {
           String.class,
           Float::parseFloat
         );
+
+    }
+
+
+    /**
+     * Returns a {@link Float} value mapped to a name.
+     *
+     * @param name     the name to be matched
+     * @param defValue the default value to return if not matched
+     * @return The value matched, or the provided default value.
+     */
+
+    default float getFloat (
+      final Name name,
+      final Float defValue
+    ) {
+
+      return
+        getFloat ( name )
+          .orElse ( defValue );
 
     }
 

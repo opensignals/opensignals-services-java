@@ -21,6 +21,7 @@ import io.opensignals.services.Services.Orientation;
 import io.opensignals.services.Services.Signal;
 import io.opensignals.services.Services.Status;
 import io.opensignals.services.ext.spi.alpha.Sinks.Sink;
+import io.opensignals.services.ext.spi.alpha.Variables.Variable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,59 +38,118 @@ final class ScoreCards {
 
   private static final Signal[] SIGNALS = Signal.values ();
 
-  private static final int[] SCORE_DEFAULTS = {0, 2, 4, 8, 16, 64};
-  private static final int[] DECAY_DEFAULTS = {0, 75, 75, 75, 75, 75};
+  private static final Integer[] SCORE_DEFAULTS = {0, 2, 4, 8, 16, 64};
+  private static final Integer[] DECAY_DEFAULTS = {0, 75, 75, 75, 75, 75};
 
-  static final Status[] STATES  = Status.values ();
-  static final int[]    MAPPING = new int[SIGNALS.length];
+  static final Status[] STATES   = Status.values ();
+  static final int[]    MAPPINGS = new int[SIGNALS.length];
+
+  @SuppressWarnings ( "unchecked" )
+  static final Variable< Integer >[] SCORE_VARS =
+    (Variable< Integer >[]) ( new Variable[SIGNALS.length] );
+
+  @SuppressWarnings ( "unchecked" )
+  static final Variable< Integer >[] DECAY_VARS =
+    (Variable< Integer >[]) ( new Variable[STATES.length] );
 
   static {
 
-    MAPPING[SUCCEED.ordinal ()] =
+    MAPPINGS[SUCCEED.ordinal ()] =
       OK.ordinal ();
 
-    MAPPING[FAIL.ordinal ()] =
+    MAPPINGS[FAIL.ordinal ()] =
       DEFECTIVE.ordinal ();
 
-    MAPPING[RECOURSE.ordinal ()] =
+    MAPPINGS[RECOURSE.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[ELAPSE.ordinal ()] =
+    MAPPINGS[ELAPSE.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[ELAPSE.ordinal ()] =
+    MAPPINGS[ELAPSE.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[RETRY.ordinal ()] =
+    MAPPINGS[RETRY.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[REJECT.ordinal ()] =
+    MAPPINGS[REJECT.ordinal ()] =
       DEFECTIVE.ordinal ();
 
-    MAPPING[DROP.ordinal ()] =
+    MAPPINGS[DROP.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[DELAY.ordinal ()] =
+    MAPPINGS[DELAY.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[SUSPEND.ordinal ()] =
+    MAPPINGS[SUSPEND.ordinal ()] =
       DEGRADED.ordinal ();
 
-    MAPPING[DISCONNECT.ordinal ()] =
+    MAPPINGS[DISCONNECT.ordinal ()] =
       DOWN.ordinal ();
+
+    final Names.Name root =
+      Names.root ( Strings.OPENSIGNALS )
+        .node ( Strings.SERVICES )
+        .node ( Strings.SERVICE );
+
+    final Names.Name signals =
+      root.node (
+        Strings.SIGNAL
+      );
+
+    for ( final Signal signal : SIGNALS ) {
+
+      final int index =
+        signal.ordinal ();
+
+      SCORE_VARS[index] =
+        Variables.of (
+          signals.node (
+            signal
+          ).node (
+            Strings.SCORE
+          ),
+          SCORE_DEFAULTS[MAPPINGS[index]]
+        );
+
+    }
+
+    final Names.Name states =
+      root.node (
+        Strings.STATUS
+      );
+
+    for ( final Status status : STATES ) {
+
+      final int index =
+        status.ordinal ();
+
+      DECAY_VARS[index] =
+        Variables.of (
+          states.node (
+            status
+          ).node (
+            Strings.DECAY
+          ),
+          DECAY_DEFAULTS[MAPPINGS[index]]
+        );
+
+    }
 
   }
 
   private static int[] decays (
-    final Environment environment,
-    final Names.Name prefix
+    final Environment environment
   ) {
 
+    final int count =
+      DECAY_VARS.length;
+
     final int[] decays =
-      new int[STATES.length];
+      new int[count];
 
     for (
-      int i = STATES.length - 1;
+      int i = count - 1;
       i >= 0;
       i--
     ) {
@@ -97,13 +157,8 @@ final class ScoreCards {
       decays[i] =
         Math.min (
           Math.max (
-            environment.getInteger (
-              prefix.node (
-                STATES[i]
-              ).node (
-                Strings.DECAY
-              ),
-              DECAY_DEFAULTS[i]
+            DECAY_VARS[i].of (
+              environment
             ),
             0
           ),
@@ -111,37 +166,41 @@ final class ScoreCards {
         );
 
     }
-    return decays;
+
+    return
+      decays;
+
   }
 
   private static int[] scores (
-    final Environment environment,
-    final Names.Name prefix
+    final Environment environment
   ) {
+
+    final int count =
+      SCORE_VARS.length;
+
     final int[] scores =
-      new int[SIGNALS.length];
+      new int[count];
 
     for (
-      int i = SIGNALS.length - 1;
+      int i = count - 1;
       i >= 0;
       i--
     ) {
 
       scores[i] =
         Math.max (
-          environment.getInteger (
-            prefix.node (
-              SIGNALS[i]
-            ).node (
-              Strings.SCORE
-            ),
-            SCORE_DEFAULTS[MAPPING[i]]
+          SCORE_VARS[i].of (
+            environment
           ),
           0
         );
 
     }
-    return scores;
+
+    return
+      scores;
+
   }
 
   private ScoreCards () {}
@@ -150,24 +209,14 @@ final class ScoreCards {
     final Environment environment
   ) {
 
-    final Names.Name prefix =
-      Names.root ( Strings.OPENSIGNALS )
-        .node ( Strings.SERVICES )
-        .node ( Strings.SERVICE );
 
     return
       new Scoring (
         scores (
-          environment,
-          prefix.node (
-            Strings.SIGNAL
-          )
+          environment
         ),
         decays (
-          environment,
-          prefix.node (
-            Strings.STATUS
-          )
+          environment
         )
       );
 
@@ -225,8 +274,9 @@ final class ScoreCards {
     private final AtomicInteger lock =
       new AtomicInteger ();
 
-    private final long[]                 scores = new long[STATES.length];
-    private final Scoring                scoring;
+    private final long[]                 totals = new long[STATES.length];
+    private final int[]                  decay;
+    private final int[]                  scores;
     private final Sink< ? super Status > sink;
     private       int                    current;
 
@@ -235,8 +285,11 @@ final class ScoreCards {
       final Sink< ? super Status > sink
     ) {
 
-      this.scoring =
-        scoring;
+      decay =
+        scoring.decay;
+
+      scores =
+        scoring.scores;
 
       this.sink =
         sink;
@@ -249,24 +302,24 @@ final class ScoreCards {
     ) {
 
       final int[] decay =
-        scoring.decay;
+        this.decay;
+
+      final long[] totals =
+        this.totals;
 
       long max = 0L;
       int result = 0;
 
       for (
-        int i = STATES.length - 1;
+        int i = totals.length - 1;
         i >= 0;
         i--
       ) {
 
-        long total =
-          ( scores[i] * decay[i] ) / 100L;
+        final long total =
+          ( totals[i] * decay[i] ) / 100L;
 
-        if ( i == status )
-          total += unit;
-
-        scores[i] =
+        totals[i] =
           total;
 
         if ( total > max ) {
@@ -276,21 +329,22 @@ final class ScoreCards {
 
         }
 
-
       }
 
+      final long total =
+        totals[status] += unit;
+
       return
-        result;
+        total > max
+        ? status
+        : result;
 
     }
 
-    private void update (
-      final Names.Name name,
+    private int update (
       final int status,
       final int value
     ) {
-
-      final int update;
 
       final AtomicInteger atomic =
         lock;
@@ -313,7 +367,7 @@ final class ScoreCards {
             value
           );
 
-        update =
+        return
           current == score
           ? -1
           : ( current = score );
@@ -322,16 +376,6 @@ final class ScoreCards {
 
         atomic.set (
           UNLOCKED
-        );
-
-      }
-
-      if ( update >= 0 ) {
-
-        sink.accept (
-          name,
-          EMIT,
-          STATES[update]
         );
 
       }
@@ -345,19 +389,29 @@ final class ScoreCards {
       final Signal value
     ) {
 
-      final int index =
+      final int signal =
         value.ordinal ();
 
       final int score =
-        scoring.scores[index];
+        scores[signal];
 
       if ( score > 0 ) {
 
-        update (
-          name,
-          MAPPING[index],
-          score
-        );
+        final int status =
+          update (
+            MAPPINGS[signal],
+            score
+          );
+
+        if ( status >= 0 ) {
+
+          sink.accept (
+            name,
+            EMIT,
+            STATES[status]
+          );
+
+        }
 
       }
 

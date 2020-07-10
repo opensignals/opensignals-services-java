@@ -49,47 +49,50 @@ import static java.lang.System.getProperty;
 @State ( Scope.Benchmark )
 public class PerfKit {
 
-  private static final Services.Subscriber< Phenomenon > ALL_SUBSCRIBER    = new Subscriber<> ();
-  private static final Services.Subscriber< Signal >     SIGNAL_SUBSCRIBER = new Subscriber<> ();
-  private static final String FIRST              = "first";
-  private static final String SECOND             = "second";
-  private static final String THIRD              = "third";
-  private static final String FIRST_SECOND_THIRD = "first.second.third";
-  private static final String SERVICE            = "service";
-  private static final String SEPARATOR          = "/";
-  private static final String PROFILE            = "profile";
-  private static final String EXTENSION          = ".properties";
-  private static final String ALPHA              = "alpha";
-  private static final Name FIRST_NAME =
+  private static final Services.Subscriber< Phenomenon > ALL_SUBSCRIBER     = new Subscriber<> ();
+  private static final Services.Subscriber< Signal >     SIGNAL_SUBSCRIBER  = new Subscriber<> ();
+  private static final String                            FIRST              = "first";
+  private static final String                            SECOND             = "second";
+  private static final String                            THIRD              = "third";
+  private static final String                            FIRST_SECOND_THIRD = "first.second.third";
+  private static final String                            SERVICE            = "service";
+  private static final String                            SEPARATOR          = "/";
+  private static final String                            PROFILE            = "profile";
+  private static final String                            EXTENSION          = ".properties";
+  private static final String                            ALPHA              = "alpha";
+  private static final Name                              FIRST_NAME         =
     name (
       FIRST
     );
-  private static final Float        FLOAT_VALUE    = 1.0f;
-  private static final Integer      INTEGER_VALUE  = 1;
-  private static final Long         LONG_VALUE     = 1L;
-  private static final Double       DOUBLE_VALUE   = 1.0D;
-  private static final Boolean      BOOLEAN_VALUE  = true;
-  private static final CharSequence CHAR_SEQ_VALUE = FIRST;
-  private static final String       STRING_VALUE   = FIRST;
-  private static final Name         NAME_VALUE     = FIRST_NAME;
-  private static final Object       OBJECT_VALUE   = new Object ();
-  private static final Signal       SIGNAL_VALUE   = CALL;
+  private static final Float                             FLOAT_VALUE        = 1.0f;
+  private static final Integer                           INTEGER_VALUE      = 1;
+  private static final Long                              LONG_VALUE         = 1L;
+  private static final Double                            DOUBLE_VALUE       = 1.0D;
+  private static final Boolean                           BOOLEAN_VALUE      = true;
+  private static final CharSequence                      CHAR_SEQ_VALUE     = FIRST;
+  private static final String                            STRING_VALUE       = FIRST;
+  private static final Name                              NAME_VALUE         = FIRST_NAME;
+  private static final Object                            OBJECT_VALUE       = new Object ();
+  private static final Signal                            SIGNAL_VALUE       = CALL;
+
   private static final Environment ENVIRONMENT =
     environment (
       name ( "opensignals.services.context.service.name" ),
       "default"
     );
+
   private static final Environment ENV_STRING_VALUE =
     environment (
       name ( FIRST ),
       FIRST
     );
+
   private static final Environment ENV_EMPTY = environment ();
-  private Method method;
-  private Name    name;
-  private Context context;
-  private Service service;
-  private Service serviceWithCallback;
+  private              Method      method;
+  private              Name        name;
+  private              Context     context;
+  private              Service     service;
+  private              Service     serviceWithCallback;
 
   @SuppressWarnings ( {"EmptyMethod", "WeakerAccess"} )
   static void callback (
@@ -552,16 +555,92 @@ public class PerfKit {
   }
 
   /**
-   * Calls {@code Environment.getString(string,value)}.
+   * Calls {@code Environment.getString(name,value)}.
    */
 
   @Benchmark
-  public String environment_string_value_get_string () {
+  public String environment_empty_get_string () {
 
     return
       ENV_STRING_VALUE.getString (
         FIRST_NAME,
         null
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getLong(name,value)}.
+   */
+
+  @Benchmark
+  public Integer environment_empty_get_integer () {
+
+    return
+      ENV_EMPTY.getInteger (
+        FIRST_NAME,
+        INTEGER_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getLong(name,value)}.
+   */
+
+  @Benchmark
+  public Long environment_empty_get_long () {
+
+    return
+      ENV_EMPTY.getLong (
+        FIRST_NAME,
+        LONG_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getFloat(name,value)}.
+   */
+
+  @Benchmark
+  public Float environment_empty_get_float () {
+
+    return
+      ENV_EMPTY.getFloat (
+        FIRST_NAME,
+        FLOAT_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getDouble(name,value)}.
+   */
+
+  @Benchmark
+  public Double environment_empty_get_double () {
+
+    return
+      ENV_EMPTY.getDouble (
+        FIRST_NAME,
+        DOUBLE_VALUE
+      );
+
+  }
+
+
+  /**
+   * Calls {@code Environment.getBoolean(name,value)}.
+   */
+
+  @Benchmark
+  public Boolean environment_empty_get_boolean () {
+
+    return
+      ENV_EMPTY.getBoolean (
+        FIRST_NAME,
+        BOOLEAN_VALUE
       );
 
   }
