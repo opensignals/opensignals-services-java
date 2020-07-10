@@ -472,8 +472,10 @@ public interface ServicesProvider {
     return
       environment ->
         environment
-          .getObject ( name )
-          .orElse ( defValue );
+          .getObject (
+            name,
+            defValue
+          );
 
   }
 
@@ -535,8 +537,11 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getEnum ( name, type )
-          .orElse ( defValue );
+        environment.getEnum (
+          name,
+          type,
+          defValue
+        );
 
   }
 
@@ -552,8 +557,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getBoolean ( name )
-          .orElse ( defValue );
+        environment.getBoolean (
+          name,
+          defValue
+        );
 
   }
 
@@ -569,8 +576,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getInteger ( name )
-          .orElse ( defValue );
+        environment.getInteger (
+          name,
+          defValue
+        );
 
   }
 
@@ -586,8 +595,10 @@ public interface ServicesProvider {
 
     return
       env ->
-        env.getLong ( name )
-          .orElse ( defValue );
+        env.getLong (
+          name,
+          defValue
+        );
 
   }
 
@@ -603,8 +614,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getDouble ( name )
-          .orElse ( defValue );
+        environment.getDouble (
+          name,
+          defValue
+        );
 
   }
 
@@ -620,8 +633,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getFloat ( name )
-          .orElse ( defValue );
+        environment.getFloat (
+          name,
+          defValue
+        );
 
   }
 
@@ -637,8 +652,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getString ( name )
-          .orElse ( defValue );
+        environment.getString (
+          name,
+          defValue
+        );
 
   }
 
@@ -654,8 +671,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getCharSequence ( name )
-          .orElse ( defValue );
+        environment.getCharSequence (
+          name,
+          defValue
+        );
 
   }
 
@@ -671,8 +690,10 @@ public interface ServicesProvider {
 
     return
       environment ->
-        environment.getName ( name )
-          .orElse ( defValue );
+        environment.getName (
+          name,
+          defValue
+        );
 
   }
 

@@ -602,6 +602,18 @@ final class Names {
 
     @Override
     public Name name (
+      final Enum< ? > value
+    ) {
+
+      return
+        node (
+          value.name ()
+        );
+
+    }
+
+    @Override
+    public Name name (
       final Services.Name path
     ) {
 

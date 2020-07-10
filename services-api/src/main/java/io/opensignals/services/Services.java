@@ -2392,6 +2392,27 @@ public final class Services {
 
 
     /**
+     * Returns a new name that has this name as a direct prefix and a value of the enum name.
+     *
+     * @param value the enum to be appended to this name
+     * @return A new name with the enum name appended a name part.
+     */
+
+    default Name name (
+      final Enum< ? > value
+    ) {
+
+      return
+        name (
+          requireNonNull (
+            value
+          ).name ()
+        );
+
+    }
+
+
+    /**
      * Returns a new name that has this name as a direct or indirect prefix.
      *
      * @param first  the first path to be appended to this name
@@ -2846,7 +2867,6 @@ public final class Services {
           .orElse ( defValue );
 
     }
-
 
 
     /**
