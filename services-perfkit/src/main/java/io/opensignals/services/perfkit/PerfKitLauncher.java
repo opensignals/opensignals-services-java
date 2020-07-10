@@ -73,7 +73,7 @@ final class PerfKitLauncher {
 
     return
       new OptionsBuilder ()
-        .include ( PerfKit.class.getName () + ".*context_environment*" )
+        .include ( PerfKit.class.getName () + ".*" )
         .mode ( Mode.AverageTime )
         .timeUnit ( NANOSECONDS )
         .warmupTime ( WARMUP_TIME )
