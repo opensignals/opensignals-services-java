@@ -57,38 +57,60 @@ final class ScoreCards {
 
   static {
 
-    MAPPINGS[SUCCEED.ordinal ()] =
-      OK.ordinal ();
+    map (
+      SUCCEED,
+      OK
+    );
 
-    MAPPINGS[FAIL.ordinal ()] =
-      DEFECTIVE.ordinal ();
+    map (
+      FAIL,
+      DEFECTIVE
+    );
 
-    MAPPINGS[RECOURSE.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      RECOURSE,
+      DEGRADED
+    );
 
-    MAPPINGS[ELAPSE.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      ELAPSE,
+      DEGRADED
+    );
 
-    MAPPINGS[ELAPSE.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      ELAPSE,
+      DEGRADED
+    );
 
-    MAPPINGS[RETRY.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      RETRY,
+      DEGRADED
+    );
 
-    MAPPINGS[REJECT.ordinal ()] =
-      DEFECTIVE.ordinal ();
+    map (
+      REJECT,
+      DEFECTIVE
+    );
 
-    MAPPINGS[DROP.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      DROP,
+      DEGRADED
+    );
 
-    MAPPINGS[DELAY.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      DELAY,
+      DEGRADED
+    );
 
-    MAPPINGS[SUSPEND.ordinal ()] =
-      DEGRADED.ordinal ();
+    map (
+      SUSPEND,
+      DEGRADED
+    );
 
-    MAPPINGS[DISCONNECT.ordinal ()] =
-      DOWN.ordinal ();
+    map (
+      DISCONNECT,
+      DOWN
+    );
 
     final Names.Name root =
       Names.root ( Strings.OPENSIGNALS )
@@ -140,6 +162,16 @@ final class ScoreCards {
         );
 
     }
+
+  }
+
+  private static void map (
+    final Signal succeed,
+    final Status ok
+  ) {
+
+    MAPPINGS[succeed.ordinal ()] =
+      ok.ordinal ();
 
   }
 

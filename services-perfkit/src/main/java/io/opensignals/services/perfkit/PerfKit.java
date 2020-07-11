@@ -76,6 +76,9 @@ public class PerfKit {
   private static final Object                            OBJECT_VALUE       = new Object ();
   private static final Signal                            SIGNAL_VALUE       = CALL;
 
+  private static final Variable< Integer > VAR_INTEGER = variable ( FIRST_NAME, INTEGER_VALUE );
+  private static final Variable< Long >    VAR_LONG    = variable ( FIRST_NAME, LONG_VALUE );
+
   private static final Environment ENVIRONMENT =
     environment (
       name ( "opensignals.services.context.service.name" ),
@@ -720,6 +723,35 @@ public class PerfKit {
       );
 
   }
+
+  /**
+   * Calls {@code Variable<Integer>.of(environment)}.
+   */
+
+  @Benchmark
+  public Integer variable_of_integer () {
+
+    return
+      VAR_INTEGER.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<Long>.of(environment)}.
+   */
+
+  @Benchmark
+  public Long variable_of_long () {
+
+    return
+      VAR_LONG.of (
+        ENV_EMPTY
+      );
+
+  }
+
 
   /**
    * Call {@code Context.subscribe(subscriber,signal)}.
