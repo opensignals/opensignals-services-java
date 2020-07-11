@@ -74,10 +74,19 @@ public class PerfKit {
   private static final String                            STRING_VALUE       = FIRST;
   private static final Name                              NAME_VALUE         = FIRST_NAME;
   private static final Object                            OBJECT_VALUE       = new Object ();
-  private static final Signal                            SIGNAL_VALUE       = CALL;
+  private static final Signal                            ENUM_VALUE         = CALL;
+  private static final Class< Signal >                   ENUM_CLASS         = Signal.class;
 
-  private static final Variable< Integer > VAR_INTEGER = variable ( FIRST_NAME, INTEGER_VALUE );
-  private static final Variable< Long >    VAR_LONG    = variable ( FIRST_NAME, LONG_VALUE );
+  private static final Variable< Integer >      VAR_INTEGER  = variable ( FIRST_NAME, INTEGER_VALUE );
+  private static final Variable< Long >         VAR_LONG     = variable ( FIRST_NAME, LONG_VALUE );
+  private static final Variable< Boolean >      VAR_BOOLEAN  = variable ( FIRST_NAME, BOOLEAN_VALUE );
+  private static final Variable< Float >        VAR_FLOAT    = variable ( FIRST_NAME, FLOAT_VALUE );
+  private static final Variable< Double >       VAR_DOUBLE   = variable ( FIRST_NAME, DOUBLE_VALUE );
+  private static final Variable< Object >       VAR_OBJECT   = variable ( FIRST_NAME, OBJECT_VALUE );
+  private static final Variable< String >       VAR_STRING   = variable ( FIRST_NAME, STRING_VALUE );
+  private static final Variable< CharSequence > VAR_CHAR_SEQ = variable ( FIRST_NAME, CHAR_SEQ_VALUE );
+  private static final Variable< Name >         VAR_NAME     = variable ( FIRST_NAME, NAME_VALUE );
+  private static final Variable< Signal >       VAR_ENUM     = variable ( FIRST_NAME, ENUM_CLASS, ENUM_VALUE );
 
   private static final Environment ENVIRONMENT =
     environment (
@@ -136,7 +145,7 @@ public class PerfKit {
 
     context.subscribe (
       SIGNAL_SUBSCRIBER,
-      Signal.class
+      ENUM_CLASS
     );
 
     service =
@@ -603,8 +612,55 @@ public class PerfKit {
 
   }
 
+
   /**
-   * Calls {@code Environment.getLong(name,value)}.
+   * Calls {@code Environment.getString(name,value)}.
+   */
+
+  @Benchmark
+  public CharSequence environment_empty_get_char_seq () {
+
+    return
+      ENV_EMPTY.getCharSequence (
+        FIRST_NAME,
+        CHAR_SEQ_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getName(name,value)}.
+   */
+
+  @Benchmark
+  public Name environment_empty_get_name () {
+
+    return
+      ENV_EMPTY.getName (
+        FIRST_NAME,
+        NAME_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getName(name,value)}.
+   */
+
+  @Benchmark
+  public Enum< Signal > environment_empty_get_enum () {
+
+    return
+      ENV_EMPTY.getEnum (
+        FIRST_NAME,
+        ENUM_CLASS,
+        ENUM_VALUE
+      );
+
+  }
+
+  /**
+   * Calls {@code Environment.getInteger(name,value)}.
    */
 
   @Benchmark
@@ -752,6 +808,104 @@ public class PerfKit {
 
   }
 
+  /**
+   * Calls {@code Variable<Boolean>.of(environment)}.
+   */
+
+  @Benchmark
+  public Boolean variable_of_boolean () {
+
+    return
+      VAR_BOOLEAN.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<Float>.of(environment)}.
+   */
+
+  @Benchmark
+  public Float variable_of_float () {
+
+    return
+      VAR_FLOAT.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<Double>.of(environment)}.
+   */
+
+  @Benchmark
+  public Double variable_of_double () {
+
+    return
+      VAR_DOUBLE.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<String>.of(environment)}.
+   */
+
+  @Benchmark
+  public String variable_of_string () {
+
+    return
+      VAR_STRING.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<CharSequence>.of(environment)}.
+   */
+
+  @Benchmark
+  public CharSequence variable_of_char_seq () {
+
+    return
+      VAR_CHAR_SEQ.of (
+        ENV_EMPTY
+      );
+
+  }
+
+
+  /**
+   * Calls {@code Variable<Name>.of(environment)}.
+   */
+
+  @Benchmark
+  public Name variable_of_name () {
+
+    return
+      VAR_NAME.of (
+        ENV_EMPTY
+      );
+
+  }
+
+  /**
+   * Calls {@code Variable<Enum>.of(environment)}.
+   */
+
+  @Benchmark
+  public Enum< Signal > variable_of_enum () {
+
+    return
+      VAR_ENUM.of (
+        ENV_EMPTY
+      );
+
+  }
 
   /**
    * Call {@code Context.subscribe(subscriber,signal)}.
@@ -775,7 +929,7 @@ public class PerfKit {
 
     context.subscribe (
       SIGNAL_SUBSCRIBER,
-      Signal.class
+      ENUM_CLASS
     ).cancel ();
 
   }
@@ -906,8 +1060,8 @@ public class PerfKit {
     return
       variable (
         FIRST_NAME,
-        Signal.class,
-        SIGNAL_VALUE
+        ENUM_CLASS,
+        ENUM_VALUE
       );
 
   }
