@@ -48,7 +48,7 @@
 
     <junit-jupiter.version>${junit.version}</junit-jupiter.version>
 
-    <mockito-core.version>3.3.3</mockito-core.version>
+    <mockito-core.version>3.4.0</mockito-core.version>
   </properties>
 
   <modules>
