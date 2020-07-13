@@ -68,12 +68,13 @@ final class PerfKitLauncher {
   private static Options options (
     final String spi,
     final String profile,
+    final String pattern,
     final int threads
   ) {
 
     return
       new OptionsBuilder ()
-        .include ( PerfKit.class.getName () + ".*" )
+        .include ( PerfKit.class.getName () + "." + pattern )
         .mode ( Mode.AverageTime )
         .timeUnit ( NANOSECONDS )
         .warmupTime ( WARMUP_TIME )
@@ -161,8 +162,9 @@ final class PerfKitLauncher {
   static void execute (
     final String spi,
     final String profile,
-    final double threshold,
+    final String pattern,
     final int threads,
+    final double threshold,
     final Consumer< ? super String > consumer
   ) {
 
@@ -174,6 +176,7 @@ final class PerfKitLauncher {
           options (
             spi,
             profile,
+            pattern,
             threads
           )
         ),

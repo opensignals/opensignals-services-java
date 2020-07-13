@@ -29,8 +29,10 @@ import static io.opensignals.services.perfkit.PerfKitLauncher.execute;
 )
 final class PerfKitTest {
 
-  private static final String FACTORY = "io.opensignals.services.ext.spi.alpha.ProviderFactory";
-  private static final String ALPHA   = "alpha";
+  private static final String FACTORY    = "io.opensignals.services.ext.spi.alpha.ProviderFactory";
+  private static final String ALPHA      = "alpha";
+  private static final String CONCURRENT = "context_*|service_*|name_*";
+  private static final String ALL        = "*";
 
   @Test
   @Order ( 1 )
@@ -39,8 +41,9 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      250.0,
+      ALL,
       1,
+      250.0,
       Assertions::fail
     );
 
@@ -53,8 +56,9 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      500.0,
+      CONCURRENT,
       2,
+      500.0,
       Assertions::fail
     );
 
@@ -67,8 +71,9 @@ final class PerfKitTest {
     execute (
       FACTORY,
       ALPHA,
-      1000.0,
+      CONCURRENT,
       4,
+      1000.0,
       Assertions::fail
     );
 
