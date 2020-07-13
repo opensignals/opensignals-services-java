@@ -42,8 +42,10 @@ final class NameTest {
   private static final String NODE_VALUE = "node";
   private static final String NODE_PATH  = ROOT_PATH + DOT + NODE_VALUE;
   private static final Name   NODE_NAME  = name ( NODE_PATH );
+
   private final Function< Name, Integer > LENGTH =
     ( n ) -> n.getValue ().length ();
+
   private final ToIntFunction< Name > SUM =
     LENGTH::apply;
 

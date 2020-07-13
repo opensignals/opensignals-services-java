@@ -360,8 +360,8 @@ public final class TestKit {
     private final Name               name;
     private final Orientation        orientation;
     private final P                  value;
-    private final int hashCode;
-    private final int index;
+    private final int                hashCode;
+    private final int                index;
 
     @SuppressWarnings ( "AssignmentToMethodParameter" )
     private static boolean compare (

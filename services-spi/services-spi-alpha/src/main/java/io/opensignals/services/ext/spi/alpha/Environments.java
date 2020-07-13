@@ -96,7 +96,77 @@ final class Environments {
   ) {
 
     return
-      new Single (
+      new ObjectVal (
+        name,
+        value
+      );
+
+  }
+
+
+  static Environment single (
+    final Name name,
+    final int value
+  ) {
+
+    return
+      new IntVal (
+        name,
+        value
+      );
+
+  }
+
+
+  static Environment single (
+    final Name name,
+    final long value
+  ) {
+
+    return
+      new LongVal (
+        name,
+        value
+      );
+
+  }
+
+
+  static Environment single (
+    final Name name,
+    final double value
+  ) {
+
+    return
+      new DoubleVal (
+        name,
+        value
+      );
+
+  }
+
+
+  static Environment single (
+    final Name name,
+    final float value
+  ) {
+
+    return
+      new FloatVal (
+        name,
+        value
+      );
+
+  }
+
+
+  static Environment single (
+    final Name name,
+    final boolean value
+  ) {
+
+    return
+      new BooleanVal (
         name,
         value
       );
@@ -287,55 +357,6 @@ final class Environments {
                 .getObject ( key )
                 .orElse ( NONE )
           );
-
-    }
-
-  }
-
-
-  private static final class Single
-    extends Abstract {
-
-    private final Name   name;
-    private final Object value;
-
-    Single (
-      final Name name,
-      final Object value
-    ) {
-
-      this.name =
-        name;
-
-      this.value =
-        value;
-
-    }
-
-
-    @Override
-    public Optional< Object > getObject (
-      final Name name
-    ) {
-
-      return
-        this.name == name
-        ? Optional.of ( value )
-        : Optional.empty ();
-
-    }
-
-
-    @Override
-    public Object getObject (
-      final Name name,
-      final Object defValue
-    ) {
-
-      return
-        this.name == name
-        ? value
-        : defValue;
 
     }
 
@@ -557,6 +578,290 @@ final class Environments {
 
       return
         defValue;
+
+    }
+
+  }
+
+  private abstract static class AbstractVal< T >
+    extends Abstract {
+
+    final Name name;
+
+    AbstractVal (
+      final Name name
+    ) {
+
+      this.name =
+        name;
+
+    }
+
+    @Override
+    public Optional< Object > getObject (
+      final Name name
+    ) {
+
+      return
+        this.name == name
+        ? Optional.of ( value () )
+        : Optional.empty ();
+
+    }
+
+
+    @Override
+    public Object getObject (
+      final Name name,
+      final Object defValue
+    ) {
+
+      return
+        this.name == name
+        ? value ()
+        : defValue;
+
+    }
+
+    abstract T value ();
+
+  }
+
+  private static final class ObjectVal
+    extends AbstractVal<Object> {
+
+    private final Object value;
+
+    ObjectVal (
+      final Name name,
+      final Object value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    Object value () {
+
+      return
+        value;
+
+    }
+
+  }
+
+  private static final class IntVal
+    extends AbstractVal< Integer > {
+
+    private final int value;
+
+    IntVal (
+      final Name name,
+      final int value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    public int getInteger (
+      final Name name,
+      final int defVal
+    ) {
+
+      return
+        this.name == name
+        ? value
+        : defVal;
+
+    }
+
+    Integer value () {
+
+      return
+        value;
+
+    }
+
+  }
+
+  private static final class LongVal
+    extends AbstractVal< Long > {
+
+    private final long value;
+
+    LongVal (
+      final Name name,
+      final long value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    public long getLong (
+      final Name name,
+      final long defVal
+    ) {
+
+      return
+        this.name == name
+        ? value
+        : defVal;
+
+    }
+
+    Long value () {
+
+      return
+        value;
+
+    }
+
+  }
+
+  private static final class FloatVal
+    extends AbstractVal< Float > {
+
+    private final float value;
+
+    FloatVal (
+      final Name name,
+      final float value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    public float getFloat (
+      final Name name,
+      final float defVal
+    ) {
+
+      return
+        this.name == name
+        ? value
+        : defVal;
+
+    }
+
+    Float value () {
+
+      return
+        value;
+
+    }
+
+  }
+
+  private static final class DoubleVal
+    extends AbstractVal< Double > {
+
+    private final double value;
+
+    DoubleVal (
+      final Name name,
+      final double value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    public double getDouble (
+      final Name name,
+      final double defVal
+    ) {
+
+      return
+        this.name == name
+        ? value
+        : defVal;
+
+    }
+
+    Double value () {
+
+      return
+        value;
+
+    }
+
+  }
+
+  private static final class BooleanVal
+    extends AbstractVal< Boolean > {
+
+    private final boolean value;
+
+    BooleanVal (
+      final Name name,
+      final boolean value
+    ) {
+
+      super (
+        name
+      );
+
+      this.value =
+        value;
+
+    }
+
+
+    @Override
+    public boolean getBoolean (
+      final Name name,
+      final boolean defVal
+    ) {
+
+      return
+        this.name == name
+        ? value
+        : defVal;
+
+    }
+
+    Boolean value () {
+
+      return
+        value;
 
     }
 

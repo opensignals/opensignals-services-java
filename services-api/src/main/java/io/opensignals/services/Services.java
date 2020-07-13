@@ -167,6 +167,119 @@ public final class Services {
   /**
    * Creates an {@link Environment} with a single {@link Name} and value pairing.
    *
+   * @param path  The property path
+   * @param value The property value
+   * @return A {@link Environment} containing a single property name-value pair.
+   * @see ServicesProvider#environment(Name, int)
+   */
+
+  public static Environment environment (
+    final Name path,
+    final int value
+  ) {
+
+    return
+      PROVIDER.environment (
+        path,
+        value
+      );
+
+  }
+
+
+  /**
+   * Creates an {@link Environment} with a single {@link Name} and value pairing.
+   *
+   * @param path  The property path
+   * @param value The property value
+   * @return A {@link Environment} containing a single property name-value pair.
+   * @see ServicesProvider#environment(Name, long)
+   */
+
+  public static Environment environment (
+    final Name path,
+    final long value
+  ) {
+
+    return
+      PROVIDER.environment (
+        path,
+        value
+      );
+
+  }
+
+
+  /**
+   * Creates an {@link Environment} with a single {@link Name} and value pairing.
+   *
+   * @param path  The property path
+   * @param value The property value
+   * @return A {@link Environment} containing a single property name-value pair.
+   * @see ServicesProvider#environment(Name, float)
+   */
+
+  public static Environment environment (
+    final Name path,
+    final float value
+  ) {
+
+    return
+      PROVIDER.environment (
+        path,
+        value
+      );
+
+  }
+
+
+  /**
+   * Creates an {@link Environment} with a single {@link Name} and value pairing.
+   *
+   * @param path  The property path
+   * @param value The property value
+   * @return A {@link Environment} containing a single property name-value pair.
+   * @see ServicesProvider#environment(Name, double)
+   */
+
+  public static Environment environment (
+    final Name path,
+    final double value
+  ) {
+
+    return
+      PROVIDER.environment (
+        path,
+        value
+      );
+
+  }
+
+  /**
+   * Creates an {@link Environment} with a single {@link Name} and value pairing.
+   *
+   * @param path  The property path
+   * @param value The property value
+   * @return A {@link Environment} containing a single property name-value pair.
+   * @see ServicesProvider#environment(Name, double)
+   */
+
+  public static Environment environment (
+    final Name path,
+    final boolean value
+  ) {
+
+    return
+      PROVIDER.environment (
+        path,
+        value
+      );
+
+  }
+
+  /**
+   * Creates an {@link Environment} with a single {@link Name} and value pairing.
+   *
    * @param <T>      The property type
    * @param path     The property path
    * @param supplier The property value supplier

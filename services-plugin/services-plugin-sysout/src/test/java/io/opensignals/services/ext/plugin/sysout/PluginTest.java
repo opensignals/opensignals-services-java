@@ -35,6 +35,7 @@ final class PluginTest {
 
   private static final PrintStream OUT =
     mock ( PrintStream.class );
+
   private static Context context;
 
   static {

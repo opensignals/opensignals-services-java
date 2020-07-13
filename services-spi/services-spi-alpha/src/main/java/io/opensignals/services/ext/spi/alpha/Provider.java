@@ -245,6 +245,75 @@ final class Provider
   }
 
   @Override
+  public Environment environment (
+    final Name path,
+    final int value
+  ) {
+
+    return
+      Environments.single (
+        path,
+        value
+      );
+  }
+
+  @Override
+  public Environment environment (
+    final Name path,
+    final long value
+  ) {
+
+    return
+      Environments.single (
+        path,
+        value
+      );
+
+  }
+
+  @Override
+  public Environment environment (
+    final Name path,
+    final float value
+  ) {
+
+    return
+      Environments.single (
+        path,
+        value
+      );
+
+  }
+
+  @Override
+  public Environment environment (
+    final Name path,
+    final double value
+  ) {
+
+    return
+      Environments.single (
+        path,
+        value
+      );
+
+  }
+
+  @Override
+  public Environment environment (
+    final Name path,
+    final boolean value
+  ) {
+
+    return
+      Environments.single (
+        path,
+        value
+      );
+
+  }
+
+  @Override
   public < T > Environment environment (
     final Predicate< ? super Name > predicate,
     final Function< ? super Name, T > mapper

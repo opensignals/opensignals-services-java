@@ -415,6 +415,101 @@ public interface ServicesProvider {
 
   }
 
+  /**
+   * @see Services#environment(Name, int)
+   */
+
+  default Environment environment (
+    final Name path,
+    final int value
+  ) {
+
+    return
+      environment (
+        path,
+        Integer.valueOf (
+          value
+        )
+      );
+
+  }
+
+  /**
+   * @see Services#environment(Name, long)
+   */
+
+  default Environment environment (
+    final Name path,
+    final long value
+  ) {
+
+    return
+      environment (
+        path,
+        Long.valueOf (
+          value
+        )
+      );
+
+  }
+
+  /**
+   * @see Services#environment(Name, float)
+   */
+
+  default Environment environment (
+    final Name path,
+    final float value
+  ) {
+
+    return
+      environment (
+        path,
+        Float.valueOf (
+          value
+        )
+      );
+
+  }
+
+
+  /**
+   * @see Services#environment(Name, double)
+   */
+
+  default Environment environment (
+    final Name path,
+    final double value
+  ) {
+
+    return
+      environment (
+        path,
+        Double.valueOf (
+          value
+        )
+      );
+
+  }
+
+  /**
+   * @see Services#environment(Name, boolean)
+   */
+
+  default Environment environment (
+    final Name path,
+    final boolean value
+  ) {
+
+    return
+      environment (
+        path,
+        Boolean.valueOf (
+          value
+        )
+      );
+
+  }
 
   /**
    * @see Services#environment(Name, Supplier)
