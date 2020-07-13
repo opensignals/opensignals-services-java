@@ -36,7 +36,7 @@ import static io.opensignals.services.Services.Status.*;
 
 final class ScoreCards {
 
-  private static final Signal[] SIGNALS = Signal.values ();
+  static final Signal[] SIGNALS = Signal.values ();
 
   private static final Integer[] SCORE_DEFAULTS = {0, 2, 4, 8, 16, 64};
   private static final Integer[] DECAY_DEFAULTS = {0, 75, 75, 75, 75, 75};
@@ -277,6 +277,7 @@ final class ScoreCards {
 
     final int[] scores;
     final int[] decay;
+    final int   filter;
 
     @SuppressWarnings ( "AssignmentOrReturnOfFieldWithMutableType" )
     Scoring (
@@ -286,6 +287,22 @@ final class ScoreCards {
 
       this.scores =
         scores;
+
+      int filter = 0;
+
+      for (
+        int i = scores.length - 1;
+        i >= 0;
+        i--
+      ) {
+
+        if ( scores[i] > 0 )
+          filter |= 1 << i;
+
+      }
+
+      this.filter =
+        filter;
 
       this.decay =
         decay;
@@ -345,7 +362,7 @@ final class ScoreCards {
 
       for (
         int i = totals.length - 1;
-        i >= 0;
+        i > 0; // we can ignore none
         i--
       ) {
 
@@ -425,29 +442,42 @@ final class ScoreCards {
       final int signal =
         value.ordinal ();
 
-      final int score =
-        scoring.scores[signal];
+      final Scoring scoring =
+        this.scoring;
 
-      if ( score > 0 ) {
+      if ( ( scoring.filter & 1 << signal ) != 0 ) {
 
-        final int status =
-          update (
-            MAPPINGS[signal],
-            score
-          );
-
-        if ( status >= 0 ) {
-
-          sink.accept (
-            name,
-            EMIT,
-            STATES[status]
-          );
-
-        }
+        update (
+          name,
+          signal,
+          scoring.scores[signal]
+        );
 
       }
 
+    }
+
+    private void update (
+      final Names.Name name,
+      final int signal,
+      final int score
+    ) {
+
+      final int status =
+        update (
+          MAPPINGS[signal],
+          score
+        );
+
+      if ( status >= 0 ) {
+
+        sink.accept (
+          name,
+          EMIT,
+          STATES[status]
+        );
+
+      }
     }
 
   }

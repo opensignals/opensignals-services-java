@@ -907,6 +907,22 @@ public class PerfKit {
 
   }
 
+
+  /**
+   * Calls {@code Variable<Object>.of(environment)}.
+   */
+
+  @Benchmark
+  public Object variable_of_object () {
+
+    return
+      VAR_OBJECT.of (
+        ENV_EMPTY
+      );
+
+  }
+
+
   /**
    * Call {@code Context.subscribe(subscriber,signal)}.
    */
