@@ -77,4 +77,23 @@ final class Sinks {
 
   }
 
+  static < T extends Phenomenon > Sink< T > sink (
+    final Sink< ? super T > sink,
+    final int mask
+  ) {
+
+    return
+      (
+        name,
+        orientation,
+        value
+      ) -> {
+
+        if ( ( mask & 1 << value.ordinal () ) != 0 )
+          sink.accept ( name, orientation, value );
+
+      };
+
+  }
+
 }

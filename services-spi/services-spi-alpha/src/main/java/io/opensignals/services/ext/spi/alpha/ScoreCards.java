@@ -36,7 +36,7 @@ import static io.opensignals.services.Services.Status.*;
 
 final class ScoreCards {
 
-  static final Signal[] SIGNALS = Signal.values ();
+  private static final Signal[] SIGNALS = Signal.values ();
 
   private static final Integer[] SCORE_DEFAULTS = {0, 2, 4, 8, 16, 64};
   private static final Integer[] DECAY_DEFAULTS = {0, 75, 75, 75, 75, 75};
@@ -265,10 +265,26 @@ final class ScoreCards {
     final Sink< ? super Status > sink
   ) {
 
+    int mask = 0;
+    int bit = 1;
+
+    for ( final int score : scoring.scores ) {
+
+      if ( score > 0 )
+        mask |= bit;
+
+      bit <<= 1;
+
+    }
+
     return
-      new Atomic (
-        scoring,
-        sink
+      Sinks.sink (
+        new Atomic (
+          scoring.scores,
+          scoring.decay,
+          sink
+        ),
+        mask
       );
 
   }
@@ -277,7 +293,6 @@ final class ScoreCards {
 
     final int[] scores;
     final int[] decay;
-    final int   filter;
 
     @SuppressWarnings ( "AssignmentOrReturnOfFieldWithMutableType" )
     Scoring (
@@ -287,22 +302,6 @@ final class ScoreCards {
 
       this.scores =
         scores;
-
-      int filter = 0;
-
-      for (
-        int i = scores.length - 1;
-        i >= 0;
-        i--
-      ) {
-
-        if ( scores[i] > 0 )
-          filter |= 1 << i;
-
-      }
-
-      this.filter =
-        filter;
 
       this.decay =
         decay;
@@ -329,17 +328,22 @@ final class ScoreCards {
       new AtomicInteger ();
 
     private final long[]                 totals = new long[STATES.length];
-    private final Scoring                scoring;
+    private final int[]                  decay;
+    private final int[]                  scores;
     private final Sink< ? super Status > sink;
     private       int                    current;
 
     Atomic (
-      final Scoring scoring,
+      final int[] scores,
+      final int[] decay,
       final Sink< ? super Status > sink
     ) {
 
-      this.scoring =
-        scoring;
+      this.scores =
+        scores;
+
+      this.decay =
+        decay;
 
       this.sink =
         sink;
@@ -352,7 +356,7 @@ final class ScoreCards {
     ) {
 
       final int[] decay =
-        scoring.decay;
+        this.decay;
 
       final long[] totals =
         this.totals;
@@ -439,34 +443,13 @@ final class ScoreCards {
       final Signal value
     ) {
 
-      final int signal =
+      final int ordinal =
         value.ordinal ();
-
-      final Scoring scoring =
-        this.scoring;
-
-      if ( ( scoring.filter & 1 << signal ) != 0 ) {
-
-        update (
-          name,
-          signal,
-          scoring.scores[signal]
-        );
-
-      }
-
-    }
-
-    private void update (
-      final Names.Name name,
-      final int signal,
-      final int score
-    ) {
 
       final int status =
         update (
-          MAPPINGS[signal],
-          score
+          MAPPINGS[ordinal],
+          scores[ordinal]
         );
 
       if ( status >= 0 ) {

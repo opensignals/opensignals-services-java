@@ -2362,6 +2362,24 @@ public final class Services {
 
   public interface Phenomenon {
 
+    /**
+     * Returns the ordinal (position) of this phenomenon constant within its subclass (enum) set.
+     *
+     * @return The ordinal (position) of this phenomenon constant within its subclass (enum) set.
+     * @see Enum#ordinal()
+     */
+
+    int ordinal ();
+
+    /**
+     * Returns the name of this phenomenon constant, as declared in its subclass (enum) set.
+     *
+     * @return The name of this phenomenon constant, as declared in its subclass (enum) set.
+     * @see Enum#name()
+     */
+
+    String name ();
+
   }
 
   /**

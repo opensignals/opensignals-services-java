@@ -941,7 +941,7 @@ public class PerfKit {
    */
 
   @Benchmark
-  public void context_subscribe_signal_cancel () {
+  public void context_subscribe_class_cancel () {
 
     context.subscribe (
       SIGNAL_SUBSCRIBER,

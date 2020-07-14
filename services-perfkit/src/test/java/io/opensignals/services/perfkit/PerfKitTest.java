@@ -31,7 +31,7 @@ final class PerfKitTest {
 
   private static final String FACTORY    = "io.opensignals.services.ext.spi.alpha.ProviderFactory";
   private static final String ALPHA      = "alpha";
-  private static final String CONCURRENT = "(context_subscribe_|service_)";
+  private static final String CONCURRENT = "service_";
   private static final String ALL        = "*";
 
   @Test
