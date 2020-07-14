@@ -209,15 +209,15 @@ final class ScoreCards {
 
   }
 
-  private static int[] scores (
+  private static Score[] scores (
     final Environment environment
   ) {
 
     final int count =
       SCORE_VARS.length;
 
-    final int[] scores =
-      new int[count];
+    final Score[] scores =
+      new Score[count];
 
     for (
       int i = count - 1;
@@ -225,13 +225,30 @@ final class ScoreCards {
       i--
     ) {
 
-      scores[i] =
-        Math.max (
-          SCORE_VARS[i].of (
-            environment
-          ),
-          0
-        );
+      final int status =
+        MAPPINGS[i];
+
+      if ( status > 0 ) {
+
+        final int score =
+          Math.max (
+            SCORE_VARS[i].of (
+              environment
+            ),
+            0
+          );
+
+        if ( score > 0 ) {
+
+          scores[i] =
+            new Score (
+              status,
+              score
+            );
+
+        }
+
+      }
 
     }
 
@@ -268,9 +285,9 @@ final class ScoreCards {
     int mask = 0;
     int bit = 1;
 
-    for ( final int score : scoring.scores ) {
+    for ( final Score score : scoring.scores ) {
 
-      if ( score > 0 )
+      if ( score != null )
         mask |= bit;
 
       bit <<= 1;
@@ -291,12 +308,12 @@ final class ScoreCards {
 
   static final class Scoring {
 
-    final int[] scores;
-    final int[] decay;
+    final Score[] scores;
+    final int[]   decay;
 
     @SuppressWarnings ( "AssignmentOrReturnOfFieldWithMutableType" )
     Scoring (
-      final int[] scores,
+      final Score[] scores,
       final int[] decay
     ) {
 
@@ -329,12 +346,12 @@ final class ScoreCards {
 
     private final long[]                 totals = new long[STATES.length];
     private final int[]                  decay;
-    private final int[]                  scores;
+    private final Score[]                scores;
     private final Sink< ? super Status > sink;
     private       int                    current;
 
     Atomic (
-      final int[] scores,
+      final Score[] scores,
       final int[] decay,
       final Sink< ? super Status > sink
     ) {
@@ -351,8 +368,7 @@ final class ScoreCards {
     }
 
     private int score (
-      final int status,
-      final int unit
+      final Score score
     ) {
 
       final int[] decay =
@@ -370,23 +386,33 @@ final class ScoreCards {
         i--
       ) {
 
-        final long total =
-          ( totals[i] * decay[i] ) / 100L;
+        final long current =
+          totals[i];
 
-        totals[i] =
-          total;
+        if ( current > 0L ) {
 
-        if ( total > max ) {
+          final long total =
+            ( current * decay[i] ) / 100L;
 
-          result = i;
-          max = total;
+          totals[i] =
+            total;
+
+          if ( total > max ) {
+
+            result = i;
+            max = total;
+
+          }
 
         }
 
       }
 
+      final int status =
+        score.status;
+
       final long total =
-        totals[status] += unit;
+        totals[status] += score.units;
 
       return
         total > max
@@ -396,8 +422,7 @@ final class ScoreCards {
     }
 
     private int update (
-      final int status,
-      final int value
+      final Score score
     ) {
 
       final AtomicInteger atomic =
@@ -415,16 +440,15 @@ final class ScoreCards {
           //noinspection CallToThreadYield
           Thread.yield ();
 
-        final int score =
+        final int status =
           score (
-            status,
-            value
+            score
           );
 
         return
-          current == score
+          current == status
           ? -1
-          : ( current = score );
+          : ( current = status );
 
       } finally {
 
@@ -443,13 +467,9 @@ final class ScoreCards {
       final Signal value
     ) {
 
-      final int ordinal =
-        value.ordinal ();
-
       final int status =
         update (
-          MAPPINGS[ordinal],
-          scores[ordinal]
+          scores[value.ordinal ()]
         );
 
       if ( status >= 0 ) {
@@ -461,6 +481,20 @@ final class ScoreCards {
         );
 
       }
+    }
+
+  }
+
+  private static final class Score {
+    final int status;
+    final int units;
+
+    Score (
+      final int status,
+      final int units
+    ) {
+      this.status = status;
+      this.units = units;
     }
 
   }
