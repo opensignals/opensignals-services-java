@@ -31,6 +31,7 @@ import static java.security.AccessController.doPrivileged;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.*;
 import static java.util.Spliterator.*;
+import static java.util.function.Function.identity;
 
 /**
  * The {@link Services} class is the entry point into the signals for services API.
@@ -437,6 +438,54 @@ public final class Services {
         first,
         second,
         third
+      );
+
+  }
+
+
+  /**
+   * Create a {@link Name} from iterating over a specified {@link Iterable} of {@link String} values.
+   *
+   * @param it the {@link Iterable} to be iterated over
+   * @return A {@link Name} as a result of the latest iteration of appendage
+   * @throws NullPointerException     if the {@link Iterable} is null or one of the values return is null
+   * @throws IllegalArgumentException if processing of one of the iterations does not result in a new name
+   * @see Name#name(Iterable)
+   */
+
+  public static Name name (
+    final Iterable< String > it
+  ) {
+
+    return
+      PROVIDER.name (
+        it
+      );
+
+  }
+
+
+  /**
+   * Create a {@link Name} from iterating over a specified {@link Iterable} and applying a transformation function.
+   *
+   * @param <T> the type of each value iterated over
+   * @param it  the {@link Iterable} to be iterated over
+   * @param fn  the function to be used to transform the type to a String type
+   * @return A {@link Name} as a result of the latest iteration of appendage
+   * @throws NullPointerException     if the {@link Iterable} is null or one of the values return is null
+   * @throws IllegalArgumentException if processing of one of the iterations does not result in a new name
+   * @see Name#name(Iterable, Function)
+   */
+
+  public static < T > Name name (
+    final Iterable< ? extends T > it,
+    final Function< T, String > fn
+  ) {
+
+    return
+      PROVIDER.name (
+        it,
+        fn
       );
 
   }
@@ -2587,6 +2636,64 @@ public final class Services {
         );
 
     }
+
+
+    /**
+     * Returns a new extension of this name from iterating over a specified {@link Iterable} of {@link String} values.
+     *
+     * @param it the {@link Iterable} to be iterated over
+     * @return A {@link Name} as a result of the latest iteration of appendage
+     * @throws NullPointerException if the {@link Iterable} is <tt>null</tt> or one of the values return is <tt>null</tt>null
+     * @see Services#name(Iterable)
+     */
+
+    default Name name (
+      final Iterable< String > it
+    ) {
+
+      return
+        name (
+          it,
+          identity ()
+        );
+
+    }
+
+
+    /**
+     * Returns a new extension of this name from iterating over a specified {@link Iterable} and applying a transformation function.
+     *
+     * @param <T> the type of each value iterated over
+     * @param it  the {@link Iterable} to be iterated over
+     * @param fn  the function to be used to transform the type to a String type
+     * @return A {@link Name} as a result of the latest iteration of appendage
+     * @throws NullPointerException if the {@link Iterable} is <tt>null</tt> or one of the values return is <tt>null</tt>
+     * @see Services#name(Iterable, Function)
+     */
+
+    default < T > Name name (
+      final Iterable< ? extends T > it,
+      final Function< T, String > fn
+    ) {
+
+      Name name = this;
+
+      for ( final T value : it ) {
+
+        name =
+          name.name (
+            fn.apply (
+              value
+            )
+          );
+
+      }
+
+      return
+        name;
+
+    }
+
 
     /**
      * Produces an accumulated value moving from left (root) to right (this) in the namespace.

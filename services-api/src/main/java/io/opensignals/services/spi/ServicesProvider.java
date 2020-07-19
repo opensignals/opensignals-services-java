@@ -27,6 +27,7 @@ import java.util.function.Supplier;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
+import static java.util.function.Function.identity;
 
 /**
  * The service provider interface for the services signaling runtime.
@@ -79,10 +80,6 @@ public interface ServicesProvider {
     final String second
   ) {
 
-    requireNonNull (
-      first
-    );
-
     return
       name ( first )
         .name ( second );
@@ -99,10 +96,6 @@ public interface ServicesProvider {
     final String second,
     final String third
   ) {
-
-    requireNonNull (
-      first
-    );
 
     return
       name ( first )
@@ -135,10 +128,6 @@ public interface ServicesProvider {
     final Class< ? > cls
   ) {
 
-    requireNonNull (
-      cls
-    );
-
     return
       name (
         cls.getName ()
@@ -155,16 +144,62 @@ public interface ServicesProvider {
     final Member member
   ) {
 
-    requireNonNull (
-      member
-    );
-
     return
       name (
         member.getDeclaringClass ().getName ()
       ).name (
         member.getName ()
       );
+
+  }
+
+
+  /**
+   * @see Services#name(Iterable)
+   */
+
+  default Name name (
+    final Iterable< String > it
+  ) {
+
+    return
+      name (
+        it,
+        identity ()
+      );
+
+  }
+
+
+  /**
+   * @see Services#name(Iterable, Function)
+   */
+
+  default < T > Name name (
+    final Iterable< ? extends T > it,
+    final Function< T, String > fn
+  ) {
+
+    Name name = null;
+
+    for ( final T value : it ) {
+
+      final String path =
+        fn.apply (
+          value
+        );
+
+      name =
+        ( name != null )
+        ? name.name ( path )
+        : name ( path );
+
+    }
+
+    if ( name != null )
+      return name;
+    else
+      throw new IllegalArgumentException ();
 
   }
 

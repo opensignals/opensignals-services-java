@@ -153,9 +153,7 @@ final class Provider
 
     return
       Names.of (
-        requireNonNull (
-          path
-        )
+        path
       );
 
   }
@@ -168,9 +166,7 @@ final class Provider
 
     return
       Names.of (
-        requireNonNull (
-          cls
-        )
+        cls
       );
 
   }
