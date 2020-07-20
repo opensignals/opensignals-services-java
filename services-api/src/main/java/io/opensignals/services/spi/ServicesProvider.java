@@ -20,6 +20,7 @@ import io.opensignals.services.Services;
 import io.opensignals.services.Services.*;
 
 import java.lang.reflect.Member;
+import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -180,29 +181,59 @@ public interface ServicesProvider {
     final Function< T, String > fn
   ) {
 
-    Name name = null;
-
-    for ( final T value : it ) {
-
-      final String path =
-        fn.apply (
-          value
-        );
-
-      name =
-        ( name != null )
-        ? name.name ( path )
-        : name ( path );
-
-    }
-
-    if ( name != null )
-      return name;
-    else
-      throw new IllegalArgumentException ();
+    return
+      name (
+        it.iterator (),
+        fn
+      );
 
   }
 
+  /**
+   * @see Services#name(Iterator)
+   */
+
+  default Name name (
+    final Iterator< String > it
+  ) {
+
+    return
+      name (
+        it,
+        identity ()
+      );
+
+  }
+
+  /**
+   * @see Services#name(Iterator, Function)
+   */
+
+  default < T > Name name (
+    final Iterator< ? extends T > it,
+    final Function< T, String > fn
+  ) {
+
+    if ( !it.hasNext () )
+      throw new IllegalArgumentException ();
+
+    Name name;
+
+    do {
+
+      name =
+        name (
+          fn.apply (
+            it.next ()
+          )
+        );
+
+    } while ( it.hasNext () );
+
+    return
+      name;
+
+  }
 
   /**
    * @see Services#execute(Service, Fn)

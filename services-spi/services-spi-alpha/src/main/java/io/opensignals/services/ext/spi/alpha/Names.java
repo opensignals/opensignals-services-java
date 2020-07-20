@@ -355,7 +355,7 @@ final class Names {
 
     private static < T > T foldFrom (
       final Name name,
-      final BiFunction< T, ? super Name, T > accumulator,
+      final BiFunction< ? super T, ? super Name, T > accumulator,
       final T value
     ) {
 
@@ -643,7 +643,7 @@ final class Names {
     @Override
     public < T > T foldFrom (
       final Function< ? super Services.Name, ? extends T > initial,
-      final BiFunction< T, ? super Services.Name, T > accumulator
+      final BiFunction< ? super T, ? super Services.Name, T > accumulator
     ) {
 
       final Name name =
@@ -693,7 +693,7 @@ final class Names {
     }
 
     private < T > T foldFrom (
-      final BiFunction< T, ? super Name, T > accumulator,
+      final BiFunction< ? super T, ? super Name, T > accumulator,
       final T seed
     ) {
 

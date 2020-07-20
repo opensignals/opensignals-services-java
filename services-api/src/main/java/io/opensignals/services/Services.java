@@ -492,6 +492,53 @@ public final class Services {
 
 
   /**
+   * Create a {@link Name} from iterating over a specified {@link Iterator} of {@link String} values.
+   *
+   * @param it the {@link Iterator} to be iterated over
+   * @return A {@link Name} as a result of the latest iteration of appendage
+   * @throws NullPointerException     if the {@link Iterator} is null or one of the values return is null
+   * @throws IllegalArgumentException if processing of one of the iterations does not result in a new name
+   * @see Name#name(Iterable)
+   */
+
+  public static Name name (
+    final Iterator< String > it
+  ) {
+
+    return
+      PROVIDER.name (
+        it
+      );
+
+  }
+
+
+  /**
+   * Create a {@link Name} from iterating over a specified {@link Iterator} and applying a transformation function.
+   *
+   * @param <T> the type of each value iterated over
+   * @param it  the {@link Iterator} to be iterated over
+   * @param fn  the function to be used to transform the type to a String type
+   * @return A {@link Name} as a result of the latest iteration of appendage
+   * @throws NullPointerException     if the {@link Iterator} is null or one of the values return is null
+   * @throws IllegalArgumentException if processing of one of the iterations does not result in a new name
+   * @see Name#name(Iterable, Function)
+   */
+
+  public static < T > Name name (
+    final Iterator< ? extends T > it,
+    final Function< T, String > fn
+  ) {
+
+    return
+      PROVIDER.name (
+        it,
+        fn
+      );
+
+  }
+
+  /**
    * Creates a {@link Name} from a {@link Class}.
    *
    * @param cls the {@link Class} to be mapped to a {@link Name}
@@ -2615,7 +2662,7 @@ public final class Services {
     /**
      * Returns a new name that has this name as a direct or indirect prefix.
      *
-     * @param path the {@code Name} to be appended to this name
+     * @param path the name to be appended to this name
      * @return A new name with the path appended.
      */
 
@@ -2642,7 +2689,7 @@ public final class Services {
      * Returns a new extension of this name from iterating over a specified {@link Iterable} of {@link String} values.
      *
      * @param it the {@link Iterable} to be iterated over
-     * @return A {@link Name} as a result of the latest iteration of appendage
+     * @return A name as a result of the latest iteration of appendage
      * @throws NullPointerException if the {@link Iterable} is <tt>null</tt> or one of the values return is <tt>null</tt>null
      * @see Services#name(Iterable)
      */
@@ -2666,7 +2713,7 @@ public final class Services {
      * @param <T> the type of each value iterated over
      * @param it  the {@link Iterable} to be iterated over
      * @param fn  the function to be used to transform the type to a String type
-     * @return A {@link Name} as a result of the latest iteration of appendage
+     * @return A name as a result of the latest iteration of appendage
      * @throws NullPointerException if the {@link Iterable} is <tt>null</tt> or one of the values return is <tt>null</tt>
      * @see Services#name(Iterable, Function)
      */
@@ -2676,14 +2723,60 @@ public final class Services {
       final Function< T, String > fn
     ) {
 
+      return
+        name (
+          it.iterator (),
+          fn
+        );
+
+    }
+
+    /**
+     * Returns a new extension of this name from iterating over a specified {@link Iterator} of {@link String} values.
+     *
+     * @param it the {@link Iterator} to be iterated over
+     * @return A name as a result of the latest iteration of appendage
+     * @throws NullPointerException if the {@link Iterable} is <tt>null</tt> or one of the values return is <tt>null</tt>null
+     * @see Services#name(Iterable)
+     */
+
+    default Name name (
+      final Iterator< String > it
+    ) {
+
+      return
+        name (
+          it,
+          identity ()
+        );
+
+    }
+
+
+    /**
+     * Returns a new extension of this name from iterating over a specified {@link Iterator} and applying a transformation function.
+     *
+     * @param <T> the type of each value iterated over
+     * @param it  the {@link Iterator} to be iterated over
+     * @param fn  the function to be used to transform the type to a String type
+     * @return A name as a result of the latest iteration of appendage
+     * @throws NullPointerException if the {@link Iterator} is <tt>null</tt> or one of the values return is <tt>null</tt>
+     * @see Services#name(Iterable, Function)
+     */
+
+    default < T > Name name (
+      final Iterator< ? extends T > it,
+      final Function< T, String > fn
+    ) {
+
       Name name = this;
 
-      for ( final T value : it ) {
+      while ( it.hasNext () ) {
 
         name =
           name.name (
             fn.apply (
-              value
+              it.next ()
             )
           );
 
@@ -2693,7 +2786,6 @@ public final class Services {
         name;
 
     }
-
 
     /**
      * Produces an accumulated value moving from left (root) to right (this) in the namespace.
@@ -2719,10 +2811,33 @@ public final class Services {
      * @return The accumulated result of performing the seed once and the accumulator.
      */
 
-    < T > T foldFrom (
+    default < T > T foldFrom (
       final Function< ? super Name, ? extends T > initial,
-      final BiFunction< T, ? super Name, T > accumulator
-    );
+      final BiFunction< ? super T, ? super Name, T > accumulator
+    ) {
+
+      final Iterator< Name > it =
+        iterator ();
+
+      T result =
+        initial.apply (
+          it.next ()
+        );
+
+      while ( it.hasNext () ) {
+
+        result =
+          accumulator.apply (
+            result,
+            it.next ()
+          );
+
+      }
+
+      return
+        result;
+
+    }
 
 
     /**
@@ -2738,7 +2853,8 @@ public final class Services {
       return
         new Iterator< Name > () {
 
-          private Name name = Name.this;
+          private Name name =
+            Name.this;
 
           @Override
           public boolean hasNext () {
