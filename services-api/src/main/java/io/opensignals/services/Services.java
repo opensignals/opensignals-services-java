@@ -108,7 +108,7 @@ public final class Services {
    * @see ServicesProvider#environment()
    */
 
-  public static Services.Environment environment () {
+  public static Environment environment () {
 
     return
       PROVIDER.environment ();
@@ -129,7 +129,7 @@ public final class Services {
    * @see ServicesProvider#environment(Function)
    */
 
-  public static < T > Services.Environment environment (
+  public static < T > Environment environment (
     final Function< ? super Name, T > lookup
   ) {
 
