@@ -424,13 +424,8 @@ final class Names {
     @Override
     public String toString () {
 
-      final String result =
-        path;
-
       return
-        result != null
-        ? result
-        : ( path = path () );
+        toPath ();
 
     }
 
@@ -744,6 +739,19 @@ final class Names {
       } while (
         ( name = name.prefix ) != null
       );
+
+    }
+
+    @Override
+    public String toPath () {
+
+      final String result =
+        path;
+
+      return
+        result != null
+        ? result
+        : ( path = path () );
 
     }
 

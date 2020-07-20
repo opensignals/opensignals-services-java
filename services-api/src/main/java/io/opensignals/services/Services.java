@@ -2954,8 +2954,27 @@ public final class Services {
      * @return A non-null {@link String} representation.
      */
 
+    default CharSequence toPath () {
+
+      return
+        foldTo (
+          first -> new StringBuilder ().append ( first ),
+          ( result, name ) -> result.append ( '.' ).append ( name.getValue () )
+        );
+
+    }
+
+
+    /**
+     * Returns the string representation returned from {@link #toPath()}.
+     *
+     * @return A non-null {@link String} representation.
+     * @see #toPath()
+     */
+
     @Override
     String toString ();
+
 
   }
 
