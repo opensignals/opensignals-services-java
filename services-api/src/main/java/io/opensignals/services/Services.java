@@ -2787,6 +2787,7 @@ public final class Services {
 
     }
 
+
     /**
      * Produces an accumulated value moving from left (root) to right (this) in the namespace.
      *
@@ -2796,10 +2797,17 @@ public final class Services {
      * @return The accumulated result of performing the seed once and the accumulator.
      */
 
-    < T > T foldTo (
+    default < T > T foldTo (
       final Function< ? super Name, ? extends T > initial,
       final BiFunction< ? super T, ? super Name, T > accumulator
-    );
+    ) {
+
+      return
+        getPrefix ().isPresent ()
+        ? accumulator.apply ( foldTo ( initial, accumulator ), this )
+        : initial.apply ( this );
+
+    }
 
 
     /**
