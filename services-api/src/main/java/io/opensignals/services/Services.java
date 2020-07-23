@@ -126,6 +126,7 @@ public final class Services {
    * @param <T>    The result type of the function
    * @param lookup The function used for sourcing property values
    * @return An {@link Environment} that sources its property values from a function
+   * @throws NullPointerException if the function parameter is null
    * @see ServicesProvider#environment(Function)
    */
 
@@ -148,6 +149,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, Object)
    */
 
@@ -171,6 +173,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, int)
    */
 
@@ -194,6 +197,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, long)
    */
 
@@ -217,6 +221,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, float)
    */
 
@@ -240,6 +245,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, double)
    */
 
@@ -262,6 +268,7 @@ public final class Services {
    * @param path  The property path
    * @param value The property value
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if the path parameter is null
    * @see ServicesProvider#environment(Name, double)
    */
 
@@ -285,6 +292,7 @@ public final class Services {
    * @param path     The property path
    * @param supplier The property value supplier
    * @return A {@link Environment} containing a single property name-value pair.
+   * @throws NullPointerException if either of the path or supplier parameters are null
    * @see ServicesProvider#environment(Name, Object)
    */
 
@@ -310,6 +318,7 @@ public final class Services {
    * @param fn        the function used to for mapping a {@link Name} to a value
    * @param <T>       the return type of the function
    * @return An {@link Environment} that sources property values from a function
+   * @throws NullPointerException if either of the predicate or function parameters are null
    * @see ServicesProvider#environment(Predicate, Function)
    */
 

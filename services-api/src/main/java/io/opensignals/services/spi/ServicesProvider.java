@@ -435,6 +435,10 @@ public interface ServicesProvider {
     final Function< ? super Name, T > mapper
   ) {
 
+    requireNonNull (
+      mapper
+    );
+
     return
       name -> {
         try {
@@ -590,6 +594,10 @@ public interface ServicesProvider {
       path
     );
 
+    requireNonNull (
+      supplier
+    );
+
     return
       environment (
         name ->
@@ -609,6 +617,14 @@ public interface ServicesProvider {
     final Predicate< ? super Name > predicate,
     final Function< ? super Name, T > mapper
   ) {
+
+    requireNonNull (
+      predicate
+    );
+
+    requireNonNull (
+      mapper
+    );
 
     return
       environment (
