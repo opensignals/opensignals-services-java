@@ -157,7 +157,7 @@ final class Channels {
           );
 
           if ( next == null )
-            break;
+            return;
 
           current =
             next;

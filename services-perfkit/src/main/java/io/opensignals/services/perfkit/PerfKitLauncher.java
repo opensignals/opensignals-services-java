@@ -107,7 +107,7 @@ final class PerfKitLauncher {
           run ->
             run.getBenchmarkResults ().stream () )
         .map ( BenchmarkResult::getPrimaryResult )
-        .map ( AverageTimeResult.class::cast )
+        .map ( o -> (AverageTimeResult) o )
         .filter (
           result ->
             result.getScore () > threshold )

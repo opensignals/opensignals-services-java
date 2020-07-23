@@ -26,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static java.util.function.Function.identity;
+
 /**
  * @author wlouth
  * @since 1.0
@@ -156,8 +158,8 @@ final class Contexts {
       return
         services
           .values ()
-          .stream ()
-          .map ( Services.Service.class::cast );
+          .stream ( )
+          .map ( identity () );
 
     }
 
@@ -232,9 +234,11 @@ final class Contexts {
           this.service;
 
         if ( service == null ) {
+
           this.service
             = service
             = lookup.apply ( name );
+
         }
 
         service.status =
