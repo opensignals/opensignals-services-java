@@ -26,7 +26,6 @@ import io.opensignals.services.spi.ServicesProviderFactory;
  * @since 1.0
  */
 
-@SuppressWarnings ( "unused" )
 public final class ProviderFactory
   implements ServicesProviderFactory {
 

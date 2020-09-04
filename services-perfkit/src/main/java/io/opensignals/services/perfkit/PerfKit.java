@@ -39,7 +39,6 @@ import static java.lang.System.getProperty;
 
 @SuppressWarnings (
   {
-    "unused",
     "MethodMayBeStatic",
     "PublicMethodNotExposedInInterface",
     "squid:S00100",

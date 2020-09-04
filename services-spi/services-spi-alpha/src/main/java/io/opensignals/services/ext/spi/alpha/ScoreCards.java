@@ -73,6 +73,11 @@ final class ScoreCards {
     );
 
     map (
+      REDIRECT,
+      DEGRADED
+    );
+
+    map (
       ELAPSE,
       DEGRADED
     );
@@ -276,7 +281,6 @@ final class ScoreCards {
 
   }
 
-  @SuppressWarnings ( "unused" )
   static Sink< Signal > sink (
     final Scoring scoring,
     final Sink< ? super Status > sink

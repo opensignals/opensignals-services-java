@@ -32,7 +32,6 @@ final class Fns {
 
   private Fns () {}
 
-  @SuppressWarnings ( "unused" )
   static int doWork (
     final int units
   ) {

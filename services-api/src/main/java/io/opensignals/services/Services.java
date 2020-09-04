@@ -1157,6 +1157,12 @@ public final class Services {
     RECOURSE,
 
     /**
+     * Signal the redirection of a service execution or call.
+     */
+
+    REDIRECT,
+
+    /**
      * Signal the timing out of a service execution or call.
      *
      * @see Service#elapse()
@@ -2201,6 +2207,72 @@ public final class Services {
 
       receipt (
         Signal.RECOURSE
+      );
+
+      return this;
+
+    }
+
+
+    /**
+     * Record a {@link Signal#REDIRECT} signal with a specified {@link Orientation}.
+     *
+     * @see Signal#REDIRECT
+     * @see Status#DEGRADED
+     * @see #redirect()
+     * @see #redirect()
+     * @see #signal(Orientation, Signal)
+     */
+
+    default Service redirect (
+      final Orientation orientation
+    ) {
+
+      signal (
+        orientation,
+        Signal.REDIRECT
+      );
+
+      return this;
+
+    }
+
+
+    /**
+     * Emit a {@link Signal#REDIRECT} signal.
+     *
+     * @see #call()
+     * @see #recoursed()
+     * @see Orientation#EMIT
+     * @see Signal#RECOURSE
+     * @see Status#DEGRADED
+     */
+
+    default Service redirect () {
+
+      emit (
+        Signal.REDIRECT
+      );
+
+      return this;
+
+    }
+
+
+    /**
+     * Receipt of a {@link Signal#REDIRECT} signal.
+     *
+     * @see #call()
+     * @see #redirect()
+     * @see Orientation#RECEIPT
+     * @see Signal#REDIRECT
+     * @see Status#DEGRADED
+     */
+
+    default Service redirected () {
+
+      receipt (
+        Signal.REDIRECT
       );
 
       return this;

@@ -32,7 +32,6 @@ final class Ops {
 
   private Ops () {}
 
-  @SuppressWarnings ( "unused" )
   static int doWork (
     final int units
   ) {
