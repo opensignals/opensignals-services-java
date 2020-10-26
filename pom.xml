@@ -37,7 +37,7 @@
     <java.source.version>${java.version}</java.source.version>
     <java.target.version>${java.version}</java.target.version>
 
-    <junit.version>5.7.0-M1</junit.version>
+    <junit.version>5.7.0</junit.version>
 
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
@@ -48,7 +48,7 @@
 
     <junit-jupiter.version>${junit.version}</junit-jupiter.version>
 
-    <mockito-core.version>3.4.6</mockito-core.version>
+    <mockito-core.version>3.5.15</mockito-core.version>
 
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
 
